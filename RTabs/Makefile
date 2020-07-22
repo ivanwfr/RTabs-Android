@@ -1,5 +1,5 @@
 ###############################################################################
-### Make_GIT ### SCRIPT_TAG (200721:22h:53) ###################################
+### Make_GIT ### SCRIPT_TAG (200722:19h:24) ###################################
 ###############################################################################
 :make finish
 #{{{
@@ -44,5 +44,15 @@ finishNexus: #{{{
 	    $(ADB) -s $(DEVICE_PORT_NEXUS)  shell input keyevent 79;\
 	    exit 0;
 	    )
+# }}}
+:make clean
+clean:                                                                         #{{{
+	@(\
+	    echo "[$@]";\
+            du -s -k .;\
+            rm -rf t.* */t.* ../tags tags */tags */*/tags */build/ */app/build */.gradle/*;\
+            du -s -k .;\
+	)
+
 # }}}
 # vim: noexpandtab ts=8 sw=8
