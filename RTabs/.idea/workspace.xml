@@ -36,10 +36,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0587b481-35f8-493c-bd71-dc3700a4b3b2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +175,6 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -194,7 +191,6 @@
     <property name="ExportApk.BuildVariants" value="API29Release" />
     <property name="ExportApk.Flavors" value="API24" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="true" />
     <property name="ScreenshotViewer.SavePath" value="$PROJECT_DIR$/../../../../DEV/GESTION/LOYERS/GARAGE_AOUT_2016" />
     <property name="ToolWindowGradle Console.ShowToolbar" value="false" />
@@ -566,26 +562,26 @@
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
     <state x="733" y="175" key="FileChooserDialogImpl/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595352923976" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom" timestamp="1595439096448">
+    <state width="1220" height="1109" key="GridCell.Tab.0.bottom" timestamp="1595440152337">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
     <state width="1220" height="1192" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595359034395" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600@0.0.2560.1600" timestamp="1595439096448" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.center" timestamp="1595439096448">
+    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600@0.0.2560.1600" timestamp="1595440152337" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.center" timestamp="1595440152337">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
     <state width="1220" height="1192" key="GridCell.Tab.0.center/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595359034395" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600@0.0.2560.1600" timestamp="1595439096448" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.left" timestamp="1595439096448">
+    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600@0.0.2560.1600" timestamp="1595440152337" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.left" timestamp="1595440152336">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
     <state width="1220" height="1192" key="GridCell.Tab.0.left/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595359034395" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600@0.0.2560.1600" timestamp="1595439096448" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.right" timestamp="1595439096448">
+    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600@0.0.2560.1600" timestamp="1595440152336" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.right" timestamp="1595440152337">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
     <state width="1220" height="1192" key="GridCell.Tab.0.right/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595359034395" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600@0.0.2560.1600" timestamp="1595439096448" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600@0.0.2560.1600" timestamp="1595440152337" />
     <state width="1220" height="779" key="GridCell.Tab.1.bottom" timestamp="1593894066244">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
