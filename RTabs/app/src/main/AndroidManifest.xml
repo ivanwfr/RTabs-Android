@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ivanwfr.rtabs">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <supports-screens android:resizeable="true"
+     android:smallScreens="true"
+     android:normalScreens="true"
+     android:largeScreens="true"
+     android:xlargeScreens="true"
+     android:anyDensity="true"
+     />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/rtabs"
+        android:label="RTabs"
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup">
+        <activity
+            android:name="ivanwfr.rtabs.FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="RTabs"
+            android:theme="@style/FullscreenTheme"
+            android:clearTaskOnLaunch="false"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data     android:scheme="http" android:host="domain_name.com" />
+                <action   android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="ivanwfr.rtabs.Bookmarks.category" />
+            </intent-filter>
+           </activity>
+    </application>
+
+</manifest>

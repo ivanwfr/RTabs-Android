@@ -1,0 +1,12 @@
+<resources>
+    <string name=                    "ip">IP</string>
+    <string name=                  "done">Done</string>
+    <string name=                  "port">PORT</string>
+    <string name=                 "shape">Shape</string>
+    <string name=                "cancel">Cancel</string>
+    <string name=              "free_tab">Free tab</string>
+    <string name=            "page_title">Page Title</string>
+    <string name=          "save_changes">Save changes</string>
+    <string name="waiting_for_page_title">Waiting for page title\u2026</string>
+
+</resources>
