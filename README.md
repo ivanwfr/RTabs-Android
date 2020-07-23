@@ -5,6 +5,8 @@
 ## [Project site](https://remotetabs.com)
 > __anyone interested in some way is welcome to send me a message at ivanw@orange.fr__
 
+## [**A (raw) Youtube presentation of the Android Client App**](https://www.youtube.com/watch?v=1g3gnrB3GgU)
+
 ## [Screenshots](https://remotetabs.com/layout_browser.html)
 * **C# Windows Designer** ![C# Windows Designer](https://remotetabs.com/images/screenshots/designer.png)
 * **C# Windows Server** ![C# Windows Server](https://remotetabs.com/images/screenshots/server.png)
