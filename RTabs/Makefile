@@ -1,5 +1,5 @@
 ###############################################################################
-### Make_GIT ### SCRIPT_TAG (200722:19h:24) ###################################
+### Make_GIT ### SCRIPT_TAG (200724:15h:03) ###################################
 ###############################################################################
 :make finish
 #{{{
@@ -12,17 +12,14 @@ DEVICE_PORT_NEXUS = 192.168.1.43:5555
 finish: #{{{
 	@(\
 	    echo "[$@]";\
-	    : ls -l $(ADB);\
-            #cho "adb shell input keyevent KEYCODE_APP_SWITCH =[187] App switch key * Should bring up the application switcher dialog;\
-            #cho "adb shell input keyevent KEYCODE_HEADSETHOOK=[ 79] Headset Hook   * Used to hang up calls and stop media;\
-	    echo "adb shell input keyevent KEYCODE_HEADSETHOOK=[ 79]";\
-	    $(ADB) -s $(DEVICE_PORT)	    shell input keyevent 79;\
+            #cho "adb shell input keyevent KEYCODE_APP_SWITCH =[187] * Should bring up the application switcher dialog;\
+            #cho "adb shell input keyevent KEYCODE_HEADSETHOOK=[ 79] * Used to hang up calls and stop media;\
+	    $(ADB) -s $(DEVICE_PORT) shell input keyevent 79;\
 	    )
 # }}}
 finishSMART: #{{{
 	@(\
 	    echo "[$@]";\
-	    : ls -l $(ADB);\
 	    echo "adb shell input keyevent KEYCODE_HEADSETHOOK=[79]";\
 	    $(ADB) -s $(DEVICE_PORT_SMART)  shell input keyevent 79;\
 	    )
@@ -30,7 +27,6 @@ finishSMART: #{{{
 finishMID: #{{{
 	@(\
 	    echo "[$@]";\
-	    : ls -l $(ADB);\
 	    echo "adb shell input keyevent KEYCODE_HEADSETHOOK=[79]";\
 	    $(ADB) -s $(DEVICE_PORT_MID)    shell input keyevent 79;\
 	    )
@@ -39,7 +35,6 @@ finishMID: #{{{
 finishNexus: #{{{
 	@(\
 	    echo "[$@]";\
-	    : ls -l $(ADB);\
 	    echo "adb shell input keyevent KEYCODE_HEADSETHOOK=[79]";\
 	    $(ADB) -s $(DEVICE_PORT_NEXUS)  shell input keyevent 79;\
 	    exit 0;
@@ -55,4 +50,9 @@ clean:                                                                         #
 	)
 
 # }}}
+:make tags
+tags:                                                                          #{{{
+	make -f ../Makefile $@
+
+#}}}
 # vim: noexpandtab ts=8 sw=8

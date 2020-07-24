@@ -101,7 +101,7 @@ import java.util.zip.ZipOutputStream;
 class Profile
 {
     // LOGGING {{{
-    public static        String PROFILE_JAVA_TAG = "Profile (200720:18h:49)";
+    public static        String PROFILE_JAVA_TAG = "Profile (200724:17h:17)";
 
     // MONITOR TAGS
     private static       String TAG_STORAGE = Settings.TAG_STORAGE;
@@ -270,7 +270,7 @@ class Profile
 //*PROFILE*/Settings.MON(TAG_PROFILE, caller, "FROM A USER PROFILES-FOLDER FILE:");
                             this.name        = profile_name;
                             String file_path = Profiles_Dict.get( profile_name );
-//*PROFILE*/log("...loadFromFile("+ file_path +")");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "...loadFromFile("+ file_path +")");
 
                             loadFromFile( file_path );
                             workbench_loaded = true; // formerly based on Profile_to_update
@@ -281,7 +281,7 @@ class Profile
                     //}}}
             }
         } catch(Exception ex) {
-//*PROFILE*/log("*** Profile("+ name +").load: ***\n"+ ex.getMessage());
+log("*** Profile("+ name +").load: ***\n"+ ex.getMessage());
 //*PROFILE*/ex.printStackTrace();//TAG_PROFILE
         }
 //*PROFILE*/Settings.MON(TAG_PROFILE, caller, "...done");
@@ -297,14 +297,16 @@ class Profile
 */
         // PROFILE QUALIFIER {{{
         boolean fully_qualified = profile_name.startsWith("/") || profile_name.startsWith("\\");
-        String  current_dirName = Settings.get_dir_name( Settings.LoadedProfile.name );
+        //ring  current_dirName = Settings.get_dir_name( Settings.LoadedProfile.name );
+        String  current_dirName = Settings.get_dir_name( Settings.Working_profile    );
         String  profile_dirName = Settings.get_dir_name( profile_name );
 
-//*PROFILE*/log("...Settings.LoadedProfile.name=["+ Settings.LoadedProfile.name +"]");
-//*PROFILE*/log("...............current_dirName=["+ current_dirName             +"]");
-//*PROFILE*/log("..................profile_name=["+ profile_name                +"]");
-//*PROFILE*/log("...............profile_dirName=["+ profile_dirName             +"]");
-//*PROFILE*/log("...............fully_qualified=["+ fully_qualified             +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "...Settings.LoadedProfile.name=["+ Settings.LoadedProfile.name +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "...Settings.Working_profile...=["+ Settings.Working_profile    +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "...............current_dirName=["+ current_dirName             +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "..................profile_name=["+ profile_name                +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "...............profile_dirName=["+ profile_dirName             +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "...............fully_qualified=["+ fully_qualified             +"]");
 
         //}}}
         // 1/2 - TRY RELATIVE TO CURRENT_DIRNAME {{{
@@ -312,14 +314,14 @@ class Profile
         if(!fully_qualified && (current_dirName != ""))
         {
             String relative_name = current_dirName+"/"+profile_name;
-//*PROFILE*/log(".....relative_name=["+ relative_name   +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, ".....relative_name=["+ relative_name   +"]");
 
             file_path        = Profiles_Dict.get( relative_name );
             if( !TextUtils.isEmpty(file_path) )
             {
                 profile_name = relative_name;
 
-//*PROFILE*/log("...LOADING RELATIVE profile_name=["+ profile_name +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "...LOADING RELATIVE profile_name=["+ profile_name +"]");
                 return profile_name;
             }
         }
@@ -334,7 +336,7 @@ class Profile
             if( !TextUtils.isEmpty(file_path) )
             {
 
-//*PROFILE*/log("...LOADING ABSOLUTE profile_name=["+ profile_name +"]");
+//*PROFILE*/Settings.MOM(TAG_PROFILE, "...LOADING ABSOLUTE profile_name=["+ profile_name +"]");
                 return profile_name;
             }
         }
@@ -914,7 +916,7 @@ class Profile
         Settings.PRODATE        = (int)(System.currentTimeMillis() / 1000);
         String prodate_str      = DateFormat.getDateTimeInstance().format(new Date(System.currentTimeMillis()));
 
-        String profile_line     = "# PROFILE="   + profile_name;
+        String profile_line     = "# PROFILE="   +  profile.name;
         String prodate_line     = "# PRODATE="   + Settings.PRODATE +" "+ prodate_str +" (by "+ Settings.DEVICE +")";
         String palette_line     = "# PALETTE="   + Settings.PALETTE;
         String opacity_line     = "# OPACITY="   + Settings.OPACITY;

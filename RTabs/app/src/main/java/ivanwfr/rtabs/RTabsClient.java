@@ -54,7 +54,7 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200720:18h:39)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200724:17h:17)";
     // LOGGING
     public  static boolean  D = Settings.D;
     public  static void Set_D(boolean state) { D = state; }
@@ -2187,7 +2187,6 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
             sb_log.append(sym ).append(caller+"\n");
             sb_log.append(sym3).append("..........profile_name=[").append(profile_name).append("]\n");
             sb_log.append(sym3).append("................source=[").append(source).append("]\n");
-            sb_log.append(sym3).append("..........profile_name=[").append(profile_name).append("]\n");
             sb_log.append(sym3).append(".........LoadedProfile=[").append(Settings.LoadedProfile.name).append("]\n");
             sb_log.append(sym3).append("==== ...device_profile=[").append(device_profile).append("]\n");
             sb_log.append(sym3).append("==== ...server_profile=[").append(server_profile).append("]\n");
@@ -2456,8 +2455,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
                 // ...THEN LOAD PROFILE {{{
                 if(D) log("parse_PROFILE: parse_PROFILE LOAD @@@");
 
-                if(          load_PROFILE( profile_name )
-                        && layout_PROFILE( profile_name )
+                if(          load_PROFILE(                profile_name )
+                        && layout_PROFILE( Settings.LoadedProfile.name )
                   ) {
                     String msg = "--- PROFILE ["+profile_name+"] --- LOADED";
                     //warn_to_dash("parse_PROFILE", msg);
@@ -2668,8 +2667,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
 //*PROFILE*/Settings.MOM(TAG_PROFILE, "...previous_Working_profile=["+previous_Working_profile+"]");
 
         // LOAD REQUESTED PROFILE FROM LOCAL STORAGE (palettes and tabs) {{{
-        if(          load_PROFILE( profile_name )
-                && layout_PROFILE( profile_name )
+        if(          load_PROFILE(                profile_name )
+                && layout_PROFILE( Settings.LoadedProfile.name )
           ) {
             // DO NOT DISPATCH DEVICE-ONLY PROFILES REQUEST {{{
             if( Settings.is_a_dynamic_profile_entry( profile_name ) )
@@ -2758,6 +2757,10 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
 //*PROFILE*/Settings.MON(TAG_PROFILE, caller,  "("+result+") ...return false");
             return false;
         }
+        else if(profile.name != profile_name)
+        {
+            caller = "load_PROFILE("+ profile.name +")";
+        }
 
         Settings.SetLoadedProfile( profile );
 
@@ -2825,7 +2828,7 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
     // layout_PROFILE {{{
     private boolean layout_PROFILE(String profile_name)
     {
-        String caller = "layout_PROFILE("+ profile_name +")";
+        String caller = "layout_PROFILE("+profile_name+")";
 //*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
 
         boolean loading_carttabs_table = (profile_name.equals( Settings.CARTTABS_TABLE ));
@@ -2871,9 +2874,9 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
     /** HISTORY STACK  */
     // {{{
     //{{{
-    public  static final String       HISTORY_BAK  = "HISTORY_BAK";
-    public  static final String       HISTORY_FWD  = "HISTORY_FWD";
-    public  static final String       HISTORY_NEW  = "HISTORY_NEW";
+    public   static final String       HISTORY_BAK = "HISTORY_BAK";
+    public   static final String       HISTORY_FWD = "HISTORY_FWD";
+    public   static final String       HISTORY_NEW = "HISTORY_NEW";
 
     private  static final Stack<String> back_stack = new Stack<>();
     private  static final Stack<String> frwd_stack = new Stack<>();
@@ -6890,16 +6893,18 @@ if(D) log("LOAD PRESET["+ preset_num +"]=["+ np.text +"]");
     {
         String caller = "parse_PROFILE_cmdLine("+cmdLine+")";
         if(D) log(caller);
+//*PROFILE*/Settings.printStackTrace(caller);//PROFILE
+
         mRTabs.hide_PROFILE_HANDLES(caller);
         // CONTROLS_TABLE {{{
         CmdParser.parse( cmdLine );
-      //String profile_name = CmdParser.arg1;
-        String profile_name = CmdParser.argLine; // [Profile.FREETEXT_TABLE] .. (with file_name argument)
-        if(profile_name.equals(""))
+      //String      profile_name = CmdParser.arg1;
+        String      profile_name = CmdParser.argLine; // [Profile.FREETEXT_TABLE] .. (with file_name argument)
+        if(         profile_name.equals(""))
         {
             return cmdLine;
         }
-        if(profile_name.equals( Settings.CONTROLS_TABLE ))
+        if(         profile_name.equals( Settings.CONTROLS_TABLE ))
         {
             mRTabs.show_CONTROLS_TABLE(caller);
             return "";
@@ -6945,8 +6950,8 @@ if(D) log("LOAD PRESET["+ preset_num +"]=["+ np.text +"]");
                 return "";
 
             // SHARE LOADED PROFILE AND TIMESTAMP WITH SERVER
-            cmdLine += " PRODATE="+ Settings.PRODATE;
-            if(D) log("parse_PROFILE_cmdLine: ...forwarding cmdLine=["+ cmdLine +"])");
+            cmdLine = "PROFILE "+ Settings.LoadedProfile.name +" PRODATE="+ Settings.PRODATE;
+            if(D) log(caller+": ...forwarding ["+ cmdLine +"])");
             return cmdLine;
         }
         //}}}

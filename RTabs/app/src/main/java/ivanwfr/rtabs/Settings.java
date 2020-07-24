@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (200716:18h:53) =========================== [KEY_VAL pairs]
+// Settings_TAG (200723:18h:58) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -4645,8 +4645,8 @@ HEAD ? symbol <u>U</u> text1 <b>B</b> text2 <i>I</i> text3 <em>EM</em> TAIL
     // get_dir_name {{{
     public static String get_dir_name(String file_path)
     {
-        return (file_path.indexOf('/') >= 0)
-            ?   file_path.replaceFirst("/.*", "") // strip tail
+        return (file_path.indexOf(     '/') >= 0 )
+            ?   file_path.replaceFirst("/[^/]*$", "")    // strip tail (base) + (ext)
             :   EMPTY_STRING;
     }
     //}}}
@@ -4654,8 +4654,8 @@ HEAD ? symbol <u>U</u> text1 <b>B</b> text2 <i>I</i> text3 <em>EM</em> TAIL
     public static String get_base_name(String file_path)
     {
         return file_path
-            .replaceFirst(".*/"  , "") // strip head (dir)
-            .replaceFirst("\\..*", "") // strip ext
+            .replaceFirst(".*/"  , "")                  // strip head (dir)
+            .replaceFirst("\\..*", "")                  // strip ext
             ;
     }
     //}}}

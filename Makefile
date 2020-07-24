@@ -21,6 +21,12 @@ links: #{{{
 	    )
 	#}}}
 
+:cd %:h|up|only|set columns=999|vert terminal ++cols=150 make clean
+clean:                                                                         #{{{
+	cd RTabs && make $@
+
+# }}}
+
 ###############################################################################
 
 # vim: noet ts=8 sw=8
