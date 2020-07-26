@@ -101,7 +101,7 @@ import java.util.zip.ZipOutputStream;
 class Profile
 {
     // LOGGING {{{
-    public static        String PROFILE_JAVA_TAG = "Profile (200724:17h:17)";
+    public static        String PROFILE_JAVA_TAG = "Profile (200726:15h:56)";
 
     // MONITOR TAGS
     private static       String TAG_STORAGE = Settings.TAG_STORAGE;

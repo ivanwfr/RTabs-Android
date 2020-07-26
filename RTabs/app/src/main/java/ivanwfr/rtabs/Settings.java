@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (200723:18h:58) =========================== [KEY_VAL pairs]
+// Settings_TAG (200726:15h:44) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -1945,7 +1945,7 @@ public class Settings
     //{{{
     // {{{
     public  static final String  PROFILES_ZIP_FILE_NAME = "Profiles.zip";
-    public  static final String  USER_INDEX             = "index";
+    public  static final String  USER_INDEX             = "/index";
     public  static final String  FINISH_APP             = "FINISH";
     public  static final String  COMMENT_STRING         = "#";
     public  static final String  ENTRY_PALETTE          = "ENTRY_PALETTE";
