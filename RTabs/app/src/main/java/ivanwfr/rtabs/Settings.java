@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (200726:15h:44) =========================== [KEY_VAL pairs]
+// Settings_TAG (200727:14h:13) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -4986,7 +4986,7 @@ System.err.println("@ toggle_MONITOR "+ (MONITOR ? "ON" : "OFF"));
 
         if(LOGGING) {
             FullscreenActivity.Set_D((LOG_FLT & LOG_ACTIVITY) != 0); if(D) log("@ FullscreenActivity.D=["+ FullscreenActivity.D +"]");
-            RTabs             .Set_D((LOG_FLT & LOG_CLIENT  ) != 0); if(D) log("@        RTabsClient.D=["+        RTabsClient.D +"]");
+            RTabs             .Set_D((LOG_FLT & LOG_ACTIVITY) != 0); if(D) log("@        RTabsClient.D=["+        RTabsClient.D +"]");
             RTabsClient       .Set_D((LOG_FLT & LOG_CLIENT  ) != 0); if(D) log("@        RTabsClient.D=["+        RTabsClient.D +"]");
             CmdParser         .Set_D((LOG_FLT & LOG_PARSER  ) != 0); if(D) log("@          CmdParser.D=["+          CmdParser.D +"]");
             Profile           .Set_D((LOG_FLT & LOG_PROFILE ) != 0); if(D) log("@            Profile.D=["+            Profile.D +"]");

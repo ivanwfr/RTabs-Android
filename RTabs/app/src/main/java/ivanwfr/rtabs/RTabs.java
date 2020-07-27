@@ -113,7 +113,7 @@ public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
     //{{{
-    public static        String RTABS_JAVA_TAG = "RTabs (200720:04h:39)";
+    public static        String RTABS_JAVA_TAG = "RTabs (200727:14h:05)";
     // MONITOR TAGS {{{
     private static       String TAG_EV0_RT_DP  = Settings.TAG_EV0_RT_DP;
     private static       String TAG_EV1_RT_IN  = Settings.TAG_EV1_RT_IN;
@@ -154,11 +154,11 @@ public class RTabs implements Settings.ClampListener
 
     // LOGGING
     public  static boolean  D = Settings.D;
-    public  static void Set_D(boolean state) { D = state; }
+    public  static void Set_D(boolean state) { D = state; log("RTabs.Set_D("+state+")"); }//FIXME
 
     // MONITOR
     private static boolean  M = Settings.M;
-    public  static void Set_M(boolean state) { M = state; }
+    public  static void Set_M(boolean state) { M = state; log("RTabs.Set_M("+state+")"); }//FIXME
 
     // SDK VERSION DEPENDENT
     public  static final boolean ANIM_SUPPORTED = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2);
@@ -4675,12 +4675,12 @@ tabs_container.setLayoutParams(rlp);
     private void request_cmd_text(String caller)
     {
         caller  += "->request_cmd_text";
-//*COMM*/Settings.MOC(TAG_COMM, caller);
+if(D||M) Settings.MOC(TAG_COMM, caller);
 
         CmdParser.parse( cmd_text.getText().toString() );
         String     cmd = CmdParser.cmd;
         String cmdLine = CmdParser.cmdLine;
-//*COMM*/Settings.MON(TAG_COMM, caller, "cmdLine=["+ cmdLine +"]");
+if(D||M) Settings.MON(TAG_COMM, caller, "cmdLine=["+ cmdLine +"]");
 
         // NOT HANDLED HERE: (@see sendTabCommand)
         // FULLSCREEN TAG
@@ -20649,6 +20649,12 @@ Settings.MOC(TAG_GUI, caller);
     public  static String              Log_toString()         { return Log_sb.toString(); }
     //}}}
     // TRACES {{{
+    // log {{{
+    private static void log(String msg)
+    {
+        MLog.log(msg);
+    }
+    //}}}
     // trace_views {{{
     private void trace_views(String tag, String caller)
     {
