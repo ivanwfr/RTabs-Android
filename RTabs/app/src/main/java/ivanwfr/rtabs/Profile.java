@@ -101,17 +101,17 @@ import java.util.zip.ZipOutputStream;
 class Profile
 {
     // LOGGING {{{
-    public static        String PROFILE_JAVA_TAG = "Profile (200726:15h:56)";
+    public static        String PROFILE_JAVA_TAG = "Profile (200727:14h:59)";
 
     // MONITOR TAGS
     private static       String TAG_STORAGE = Settings.TAG_STORAGE;
     private static       String TAG_PROFILE = Settings.TAG_PROFILE;
 
     public  static boolean  D = Settings.D;
-    public  static void Set_D(boolean state) { D = state; }
+    public  static void Set_D(boolean state) { D = state; log("Profile.Set_D("+state+")"); }//FIXME
 
     private static boolean  M = Settings.M;
-    public  static void Set_M(boolean state) { M = state; }
+    public  static void Set_M(boolean state) { M = state; log("Profile.Set_M("+state+")"); }//FIXME
 
     //}}}
     // instance members {{{
@@ -135,8 +135,9 @@ class Profile
 
         if(name != "") {
 //*PROFILE*/Settings.MOC(TAG_PROFILE, "new Profile("+ name +")");
+if(D||M)  Settings.MOC(TAG_PROFILE, "new Profile("+ name +")");
             load();
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "new "+ toString());
+if(D||M)  Settings.MOM(TAG_PROFILE, "new "+ toString());
         }
     }
     //}}}
@@ -144,11 +145,11 @@ class Profile
     private void load()
     {
         String caller = "load: name=["+name+"]";
-//*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
+if(D||M)  Settings.MOC(TAG_PROFILE, caller);
         try {
             String profile_base_name = name.replaceFirst(".*/", "");    // .. remove CONTAINING FOLDER name
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...........profile_base_name=["+profile_base_name+"]");
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "Settings.get_base_name(name)=["+Settings.get_base_name(name)+"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "...........profile_base_name=["+profile_base_name+"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "Settings.get_base_name(name)=["+Settings.get_base_name(name)+"]");
             switch( name ) {
                 // PROFILES_TABLE {{{
                 case Settings.PROFILES_TABLE:
@@ -181,17 +182,17 @@ class Profile
                     {
                         if( is_a_WORKBENCH_TEMPLATE_NAME( name ) )
                         {
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller  , "WORKBENCH: HOOKING A PROFILE-TEMPLATE:");
+if(D||M)  Settings.MON(TAG_PROFILE, caller  , "WORKBENCH: HOOKING A PROFILE-TEMPLATE:");
                             loadWorkbenchTools( WORKBENCH_BASE_NAME);
 
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller  , "WORKBENCH TABS: sb_TABS.length()=["+sb_TABS.length()+"]");
+if(D||M)  Settings.MON(TAG_PROFILE, caller  , "WORKBENCH TABS: sb_TABS.length()=["+sb_TABS.length()+"]");
                             Settings.WORKBENCH_TOOL = 1;
 
                             // SETTING UP AN EMPTY WORKBENCH
                             if (!profile_base_name.equals(WORKBENCH_BASE_NAME))
                             {
                                 loadWorkbenchModel( profile_base_name );
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "WORKBENCH] + ["+name+"] TABS: sb_TABS.length()=[" +sb_TABS.length()+"]");
+if(D||M)  Settings.MON(TAG_PROFILE, caller, "WORKBENCH] + ["+name+"] TABS: sb_TABS.length()=[" +sb_TABS.length()+"]");
 
                                 // WIZARD FIRST STAGE
                             }
@@ -206,15 +207,15 @@ class Profile
                     // ...discarding color palettes from the profile under construction
                     // ...and embedding workbench customizing tools
                     // ...into a WORKING-PROFILE-BUNDLE
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "...profile_base_name=["+       profile_base_name+"]");
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, ".....Working_profile=["+Settings.Working_profile+"]");
+if(D||M)  Settings.MON(TAG_PROFILE, caller, "...profile_base_name=["+       profile_base_name+"]");
+if(D||M)  Settings.MON(TAG_PROFILE, caller, ".....Working_profile=["+Settings.Working_profile+"]");
 
                     if (      !workbench_loaded // formerly based on Profile_to_update
                             && Settings.Working_profile.equals( WORKBENCH_FULL_PATH ) // .. we are WORKING ON THE WORKBENCH alright
                             && !profile_base_name      .equals( WORKBENCH_BASE_NAME ) // .. NOT simply the EMPTY WORKBENCH by itself
                             && !is_a_WORKBENCH_TEMPLATE_NAME( name )
                        ) {
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "WORKBENCH: HOOKING A USER PROFILE:");
+if(D||M)  Settings.MON(TAG_PROFILE, caller, "WORKBENCH: HOOKING A USER PROFILE:");
                         _build_Profiles_Dict();
                         String profile_name  = Get_profile_name_in_store( this.name );
                         String    file_path  = Profiles_Dict.get( profile_name );
@@ -226,10 +227,10 @@ class Profile
                             loadWorkbenchTools(WORKBENCH_BASE_NAME);
 
                             String one_liner_key_val = get_PROFILE_KV_LINE();
-//PROFILE//Settings.MON(TAG_PROFILE, caller, "one_liner_key_val=["+one_liner_key_val+"]");
+//PROFILE// Settings.MON(TAG_PROFILE, caller, "one_liner_key_val=["+one_liner_key_val+"]");
 
                             within_workbench = true;
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "setting within_workbench=[true]");
+if(D||M)  Settings.MON(TAG_PROFILE, caller, "setting within_workbench=[true]");
                             // }}}
                             // load embeded profile and override PROFILE and PRODATE KEY_VAL
                             loadFromFile(file_path);
@@ -267,10 +268,10 @@ class Profile
                         String profile_name  = Get_profile_name_in_store( this.name );
                         if(    profile_name != null)
                         {
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "FROM A USER PROFILES-FOLDER FILE:");
+if(D||M)  Settings.MON(TAG_PROFILE, caller, "FROM A USER PROFILES-FOLDER FILE:");
                             this.name        = profile_name;
                             String file_path = Profiles_Dict.get( profile_name );
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...loadFromFile("+ file_path +")");
+if(D||M)  Settings.MOM(TAG_PROFILE, "...loadFromFile("+ file_path +")");
 
                             loadFromFile( file_path );
                             workbench_loaded = true; // formerly based on Profile_to_update
@@ -283,45 +284,33 @@ class Profile
         } catch(Exception ex) {
 log("*** Profile("+ name +").load: ***\n"+ ex.getMessage());
 //*PROFILE*/ex.printStackTrace();//TAG_PROFILE
+if(D||M)  ex.printStackTrace();
         }
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "...done");
+if(D||M)  Settings.MON(TAG_PROFILE, caller, "...done");
     }
     //}}}
     // Get_profile_name_in_store {{{
     private static String Get_profile_name_in_store(String profile_name)
     {
         String caller = "Get_profile_name_in_store("+profile_name+")";
-//*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
+if(D||M)  Settings.MOC(TAG_PROFILE, caller);
 /*
 :new /LOCAL/STORE/DEV/PROJECTS/RTabs/Util/src/Settings.cs
 */
         // PROFILE QUALIFIER {{{
-        boolean fully_qualified = profile_name.startsWith("/") || profile_name.startsWith("\\");
-        //ring  current_dirName = Settings.get_dir_name( Settings.LoadedProfile.name );
-        String  current_dirName = Settings.get_dir_name( Settings.Working_profile    );
-        String  profile_dirName = Settings.get_dir_name( profile_name );
-
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...Settings.LoadedProfile.name=["+ Settings.LoadedProfile.name +"]");
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...Settings.Working_profile...=["+ Settings.Working_profile    +"]");
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...............current_dirName=["+ current_dirName             +"]");
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "..................profile_name=["+ profile_name                +"]");
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...............profile_dirName=["+ profile_dirName             +"]");
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...............fully_qualified=["+ fully_qualified             +"]");
 
         //}}}
         // 1/2 - TRY RELATIVE TO CURRENT_DIRNAME {{{
-        String file_path = "";
-        if(!fully_qualified && (current_dirName != ""))
+        String     file_path  = "";
+        String relative_name  = Get_relative_profile_name( profile_name );
+        if(    relative_name !=                            profile_name)
         {
-            String relative_name = current_dirName+"/"+profile_name;
-//*PROFILE*/Settings.MOM(TAG_PROFILE, ".....relative_name=["+ relative_name   +"]");
-
             file_path        = Profiles_Dict.get( relative_name );
             if( !TextUtils.isEmpty(file_path) )
             {
                 profile_name = relative_name;
 
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...LOADING RELATIVE profile_name=["+ profile_name +"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "...LOADING RELATIVE profile_name=["+ profile_name +"]");
                 return profile_name;
             }
         }
@@ -329,22 +318,46 @@ log("*** Profile("+ name +").load: ***\n"+ ex.getMessage());
         // 2/2 TRY ABSOLUTE {{{
         if( TextUtils.isEmpty(file_path) )
         {
-            if(fully_qualified)
-                profile_name = profile_name.substring(1); // strip leading slash
+            boolean fully_qualified = profile_name.startsWith("/") || profile_name.startsWith("\\");
+            if(     fully_qualified ) profile_name = profile_name.substring(1); // strip leading slash
 
             file_path        = Profiles_Dict.get( profile_name );
             if( !TextUtils.isEmpty(file_path) )
             {
 
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...LOADING ABSOLUTE profile_name=["+ profile_name +"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "...LOADING ABSOLUTE profile_name=["+ profile_name +"]");
                 return profile_name;
             }
         }
         //}}}
-//*PROFILE*/Settings.MOM(TAG_PROFILE, caller+": ...return null");
+if(D||M)  Settings.MOM(TAG_PROFILE, caller+": ...return null");
         return null;
     }
     //}}}
+    /* Get_relative_profile_name {{{*/
+    public static String Get_relative_profile_name(String profile_name)
+    {
+        boolean fully_qualified = profile_name.startsWith("/") || profile_name.startsWith("\\");
+        String  current_dirName = Settings.get_dir_name( Settings.Working_profile    );
+        String  profile_dirName = Settings.get_dir_name( profile_name );
+
+if(D||M)  Settings.MOM(TAG_PROFILE, "...Settings.LoadedProfile.name=["+ Settings.LoadedProfile.name +"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "...Settings.Working_profile...=["+ Settings.Working_profile    +"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "...............current_dirName=["+ current_dirName             +"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "..................profile_name=["+ profile_name                +"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "...............profile_dirName=["+ profile_dirName             +"]");
+if(D||M)  Settings.MOM(TAG_PROFILE, "...............fully_qualified=["+ fully_qualified             +"]");
+
+        String relative_name
+            = !fully_qualified && (current_dirName != "") ? current_dirName+"/"+profile_name
+            :  fully_qualified                            ?                     profile_name.substring(1) // strip leading slash
+            :                                                                   profile_name
+            ;
+
+if(D||M)  Settings.MOM(TAG_PROFILE, "...return: ......relative_name=["+ relative_name               +"]");
+        return relative_name;
+    }
+    /*}}}*/
     // _filter_key_vals_PROFILE_PRODATE_PALETTE_OPACITY {{{
     private static String _filter_key_vals_PROFILE_PRODATE_PALETTE_OPACITY(String key_val_lines)
     {
@@ -532,6 +545,7 @@ log("*** Profile("+ name +").load: ***\n"+ ex.getMessage());
                 profile_name     = Get_profile_name_in_store( profile_name );
                 String file_path = Profiles_Dict.get( profile_name );
 //*PROFILE*/Settings.MOM(TAG_PROFILE, "Profiles_Dict.get("+profile_name+")=["+ file_path +"]");
+if(D||M)           log(             "Profiles_Dict.get("+profile_name+")=["+ file_path +"]");
                 if(file_path != null)
                     diag = true;
             }
@@ -540,6 +554,7 @@ log("*** Profile("+ name +").load: ***\n"+ ex.getMessage());
             }
         }
 //*PROFILE*/Settings.MOM(TAG_PROFILE, "--- Profile.Is_in_store("+ profile_name +") ...return "+ diag);
+if(D||M)           log(             "--- Profile.Is_in_store("+ profile_name +") ...return "+ diag);
         return diag;
     }
     //}}}

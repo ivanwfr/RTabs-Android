@@ -54,14 +54,14 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200724:17h:17)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200727:14h:49)";
     // LOGGING
     public  static boolean  D = Settings.D;
-    public  static void Set_D(boolean state) { D = state; }
+    public  static void Set_D(boolean state) { D = state; log("RTabsClient.Set_D("+state+")"); }//FIXME
 
     // MONITOR
     private static boolean  M = Settings.M;
-    public  static void Set_M(boolean state) { M = state; }
+    public  static void Set_M(boolean state) { M = state; log("RTabsClient.Set_M("+state+")"); }//FIXME
 
     // MONITOR TAGS RTabsClient
     private static       String TAG_CART       = Settings.TAG_CART;
@@ -2463,7 +2463,7 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
                     mRTabs.sync_notify_from("parse_PROFILE: "+ msg);
                   }
                 else {
-                    String msg = "*** COULD NOT LOAD PROFILE ["+ profile_name +"]";
+                    String msg = "*** COULD NOT PARSE PROFILE ["+ profile_name +"]";
                     mRTabs.sync_notify_from("parse_PROFILE: "+ msg);
                 }
                 //}}}
@@ -2661,10 +2661,12 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
     private boolean _load_USER_PROFILE(String profile_name, String nav_task, String caller)
     {
         caller += "] [_load_USER_PROFILE("+profile_name+", "+nav_task+")";
-//*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
+if(D || M)  Settings.MOC(TAG_PROFILE, caller);
+if(D || M)           log(             caller);
 
         String previous_Working_profile = Settings.Working_profile;
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...previous_Working_profile=["+previous_Working_profile+"]");
+if(D || M)  Settings.MOM(TAG_PROFILE, "...previous_Working_profile=["+previous_Working_profile+"]");
+if(D || M)           log(             "...previous_Working_profile=["+previous_Working_profile+"]");
 
         // LOAD REQUESTED PROFILE FROM LOCAL STORAGE (palettes and tabs) {{{
         if(          load_PROFILE(                profile_name )
@@ -2673,7 +2675,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
             // DO NOT DISPATCH DEVICE-ONLY PROFILES REQUEST {{{
             if( Settings.is_a_dynamic_profile_entry( profile_name ) )
             {
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "DO NOT DISPATCH REQUEST:...return false");
+if(D || M)  Settings.MON(TAG_PROFILE, caller, "DO NOT DISPATCH REQUEST:...return false");
+if(D || M)           log(            caller+": DO NOT DISPATCH REQUEST:...return false");
                 return false;
             }
             //}}}
@@ -2681,7 +2684,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
             else {
                 // DONE SELECTING WORKBENCH PROFILE
                 if( is_in_WORKBENCH() ) {
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "WORKBENCH Working_profile=["+ Settings.Working_profile +"]");
+if(D || M)  Settings.MON(TAG_PROFILE, caller, "WORKBENCH Working_profile=["+ Settings.Working_profile +"]");
+if(D || M)           log(            caller+": WORKBENCH Working_profile=["+ Settings.Working_profile +"]");
                     clear_PROF_Map(caller);
                 }
                 // HISTORY: REMEMBER PREVIOUS PROFILE
@@ -2711,7 +2715,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
                 //mRTabs.invalidate_profile_handles(caller); // would recurse here
 
                 mRTabs.toast_again_clear();
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "...done: return true");
+if(D || M)  Settings.MON(TAG_PROFILE, caller, "...done: return true");
+if(D || M)           log(            caller+": ...done: return true");
                 return true;
             }
             //}}}
@@ -2721,7 +2726,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
         else {
             String msg = "COULD NOT LOAD PROFILE ["+profile_name+"]";
             mRTabs.toast_long( msg );
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, msg);
+if(D || M)  Settings.MON(TAG_PROFILE, caller, msg);
+if(D || M)           log(        caller+": "+ msg);
             return false;
         }
         //}}}
@@ -2731,7 +2737,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
     private boolean load_PROFILE(String profile_name)
     {
         String caller = "load_PROFILE("+ profile_name +")";
-//*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
+if(D || M)  Settings.MOC(TAG_PROFILE, caller);
+if(D || M)           log(             caller);
 
         boolean loading_carttabs_table = (profile_name.equals( Settings.CARTTABS_TABLE ));
         boolean loading_controls_table = (profile_name.equals( Settings.CONTROLS_TABLE ));
@@ -2743,7 +2750,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
         // SEARCH PROFILES STORAGE {{{
         if( !Profile.Is_in_store( profile_name ) )
         {
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "(NOT IN STORE) ...return false");
+if(D || M)  Settings.MON(TAG_PROFILE, caller, "(NOT IN STORE) ...return false");
+if(D || M)           log(            caller+": (NOT IN STORE) ...return false");
             return false;
         }
 
@@ -2754,7 +2762,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
         String result   = profile.validate_or_delete();
         if(result != "") {
             //warn_to_dash(caller, result);
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller,  "("+result+") ...return false");
+if(D || M)  Settings.MON(TAG_PROFILE, caller,  "("+result+") ...return false");
+if(D || M)           log(             caller+": ("+result+") ...return false");
             return false;
         }
         else if(profile.name != profile_name)
@@ -2791,7 +2800,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
 
         //}}}
 
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, " ...return true");
+if(D || M)  Settings.MON(TAG_PROFILE, caller, " ...return true");
+if(D || M)           log(             caller+": ...return true");
         return true;
     }
     //}}}
@@ -5254,16 +5264,16 @@ return dev_scale;
     private static String Log_toString()         { return Log_sb.toString(); }
     //}}}
     // log {{{
-    private void log(String msg) {
+    private static void log(String msg) {
         if(Looper.myLooper() == Looper.getMainLooper())    MLog.log_red(            msg);
         else                                               Settings.MOM(TAG_CLIENT, msg);
     }
-    private void log_nonl  (String msg)                  { MLog.log_nonl  ( msg ); }
-    private void log_left  (String msg)                  { MLog.log_left  ( msg ); }
-    private void log_center(String msg)                  { MLog.log_center( msg ); }
-    private void log_right (String msg)                  { MLog.log_right ( msg ); }
-    private void log_status(String msg)                  { MLog.log_status( msg ); }
-    private void log_ex    (Exception ex, String caller) { MLog.log_ex(ex, caller); }
+    private static void log_nonl  (String msg)                  { MLog.log_nonl  ( msg ); }
+    private static void log_left  (String msg)                  { MLog.log_left  ( msg ); }
+    private static void log_center(String msg)                  { MLog.log_center( msg ); }
+    private static void log_right (String msg)                  { MLog.log_right ( msg ); }
+    private static void log_status(String msg)                  { MLog.log_status( msg ); }
+    private static void log_ex    (Exception ex, String caller) { MLog.log_ex(ex, caller); }
 
     //}}}
     //}}}
@@ -6893,7 +6903,7 @@ if(D) log("LOAD PRESET["+ preset_num +"]=["+ np.text +"]");
     {
         String caller = "parse_PROFILE_cmdLine("+cmdLine+")";
         if(D) log(caller);
-//*PROFILE*/Settings.printStackTrace(caller);//PROFILE
+if(D||M) Settings.printStackTrace(caller);//PROFILE
 
         mRTabs.hide_PROFILE_HANDLES(caller);
         // CONTROLS_TABLE {{{
@@ -6951,14 +6961,18 @@ if(D) log("LOAD PRESET["+ preset_num +"]=["+ np.text +"]");
 
             // SHARE LOADED PROFILE AND TIMESTAMP WITH SERVER
             cmdLine = "PROFILE "+ Settings.LoadedProfile.name +" PRODATE="+ Settings.PRODATE;
-            if(D) log(caller+": ...forwarding ["+ cmdLine +"])");
+
+if(D||M) log(caller+": ...FORWARDING ["+ cmdLine +"])");
             return cmdLine;
         }
         //}}}
         // DOWNLOAD UNKNOWN PROFILE {{{
         else {
-            CMD_PROFILE_UPDATE = CMD_PROFILE_DOWNLOAD+" "+profile_name;
+            CMD_PROFILE_UPDATE = CMD_PROFILE_DOWNLOAD+" "+Profile.Get_relative_profile_name( profile_name );
+
+if(D||M) log(caller+": ...UNKNOWN PROFILE ["+ CMD_PROFILE_DOWNLOAD +"] .. Settings.LoadedProfile.name=["+Settings.LoadedProfile.name+"])");
             mRTabs.profile_download(caller);
+
             return "";
         }
         //}}}

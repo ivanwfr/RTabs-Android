@@ -10,6 +10,8 @@ import java.io.File;
 // }}}
 public class MLog
 {
+    public static final boolean LOG_PROFILE = false;
+
     // {{{
     // MONITOR TAGS MLog
     private static       String TAG_LOG        = Settings.TAG_LOG;
