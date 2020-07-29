@@ -54,14 +54,14 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200727:14h:49)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200729:15h:34)";
     // LOGGING
     public  static boolean  D = Settings.D;
-    public  static void Set_D(boolean state) { D = state; log("RTabsClient.Set_D("+state+")"); }//FIXME
+    public  static void Set_D(boolean state) { if(D||M) log("RTabsClient.Set_D("+state+")"); D = state; }
 
     // MONITOR
     private static boolean  M = Settings.M;
-    public  static void Set_M(boolean state) { M = state; log("RTabsClient.Set_M("+state+")"); }//FIXME
+    public  static void Set_M(boolean state) { if(D||M) log("RTabsClient.Set_M("+state+")"); M = state; }
 
     // MONITOR TAGS RTabsClient
     private static       String TAG_CART       = Settings.TAG_CART;
@@ -2661,12 +2661,11 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
     private boolean _load_USER_PROFILE(String profile_name, String nav_task, String caller)
     {
         caller += "] [_load_USER_PROFILE("+profile_name+", "+nav_task+")";
-if(D || M)  Settings.MOC(TAG_PROFILE, caller);
-if(D || M)           log(             caller);
+if(D||M) log(caller);
 
         String previous_Working_profile = Settings.Working_profile;
-if(D || M)  Settings.MOM(TAG_PROFILE, "...previous_Working_profile=["+previous_Working_profile+"]");
-if(D || M)           log(             "...previous_Working_profile=["+previous_Working_profile+"]");
+      //String previous_Working_profile = Settings.LoadedProfile.name;
+if(D||M) log("...previous_Working_profile=["+previous_Working_profile+"]");
 
         // LOAD REQUESTED PROFILE FROM LOCAL STORAGE (palettes and tabs) {{{
         if(          load_PROFILE(                profile_name )
@@ -2675,8 +2674,7 @@ if(D || M)           log(             "...previous_Working_profile=["+previous_W
             // DO NOT DISPATCH DEVICE-ONLY PROFILES REQUEST {{{
             if( Settings.is_a_dynamic_profile_entry( profile_name ) )
             {
-if(D || M)  Settings.MON(TAG_PROFILE, caller, "DO NOT DISPATCH REQUEST:...return false");
-if(D || M)           log(            caller+": DO NOT DISPATCH REQUEST:...return false");
+if(D||M) log(caller+": DO NOT DISPATCH REQUEST:...return false");
                 return false;
             }
             //}}}
@@ -2684,14 +2682,15 @@ if(D || M)           log(            caller+": DO NOT DISPATCH REQUEST:...return
             else {
                 // DONE SELECTING WORKBENCH PROFILE
                 if( is_in_WORKBENCH() ) {
-if(D || M)  Settings.MON(TAG_PROFILE, caller, "WORKBENCH Working_profile=["+ Settings.Working_profile +"]");
-if(D || M)           log(            caller+": WORKBENCH Working_profile=["+ Settings.Working_profile +"]");
+if(D||M) log(caller+": WORKBENCH Working_profile=["+ Settings.Working_profile +"]");
                     clear_PROF_Map(caller);
                 }
-                // HISTORY: REMEMBER PREVIOUS PROFILE
+                // HISTORY: REMEMBER PREV PROFILE
                 else if( !TextUtils.isEmpty(previous_Working_profile) )
                 {
-                    if( !Settings.Working_profile.equals( previous_Working_profile ) )
+                    if(   !previous_Working_profile.equals( "index"                  ) // USER_INDEX IS A BUILTIN
+                       && !previous_Working_profile.equals( Settings.Working_profile )
+                      )
                         history_push(previous_Working_profile, nav_task);
                 }
 
@@ -2715,8 +2714,7 @@ if(D || M)           log(            caller+": WORKBENCH Working_profile=["+ Set
                 //mRTabs.invalidate_profile_handles(caller); // would recurse here
 
                 mRTabs.toast_again_clear();
-if(D || M)  Settings.MON(TAG_PROFILE, caller, "...done: return true");
-if(D || M)           log(            caller+": ...done: return true");
+if(D||M) log(caller+": ...done: return true");
                 return true;
             }
             //}}}
@@ -2726,8 +2724,7 @@ if(D || M)           log(            caller+": ...done: return true");
         else {
             String msg = "COULD NOT LOAD PROFILE ["+profile_name+"]";
             mRTabs.toast_long( msg );
-if(D || M)  Settings.MON(TAG_PROFILE, caller, msg);
-if(D || M)           log(        caller+": "+ msg);
+if(D||M) log(caller+": "+ msg);
             return false;
         }
         //}}}
@@ -2737,8 +2734,7 @@ if(D || M)           log(        caller+": "+ msg);
     private boolean load_PROFILE(String profile_name)
     {
         String caller = "load_PROFILE("+ profile_name +")";
-if(D || M)  Settings.MOC(TAG_PROFILE, caller);
-if(D || M)           log(             caller);
+if(D||M) log(caller);
 
         boolean loading_carttabs_table = (profile_name.equals( Settings.CARTTABS_TABLE ));
         boolean loading_controls_table = (profile_name.equals( Settings.CONTROLS_TABLE ));
@@ -2750,8 +2746,7 @@ if(D || M)           log(             caller);
         // SEARCH PROFILES STORAGE {{{
         if( !Profile.Is_in_store( profile_name ) )
         {
-if(D || M)  Settings.MON(TAG_PROFILE, caller, "(NOT IN STORE) ...return false");
-if(D || M)           log(            caller+": (NOT IN STORE) ...return false");
+if(D||M) log(caller+": (NOT IN STORE) ...return false");
             return false;
         }
 
@@ -2762,8 +2757,7 @@ if(D || M)           log(            caller+": (NOT IN STORE) ...return false");
         String result   = profile.validate_or_delete();
         if(result != "") {
             //warn_to_dash(caller, result);
-if(D || M)  Settings.MON(TAG_PROFILE, caller,  "("+result+") ...return false");
-if(D || M)           log(             caller+": ("+result+") ...return false");
+if(D||M) log(caller+": ("+result+") ...return false");
             return false;
         }
         else if(profile.name != profile_name)
@@ -2800,8 +2794,7 @@ if(D || M)           log(             caller+": ("+result+") ...return false");
 
         //}}}
 
-if(D || M)  Settings.MON(TAG_PROFILE, caller, " ...return true");
-if(D || M)           log(             caller+": ...return true");
+if(D||M) log(caller+": ...return true");
         return true;
     }
     //}}}
@@ -2881,8 +2874,11 @@ if(D || M)           log(             caller+": ...return true");
     }
     //}}}
     // }}}
+
+
+
     /** HISTORY STACK  */
-    // {{{
+    // {{ {
     //{{{
     public   static final String       HISTORY_BAK = "HISTORY_BAK";
     public   static final String       HISTORY_FWD = "HISTORY_FWD";
@@ -2892,124 +2888,153 @@ if(D || M)           log(             caller+": ...return true");
     private  static final Stack<String> frwd_stack = new Stack<>();
 
     //}}}
+    // history_push {{{
+    private void history_push(String prev_Working_profile, String nav_task)
+    {
+        //{{{
+        String caller = "history_push("+prev_Working_profile+","+nav_task+")";
+if(D||M) Settings.MOC(TAG_PROFILE, caller);
+
+        //}}}
+if(D||M) history_get_profile_names();
+        // STACK  [prev_Working_profile] INTO [back_stack -OR frwd_stack] // {{{
+        int steps_to_prev_Working_profile = history_count_steps_to_profile( prev_Working_profile );
+if(D||M) Settings.MON(TAG_PROFILE, "steps to prev Working_profile ["+prev_Working_profile+"]", ""+steps_to_prev_Working_profile);
+
+        if(steps_to_prev_Working_profile == 0)
+        {
+if(D||M) Settings.MON(TAG_PROFILE,              nav_task, prev_Working_profile);
+
+            if     (nav_task == HISTORY_BAK) frwd_stack.push( prev_Working_profile );
+            else if(nav_task == HISTORY_FWD) back_stack.push( prev_Working_profile );
+            else /* HANG NEW BRANCH HERE */  back_stack.push( prev_Working_profile );
+        }
+        // }}}
+        // GET TO [THIS Working_profile] FROM [back_stack AND frwd_stack] {{{
+        // (back_stack _                     _ frwd_stack)
+        // (            \_ Working_profile _/            )
+
+        int steps_to_this_Working_profile = history_count_steps_to_profile(  Settings.Working_profile );
+if(D||M) Settings.MON(TAG_PROFILE, "steps to current  Working_profile ["+Settings.Working_profile+"]", ""+steps_to_this_Working_profile);
+
+        while(steps_to_this_Working_profile < 0) { ++steps_to_this_Working_profile; frwd_stack.push( back_stack.pop() ); }
+        while(steps_to_this_Working_profile > 0) { --steps_to_this_Working_profile; back_stack.push( frwd_stack.pop() ); }
+
+        // WORKING_PROFILE_NAME HOLDS ONE CELL OF A CHAIN OF NON-OVERLAPPING history CELLS:
+        // WORKING_PROFILE_NAME HOLDS ONE CELL OF A CHAIN OF NON-OVERLAPPING history CELLS:
+        // o==============================================================================o
+        // | [B] [B] [B] [B] [B] [B] [B]  [WORKINGPROFILE]  [F] [F] [F] [F] ............. |
+        // o==============================================================================o
+        //}}}
+        // REMOVE [THIS Working_profile] FROM [back_stack AND frwd_stack] {{{
+        if(!back_stack.isEmpty() && back_stack.peek().equals( Settings.Working_profile )) back_stack.pop();
+        if(!frwd_stack.isEmpty() && frwd_stack.peek().equals( Settings.Working_profile )) frwd_stack.pop();
+
+        //}}}
+if(D||M) history_get_profile_names();
+    }
+    //}}}
     // history_get_profile_names {{{
     public ArrayList<String> history_get_profile_names()
     {
+        //{{{
         String caller = "history_get_profile_names";
-//*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
+if(D||M) Settings.MOC(TAG_PROFILE, caller);
 
-        ArrayList<String>    al = new ArrayList<>();
-
-        //  Iterator i;
         String profile_name = "";
         Stack s;
 
-        // from backward stack .. (from PREVIOUS to VERY FIRST)
+        ArrayList<String>    al = new ArrayList<>();
+        //}}}
+        // [back_stack] ....... [PREV...to FIRST] {{{
         s     = (Stack)back_stack.clone();
         while( !s.isEmpty() ) {
             profile_name = (String)s.pop();
-//*PROFILE*/Settings.MOM(TAG_PROFILE, String.format("%s: ...from back_stack: %2d=[%s]", caller, al.size()+1, profile_name));
             al.add(0, profile_name); // head-insert
+
+if(D||M) Settings.MON(TAG_PROFILE, "back_stack",      String.format("%d [%s]", al.size(), profile_name));
         }
 
-        // from current profile
+        //}}}
+        // [Working_profile] .. [THIS...............] {{{
         if( !TextUtils.isEmpty( Settings.Working_profile ) ) {
             profile_name =  Settings.Working_profile;
-//*PROFILE*/Settings.MOM(TAG_PROFILE, String.format("%s: ...Working_profile: %2d=[%s]", caller, al.size()+1, profile_name));
-            al.add(   profile_name); // tail-append
+            if(!al.contains( profile_name ))
+            {
+                al.add(   profile_name); // tail-append
+
+if(D||M) Settings.MON(TAG_PROFILE, "Working_profile", String.format("%d [%s]", al.size(), profile_name));
+            }
         }
 
-        // from forward stack .. (from NEXT to VERY LAST)
+//}}}
+        // [frwd_stack] ....... [NEXT.......to  LAST] {{{
         s     = (Stack)frwd_stack.clone();
         while( !s.isEmpty() ) {
             profile_name = (String)s.pop();
-//*PROFILE*/Settings.MOM(TAG_PROFILE, String.format("%s: ...from frwd_stack: %2d=[%s]", caller, al.size()+1, profile_name));
             al.add(   profile_name); // tail-append
+
+if(D||M) Settings.MON(TAG_PROFILE, "frwd_stack",      String.format("%d [%s]", al.size(), profile_name));
         }
 
-//*PROFILE*/Settings.MOM(TAG_PROFILE, caller+": ...return "+al.size()+" names == "+ Settings.al_toString(al));
+        //}}}
+        // return ALL names {{{
+if(D||M) Settings.MON(TAG_PROFILE,          "...return "+al.size()+" name(s)",     Settings.al_toString(al));
+
         return  al;
+        //}}}
     }
     //}}}
     // history_count_steps_to_profile {{{
     private int history_count_steps_to_profile(String profile_name)
     {
-        //  Iterator i;
-        int steps;
-        Stack s;
-
+        //{{{
         // NOTE! Stack Iterator does not go from top to bottom ... it works on insertion order
         //  i = frwd_stack.iterator(); while( i.hasNext() ) {++steps; if(((String)i.next()).equals(profile_name)) return steps; }
         //  i = back_stack.iterator(); while( i.hasNext() ) {--steps; if(((String)i.next()).equals(profile_name)) return steps; }
 
+        int steps;
+        Stack s;
+        //}}}
+        // IN [frwd_stack] {{{
         steps = 0;
         s     = (Stack)frwd_stack.clone();
         while(!s.isEmpty()) { ++steps; if(s.pop().equals( profile_name )) return steps; }
 
+        //}}}
+        // IN [back_stack] {{{
         steps = 0;
         s     = (Stack)back_stack.clone();
         while(!s.isEmpty()) { --steps; if(s.pop().equals( profile_name )) return steps; }
 
+        //}}}
+        // NOT FOUND {{{
         return  0;
-    }
-    //}}}
-    // history_push {{{
-    private void history_push(String previous_Working_profile, String nav_task)
-    {
-        String caller = "history_push("+previous_Working_profile+","+nav_task+")";
-//*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
 
-        // STACK PREVIOUS WORKING PROFILE SOMEWHERE // {{{
-        int steps_to_previous_Working_profile = history_count_steps_to_profile( previous_Working_profile );
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...steps_to_previous_Working_profile=["+steps_to_previous_Working_profile+"]");
-
-        if(steps_to_previous_Working_profile == 0)
-        {
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "PUSHING "+nav_task);
-            if     (nav_task == HISTORY_BAK) frwd_stack.push( previous_Working_profile );
-            else if(nav_task == HISTORY_FWD) back_stack.push( previous_Working_profile );
-            else /* HANG NEW BRANCH HERE */  back_stack.push( previous_Working_profile );
-        }
-        else {
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "FETCHING HISTORY");
-        }
-
-        // }}}
-
-        int steps_to_this_Working_profile = history_count_steps_to_profile( Settings.Working_profile );
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "...steps_to_this_Working_profile=["+steps_to_this_Working_profile+"]");
-
-        // GET TO CURRENT WORKING PROFILE OUT FROM BOTH STACK ( back_stack_            _frwd_stack )
-        //................................................... (            \_ current_/            )
-        while(steps_to_this_Working_profile < 0) { ++steps_to_this_Working_profile; frwd_stack.push( back_stack.pop() ); }
-        while(steps_to_this_Working_profile > 0) { --steps_to_this_Working_profile; back_stack.push( frwd_stack.pop() ); }
-
-        // WORKING_PROFILE_NAME HOLDS ONE CELL OF A CHAIN OF NON-OVERLAPPING history CELLS:
-        // o==============================================================================o
-        // | [B] [B] [B] [B] [B] [B] [B]  [WORKINGPROFILE]  [F] [F] [F] [F] ............. |
-        // o==============================================================================o
-        // EXTRACT CURRENT WORKING PROFILE FROM BOTH STACKS
-        if(!back_stack.isEmpty() && back_stack.peek().equals( Settings.Working_profile )) back_stack.pop();
-        if(!frwd_stack.isEmpty() && frwd_stack.peek().equals( Settings.Working_profile )) frwd_stack.pop();
-
-//*PROFILE*/history_get_profile_names();//TAG_PROFILE
+        //}}}
     }
     //}}}
     // history_remove {{{
     public void history_remove(String profile_name)
     {
+        //{{{
         String caller = "history_remove("+profile_name+")";
-//*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
+if(D||M) Settings.MOC(TAG_PROFILE, caller);
 
-        // keep all but profile_name in both stacks
+if(D||M) history_get_profile_names();
+        //}}}
+        // keep all but [profile_name] in [back_stack and frwd_stack] {{{
+if(D||M) Settings.MON(TAG_PROFILE, "REMOVING", profile_name);
+
         Stack s; String e;
-        s     = (Stack)frwd_stack.clone(); frwd_stack.clear();
-        while(!s.isEmpty()) { e = (String)s.pop(); if(!e.equals( profile_name ) ) frwd_stack.push(e); }
 
         s     = (Stack)back_stack.clone(); back_stack.clear();
         while(!s.isEmpty()) { e = (String)s.pop(); if(!e.equals( profile_name ) ) back_stack.push(e); }
 
-//*PROFILE*/history_get_profile_names();//TAG_PROFILE
+        s     = (Stack)frwd_stack.clone(); frwd_stack.clear();
+        while(!s.isEmpty()) { e = (String)s.pop(); if(!e.equals( profile_name ) ) frwd_stack.push(e); }
+        //}}}
+if(D||M) history_get_profile_names();
     }
     //}}}
     //* back * frwd * size * empty {{{ */
@@ -3029,7 +3054,6 @@ if(D || M)           log(             caller+": ...return true");
 //    // history_get_profile_num {{{
 //    private String history_get_profile_num(int profile_num)
 //    {
-//        //  Iterator i;
 //        String profile_name = "";
 //        Stack s;
 //
@@ -3069,6 +3093,9 @@ if(D || M)           log(             caller+": ...return true");
 //    }
 //    //}}}
     //}}}
+
+
+
     /** CART STACK */
     //{{{
     private static final String   CART_ADD   = "CART_ADD";
@@ -4432,7 +4459,7 @@ return dev_scale;
         String profile_name = np_tag.substring(8);
         if(  Settings.Working_profile.equals( profile_name ) ) {
             visited = true;
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "is_a_visited_profile_np(np): ...return "+visited+" (Working_profile)");
+if(D||M) Settings.MOM(TAG_PROFILE, "is_a_visited_profile_np(np): ...return "+visited+" (Working_profile)");
         }
         //}}}
         // 2/2 check backward or forward (history stack) {{{
@@ -4441,7 +4468,7 @@ return dev_scale;
             if( steps_to_this_Working_profile != 0)
             {
                 visited = true;
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "is_a_visited_profile_np(np): ...return "+visited+" (steps_to_this_Working_profile="+steps_to_this_Working_profile+")");
+if(D||M) Settings.MOM(TAG_PROFILE, "is_a_visited_profile_np(np): ...return "+visited+" (steps_to_this_Working_profile="+steps_to_this_Working_profile+")");
             }
         }
         //}}}

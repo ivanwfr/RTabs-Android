@@ -101,17 +101,17 @@ import java.util.zip.ZipOutputStream;
 class Profile
 {
     // LOGGING {{{
-    public static        String PROFILE_JAVA_TAG = "Profile (200727:14h:59)";
+    public static        String PROFILE_JAVA_TAG = "Profile (200728:19h:48)";
 
     // MONITOR TAGS
     private static       String TAG_STORAGE = Settings.TAG_STORAGE;
     private static       String TAG_PROFILE = Settings.TAG_PROFILE;
 
     public  static boolean  D = Settings.D;
-    public  static void Set_D(boolean state) { D = state; log("Profile.Set_D("+state+")"); }//FIXME
+    public  static void Set_D(boolean state) { if(D||M) log("Profile.Set_D("+state+")"); D = state; }
 
     private static boolean  M = Settings.M;
-    public  static void Set_M(boolean state) { M = state; log("Profile.Set_M("+state+")"); }//FIXME
+    public  static void Set_M(boolean state) { if(D||M) log("Profile.Set_M("+state+")"); M = state; }
 
     //}}}
     // instance members {{{
@@ -788,7 +788,7 @@ if(D||M)           log(             "--- Profile.Is_in_store("+ profile_name +")
         // NON-RINSABLE PROFILE {{{
         if(tag.contains("profile"))
         {
-            if(tag.contains("index")) return false;
+            if(tag.contains("/index"        )) return false;
             if(tag.contains("profiles_table")) return false;
             if(tag.contains("controls_table")) return false;
         }
@@ -1347,7 +1347,7 @@ if(D||M)           log(             "--- Profile.Is_in_store("+ profile_name +")
     private void build_PROFHIST_TABLE()
     {
         String caller = "build_PROFHIST_TABLE";
-//*PROFILE*/Settings.MOC(TAG_PROFILE, caller);
+if(D||M) Settings.MOC(TAG_PROFILE, caller);
         // KEY_VAL [PROFILE] [PRODATE] {{{
 
         Settings.PROFILE = Settings.PROFHIST_TABLE;
@@ -1391,11 +1391,11 @@ if(D||M)           log(             "--- Profile.Is_in_store("+ profile_name +")
                 case -1: entry_name = Settings.FINISH_APP    ; break;
                 default:
                          entry_name = history_profile_names.get(i);
-                         if(        entry_name.equals(Settings.USER_INDEX    )
+                         if(        entry_name.equals("index")
                                  || entry_name.equals(Settings.CONTROLS_TABLE))
                              continue;
             }
-//*PROFILE*/Settings.MOM(TAG_PROFILE, String.format("%3d entry_name=[%s]", i, entry_name));
+if(D||M) Settings.MOM(TAG_PROFILE, String.format("%3d entry_name=[%s]", i, entry_name));
 
             text = entry_name;
             text = text.replace("/", " "+ Settings.SYMBOL_BLACK_CIRCLE +" ");
@@ -1419,10 +1419,10 @@ if(D||M)           log(             "--- Profile.Is_in_store("+ profile_name +")
                 ?              NotePane.SHAPE_TAG_SQUARE
                 :              NotePane.SHAPE_TAG_PADD_R;
             String          tab_line = build_PROFILES_TABLE_Line_WITH_SHAPE(entry_name, String.format(format, ++count, text), shape);
-//*PROFILE*/Settings.MOM(TAG_PROFILE, "@@@ "+tab_line);
+if(D||M) Settings.MOM(TAG_PROFILE, "@@@ "+tab_line);
             loadSettingsLine( tab_line );
         }
-//*PROFILE*/Settings.MON(TAG_PROFILE, caller, "...done");
+if(D||M) Settings.MON(TAG_PROFILE, caller, "...done");
     }
     //}}}
     // build_PROFILES_TABLE_Line_WITH_SHAPE {{{

@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (200727:14h:13) =========================== [KEY_VAL pairs]
+// Settings_TAG (200728:17h:35) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings

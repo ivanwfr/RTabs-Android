@@ -113,7 +113,7 @@ public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
     //{{{
-    public static        String RTABS_JAVA_TAG = "RTabs (200727:14h:05)";
+    public static        String RTABS_JAVA_TAG = "RTabs (200729:15h:35)";
     // MONITOR TAGS {{{
     private static       String TAG_EV0_RT_DP  = Settings.TAG_EV0_RT_DP;
     private static       String TAG_EV1_RT_IN  = Settings.TAG_EV1_RT_IN;
@@ -154,11 +154,11 @@ public class RTabs implements Settings.ClampListener
 
     // LOGGING
     public  static boolean  D = Settings.D;
-    public  static void Set_D(boolean state) { D = state; log("RTabs.Set_D("+state+")"); }//FIXME
+    public  static void Set_D(boolean state) { if(D||M) log("RTabs.Set_D("+state+")"); D = state; }
 
     // MONITOR
     private static boolean  M = Settings.M;
-    public  static void Set_M(boolean state) { M = state; log("RTabs.Set_M("+state+")"); }//FIXME
+    public  static void Set_M(boolean state) { if(D||M) log("RTabs.Set_M("+state+")"); M = state; }
 
     // SDK VERSION DEPENDENT
     public  static final boolean ANIM_SUPPORTED = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2);
@@ -6816,7 +6816,7 @@ fold_band(dock_band, caller); // XXX
     private void handle_hide(String caller)
     {
         caller += "->handle_hide";
-//*HANDLE*/Settings.MOC(TAG_HANDLE, caller);
+if(D||M) Settings.MOC(TAG_HANDLE, caller);
         handle_set(null, caller);
       //sync_tabs_scrolling(caller);
       //set_tabs_scrolling( true, caller);
@@ -6997,7 +6997,7 @@ fold_band(dock_band, caller); // XXX
 
     // HIDE dck_handle
     //            .-----.
-    //            B|    |
+    //            B|    | <- handles_container
     //            B|    |
     //  SHOWBAND  B|    |
     //      HIDE  B|    |
@@ -7007,7 +7007,7 @@ fold_band(dock_band, caller); // XXX
 
     // SHOW dck_handle
     //            .-----.
-    //            |B    |
+    //            |B    | <- handles_container
     //            |B    |
     //   SHOWBAND |B    |
     //       SHOW |B    |
