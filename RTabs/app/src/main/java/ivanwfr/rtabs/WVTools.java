@@ -8720,7 +8720,7 @@ marker_magnetized_START_DONE = true; //XXX
             freeze_wv_start(gesture_down_wv, from_opposite_margin ? FREEZE_TILT_UP_FLING : FREEZE_FLING_UP);
         }
         //}}}
-        // FREEZE WEBVIEW (DOWN STILE) {{{
+        // FREEZE WEBVIEW (DOWN STYLE) {{{
         else if(down_fling)
         {
             caller += "[down_fling]";

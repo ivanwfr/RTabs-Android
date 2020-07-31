@@ -54,7 +54,7 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200729:15h:34)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200731:15h:49)";
     // LOGGING
     public  static boolean  D = Settings.D;
     public  static void Set_D(boolean state) { if(D||M) log("RTabsClient.Set_D("+state+")"); D = state; }
@@ -664,7 +664,8 @@ public class RTabsClient
         {
             if((++last_send_count % MAX_SEND_ATTEMPTS_COUNT) == 0)
             {
-                if(D) log_center("send("+new_cmd+") GOT STUCK "+ last_send_count +" times ...CLOSING");
+if(D) log_center("send("+new_cmd+") GOT STUCK "+ last_send_count +" times ...CLOSING");
+
                 disconnect("send("+new_cmd+") (#"+last_send_count+")");
                 return;
             }
@@ -725,9 +726,9 @@ public class RTabsClient
         // CLOSE =================================== broken socket {{{
         if( !socket_isReady() )
         {
-            if(D) log_center("send(" + new_cmd + ") CONNECTION BROKEN ...CLOSING");
-            disconnect("send: !socket_isReady");
+if(D) log_center("send(" + new_cmd + ") CONNECTION BROKEN ...CLOSING");
 
+            disconnect("send: !socket_isReady");
         }
         // ========================================================}}}
         // CLOSE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -1447,11 +1448,15 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
         else {
             if(last_sent_cmd.equals(CMD_POLL)) {
                 poll_status = POLL_STATUS_READING_POLL;
-                oo          = ((poll_loop_count % 2) == 0) ? " Oo " : "  oO";
+                oo          = ((poll_loop_count % 2) == 0) ?    " Oo " : "  oO";
+            }
+            else if(Settings.OFFLINE) {
+                String    s = Settings.SYMBOL_BATTERY;
+                oo          = ((poll_loop_count % 2) == 0) ? " "+s+" " : "  "+s;
             }
             else {
                 poll_status = POLL_STATUS_READING_REPLY;
-                oo          = ((poll_loop_count % 2) == 0) ? " Rr " : "  rR";
+                oo          = ((poll_loop_count % 2) == 0) ?    " Rr " : "  rR";
         /*XXX*/ oo         += " ["+last_sent_cmd+"]";
             }
 
@@ -1722,15 +1727,22 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
 
             if( !success )
             {
-                int port_from = (Settings.SERVER_PORT / 10 * 10);
-                String msg =
+                int port_from
+                    = (Settings.SERVER_PORT / 10 * 10);
+
+                String msg
+                    =
                     String.format("ConnectTask: NO SERVER ON PORT-RANGE %d-%d"
                             , port_from
                             , port_from + 10
                             );
-                disconnect( msg );
+
                 mRTabs.sync_notify_from("ConnectTask("+last_sent_cmd+"): *** "+ msg +" ***");
 
+              //disconnect( msg );
+                mRTabs.set_APP_offline_state(true , caller);
+
+                mRTabs.set_APP_freezed_state(false, caller);
             }
             else if( !unsent_cmd.equals("") )
             {

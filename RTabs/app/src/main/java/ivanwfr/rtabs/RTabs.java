@@ -113,7 +113,7 @@ public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
     //{{{
-    public static        String RTABS_JAVA_TAG = "RTabs (200729:15h:35)";
+    public static        String RTABS_JAVA_TAG = "RTabs (200731:15h:44)";
     // MONITOR TAGS {{{
     private static       String TAG_EV0_RT_DP  = Settings.TAG_EV0_RT_DP;
     private static       String TAG_EV1_RT_IN  = Settings.TAG_EV1_RT_IN;
@@ -1892,8 +1892,9 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
     /** DATA */
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ DATA @ {{{
     //* (fetching) */
-    private int           current_stage = STAGE5_TABS_LAYOUT;
     // enter_notification_loop {{{
+    private int           current_stage = STAGE5_TABS_LAYOUT;
+
     private void enter_notification_loop(int stage, String caller)
     {
         caller += "->enter_notification_loop("+get_stage_name( stage )+")";
@@ -1914,7 +1915,7 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
         toast_again_clear();
 
         // START POLLING
-        enter_poll_progress_loop( caller );
+        poll_looper_start( caller );
 
         // LOAD WORKING PROFILE
         if(        (RTabsClient.TABS_Map.size() == 0    )
@@ -1974,13 +1975,13 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
 *///}}}
         }
 
-        // hr_data_looper .. WILL HANDLE WHAT HAPPENS NEXT
+        // data_looper .. WILL HANDLE WHAT HAPPENS NEXT
         if(current_stage != stage) {
             current_stage = stage;
             update_stage(caller);
         }
 
-        handler_post_hr_data_looper(caller);
+        data_looper_start(caller);
     }
     //}}}
     // schedule_select_and_load_working_profile_TASK {{{
@@ -2038,162 +2039,178 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
         }
     }
     //}}}
-        // hr_data_looper {{{
+    //* (data_looper) */
+    //{{{
+    /* data_looper_start {{{*/
+    private void data_looper_start(String caller)
+    {
+        data_looper_start(0, caller);
+    }
 
-        private void handler_post_hr_data_looper(String caller)
+    private void data_looper_start(int delay, String caller)
+    {
+        hr_data_looper_caller = caller;
+
+        if(delay > 0) handler.re_postDelayed( hr_data_looper, delay);
+        else          handler.re_post       ( hr_data_looper       );
+    }
+    /*}}}*/
+    /* data_looper_stop {{{*/
+    private void data_looper_stop(String caller)
+    {
+        handler.removeCallbacks( hr_data_looper );
+
+    }
+    /*}}}*/
+    /* hr_data_looper {{{*/
+    private       String   hr_data_looper_caller = "";
+
+    private final Runnable hr_data_looper        = new Runnable()
+    { @Override public void run()
         {
-            handler_post_hr_data_looper(0, caller);
-        }
+            //{{{
+            if(D) MLog.log(""
+                    + "@ @ @ [hr_data_looper]\n"
+                    + "@ @ @ caller=["+ hr_data_looper_caller +"]\n"
+                    + "@ @ @ [--------------]"
+                    );
 
-        private void handler_post_hr_data_looper(int delay, String caller)
-        {
-            hr_data_looper_caller = caller;
+            //}}}
+            // FREEZED {{{
+            if( Settings.FREEZED ) {
+                if(D) MLog.log("..."+Settings.SYMBOL_freezed+" FREEZED");
 
-            if(delay > 0) handler.re_postDelayed( hr_data_looper, delay);
-            else          handler.re_post       ( hr_data_looper       );
-        }
+                return;
+            }
+            //}}}
+            // OFFLINE {{{
+            if( Settings.OFFLINE ) {
+if(D) MLog.log("..."+Settings.SYMBOL_offline+" OFFLINE");
 
-        private String   hr_data_looper_caller = "";
-        private final Runnable hr_data_looper = new Runnable()
-        { @Override public void run()
+                return;
+            }
+            //}}}
+            // 0 - ESTABLISH A WORKING PROFILE {{{
+            String stage_name = get_stage_name( current_stage );
+
+            if(         TextUtils.isEmpty( Settings.LoadedProfile.name )
+                    && !TextUtils.isEmpty( Settings.Working_profile    )
+              ) {
+                if(current_stage != STAGE8_PROFILE_UPDATE) {
+                    MLog.log("LoadedProfile.name not set yet");
+                    set_stage(STAGE8_PROFILE_UPDATE, "hr_data_looper ["+stage_name+"]");
+                }
+                // ...come back here to check if done
+                data_looper_start(DATA_LOOPER_BASE_PERIOD, "hr_data_looper[WORKING PROFILE]");
+                return;
+              }
+            //}}}
+            // 1 - SOME DATA TO PARSE ? {{{
+            if( have_data_to_process_after("hr_data_looper ["+ stage_name +"]") )
             {
-                if(D) MLog.log(""
-                        + "@ @ @ [hr_data_looper]\n"
-                        + "@ @ @ caller=["+ hr_data_looper_caller +"]\n"
-                        + "@ @ @ [--------------]"
-                        );
+                if(D) MLog.log( Settings.SYMBOL_new_data );
+                parse_received_data("hr_data_looper");
 
-                // FREEZED {{{
-                if( Settings.FREEZED ) {
-                    if(D) MLog.log("..."+Settings.SYMBOL_freezed+" FREEZED");
+                // ...come back here to check if done
+                data_looper_start(DATA_LOOPER_BASE_PERIOD, "hr_data_looper[DATA]");
+                return;
+            }
+            // }}}
+            // 2 - TRYING TO SIGNIN ? {{{
+/*
+            if(!this_RTabsClient.is_signed_in())
+            {
+                this_RTabsClient.discard_received_message("hr_data_looper TRYING TO SIGNIN");
 
-                    return;
-                }
-                //}}}
-                // OFFLINE {{{
-                if( Settings.OFFLINE ) {
-                    if(D) MLog.log("..."+Settings.SYMBOL_offline+" OFFLINE");
+                set_stage(STAGE0_SIGNIN, "hr_data_looper ["+stage_name+"]");
 
-                    return;
-                }
-                //}}}
+                // ...come back here to check if done
+                data_looper_start(get_next_server_hook_delay(), "hr_data_looper[SIGNIN]");
+                return;
+            }
+*/
+            // }}}
+            // 3 - LOOP BACK HERE ...UNTIL ALL DATA HAS BEEN PROCESSED {{{
+            if(         (current_stage <  STAGE5_TABS_LAYOUT)
+                    || ((current_stage == STAGE6_CONNECTING ) && !this_RTabsClient.isConnected())
+                    ||  (current_stage >  STAGE7_POLLING    )
+              ) {
 
-                // 0 - ESTABLISH A WORKING PROFILE {{{
-                String stage_name = get_stage_name( current_stage );
+                String caller = "hr_data_looper: ["+ stage_name +"]";
+                update_stage( caller );
 
-                if(         TextUtils.isEmpty( Settings.LoadedProfile.name )
-                        && !TextUtils.isEmpty( Settings.Working_profile    )
-                  ) {
-                    if(current_stage != STAGE8_PROFILE_UPDATE) {
-                        MLog.log("LoadedProfile.name not set yet");
-                        set_stage(STAGE8_PROFILE_UPDATE, "hr_data_looper ["+stage_name+"]");
-                    }
-                    // ...come back here to check if done
-                    handler_post_hr_data_looper(DATA_LOOPER_BASE_PERIOD, "hr_data_looper[WORKING PROFILE]");
-                    return;
-                }
-                //}}}
-                // 1 - SOME DATA TO PARSE ? {{{
-                if( have_data_to_process_after("hr_data_looper ["+ stage_name +"]") )
+                // ...come back here to check if done
+                int delay = get_next_server_hook_delay();
+                if(D)    MLog.log(caller + " ...next loop in "+ delay +"ms");
+                data_looper_start(delay, caller);
+
+                return;
+              }
+            // }}}
+            // 4 - DATA AVAILABLE AND PROCESSED .. STEP FROM TRANSITIONAL STAGE TO CONNECTION AND POLL STAGE {{{
+            if(        (current_stage == STAGE5_TABS_LAYOUT  )
+                    || (current_stage == STAGE6_CONNECTING   )
+                    || (current_stage == STAGE9_PROFILE_PARSE)
+              ) {
+                if(M||D) MLog.log(Settings.SYMBOL_got_data+ " DATA AVAILABLE AND PROCESSED "+ Settings.SYMBOL_got_data);
+
+                // LOAD WORKING PROFILE .. OR DEFAULT TO PROFILES_TABLE {{{
+                if(D) MLog.log("...WORKING PROFILE: ["+ Settings.Working_profile +"]");
+                if(D) MLog.log(".....LoadedProfile: ["+ Settings.LoadedProfile.toString() );
+                if(D) MLog.log("..........TABS_Map: ["+ RTabsClient.TABS_Map.size() +" USER TABS]");
+                if(RTabsClient.TABS_Map.size() == 0)
                 {
-                    if(D) MLog.log( Settings.SYMBOL_new_data );
-                    parse_received_data("hr_data_looper");
-
-                    // ...come back here to check if done
-                    handler_post_hr_data_looper(DATA_LOOPER_BASE_PERIOD, "hr_data_looper[DATA]");
-                    return;
-                }
-                // }}}
-    /*
-                // 2 - TRYING TO SIGNIN ? {{{
-                if(!this_RTabsClient.is_signed_in())
-                {
-                    this_RTabsClient.discard_received_message("hr_data_looper TRYING TO SIGNIN");
-
-                    set_stage(STAGE0_SIGNIN, "hr_data_looper ["+stage_name+"]");
-
-                    // ...come back here to check if done
-                    handler_post_hr_data_looper(get_next_server_hook_delay(), "hr_data_looper[SIGNIN]");
-                    return;
-                }
-                // }}}
-    */
-                // 3 - LOOP BACK HERE ...UNTIL ALL DATA HAS BEEN PROCESSED {{{
-                if(         (current_stage <  STAGE5_TABS_LAYOUT)
-                        || ((current_stage == STAGE6_CONNECTING ) && !this_RTabsClient.isConnected())
-                        ||  (current_stage >  STAGE7_POLLING    )
-                  ) {
-
                     String caller = "hr_data_looper: ["+ stage_name +"]";
-                    update_stage( caller );
+                    if( Settings.is_GUI_TYPE_HANDLES()) show_PROFILES_TABLE(caller);
+                    else                                show_DOCKINGS_TABLE(caller);
+                }
+                //}}}
+                // DISPLAY DATA {{{
+                else {
+                    // HIDE..SHOW SYSTEM UI
+                    if(D) MLog.log_center("TABS DISPLAYED STAGE=["+stage_name+"]");
+                    if( !Settings.LOGGING ) hide_system_bars("hr_data_looper");
+                //  else                    show_system_bars("hr_data_looper");
 
-                    // ...come back here to check if done
-                    int delay = get_next_server_hook_delay();
-                    if(D)    MLog.log(caller + " ...next loop in "+ delay +"ms");
-                    handler_post_hr_data_looper(delay, caller);
+                    // RENDER RECEIVED TABS AND PALETTE
+                    if(this_RTabsClient.needs_TABS_Map_ENTRY_PALETTE())
+                        this_RTabsClient.apply_SETTINGS_PALETTE(RTabsClient.TABS_Map, "hr_data_looper ["+stage_name+"]");
+                }
+                //}}}
 
-                    return;
-                  }
-                // }}}
-                // 4 - DATA AVAILABLE AND PROCESSED .. STEP FROM TRANSITIONAL STAGE TO CONNECTION AND POLL STAGE {{{
-                if(        (current_stage == STAGE5_TABS_LAYOUT  )
-                        || (current_stage == STAGE6_CONNECTING   )
-                        || (current_stage == STAGE9_PROFILE_PARSE)
-                  ) {
-                    if(M||D) MLog.log(Settings.SYMBOL_got_data+ " DATA AVAILABLE AND PROCESSED "+ Settings.SYMBOL_got_data);
+                // CONNECT TO SERVER
+                if( !this_RTabsClient.isConnected() ) {
+if(D) MLog.log_center("ENTERING CONNECTION STAGE AFTER ["+stage_name+"]");
 
-                    // LOAD WORKING PROFILE .. OR DEFAULT TO PROFILES_TABLE {{{
-                    if(D) MLog.log("...WORKING PROFILE: ["+ Settings.Working_profile +"]");
-                    if(D) MLog.log(".....LoadedProfile: ["+ Settings.LoadedProfile.toString() );
-                    if(D) MLog.log("..........TABS_Map: ["+ RTabsClient.TABS_Map.size() +" USER TABS]");
-                    if(RTabsClient.TABS_Map.size() == 0)
-                    {
-                        String caller = "hr_data_looper: ["+ stage_name +"]";
-                        if( Settings.is_GUI_TYPE_HANDLES()) show_PROFILES_TABLE(caller);
-                        else                                show_DOCKINGS_TABLE(caller);
-                    }
-                    //}}}
-                    // DISPLAY DATA {{{
-                    else {
-                        // HIDE..SHOW SYSTEM UI
-                        if(D) MLog.log_center("TABS DISPLAYED STAGE=["+stage_name+"]");
-                        if( !Settings.LOGGING ) hide_system_bars("hr_data_looper");
-                    //  else                    show_system_bars("hr_data_looper");
+                    set_stage(STAGE6_CONNECTING,      "hr_data_looper ["+stage_name+"]");
+                }
+                // ENTER POLL STAGE
+                else {
+if(D) MLog.log_center("ENTERING POLL STAGE AFTER ["+stage_name+"]");
 
-                        // RENDER RECEIVED TABS AND PALETTE
-                        if(this_RTabsClient.needs_TABS_Map_ENTRY_PALETTE())
-                            this_RTabsClient.apply_SETTINGS_PALETTE(RTabsClient.TABS_Map, "hr_data_looper ["+stage_name+"]");
-                    }
-                    //}}}
+                    set_stage(STAGE7_POLLING,   "hr_data_looper ["+stage_name+"]");
+                }
 
-                    // CONNECT TO SERVER
-                    if( !this_RTabsClient.isConnected() ) {
-                        if(D) MLog.log_center("ENTERING CONNECTION STAGE AFTER ["+stage_name+"]");
-                        set_stage(STAGE6_CONNECTING,      "hr_data_looper ["+stage_name+"]");
-                    }
-                    // ENTER POLL STAGE
-                    else {
-                        if(D) MLog.log_center("ENTERING POLL STAGE AFTER ["+stage_name+"]");
-                        set_stage(STAGE7_POLLING,   "hr_data_looper ["+stage_name+"]");
-                    }
-
-                    // ALWAYS SHOW SOMETHING USEFUL WHEN DONE WITH DATA PROCESSING
-                    if(RTabsClient.TABS_Map.size() == 0)
-                    {
-                        String caller = "hr_data_looper: ["+ stage_name +"]";
-                        if( Settings.is_GUI_TYPE_HANDLES()) show_PROFILES_TABLE(caller);
-                        else                                show_DOCKINGS_TABLE(caller);
-                    }
-                    // DO NOT come back here .. data fetching is done
-                    // CONNECTING AND POLLING WILL INITIATE NEXT PROCESSING LOOP
-                    return;
-                  }
-                // }}}
-
-                // 5 - NOTHING happened {{{
+                // ALWAYS SHOW SOMETHING USEFUL WHEN DONE WITH DATA PROCESSING
+                if(RTabsClient.TABS_Map.size() == 0)
+                {
+                    String caller = "hr_data_looper: ["+ stage_name +"]";
+                    if( Settings.is_GUI_TYPE_HANDLES()) show_PROFILES_TABLE(caller);
+                    else                                show_DOCKINGS_TABLE(caller);
+                }
+                // DO NOT come back here .. data fetching is done
+                // CONNECTING AND POLLING WILL INITIATE NEXT PROCESSING LOOP
+                return;
+              }
+            // }}}
+            // 5 - NOTHING happened {{{
             //... if connected: resume Polling if it has been deactivated (i.e. freezed)
-            if(D) MLog.log_center("REVERT TO CURRENT STAGE ["+stage_name+"]");
-            set_stage(current_stage, "hr_data_looper ["+stage_name+"]");
+if(D) MLog.log_center("REVERT TO CURRENT STAGE ["+stage_name+"]");
+
+            if( !this_RTabsClient.isConnected() )
+                set_stage(STAGE6_CONNECTING, "hr_data_looper ["+stage_name+"]");
+            else
+                set_stage(    current_stage, "hr_data_looper ["+stage_name+"]");
 
             // ALWAYS SHOW SOMETHING USEFUL WHEN DONE WITH DATA PROCESSING
             if(RTabsClient.TABS_Map.size() == 0)
@@ -2202,12 +2219,11 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
                 if( Settings.is_GUI_TYPE_HANDLES()) show_PROFILES_TABLE(caller);
                 else                                show_DOCKINGS_TABLE(caller);
             }
-
             //}}}
-
             // DO NOT come back here either ... would not change anything
         }
     };
+    /*}}}*/
     //}}}
     //* (transition) */
     // update_stage {{{
@@ -2237,7 +2253,7 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
         else                                                              required_stage = STAGE7_POLLING       ;
 
         if(!connected && this_RTabsClient.has_max_connection_failed())
-            set_APP_freezed_state(true, caller+": MAX_CONNECTION_ATTEMPTS_COUNT");
+            set_APP_offline_state(true, caller+": MAX_CONNECTION_ATTEMPTS_COUNT");
 
         // STAGE TRANSISION
         if(required_stage == current_stage) remaining_count += 1;
@@ -2302,7 +2318,7 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
             if(M||D) log_stage_step_banner();
             if(M||D) MLog.log(caller+": STEPPING FROM ["+old_stage_name+"]");
 
-            if(current_stage == STAGE7_POLLING) interrupt_poll_progress_loop( caller );
+            if(current_stage == STAGE7_POLLING) poll_looper_stop( caller );
             current_stage     = stage;
             //this_RTabsClient.warn_to_dash("STAGE", new_stage_name);
         }
@@ -2322,7 +2338,7 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
 
             case STAGE5_TABS_LAYOUT     : request_TABS_LAYOUT     ( caller ); break;
 
-            case STAGE7_POLLING         : enter_poll_progress_loop( caller ); break;
+            case STAGE7_POLLING         : poll_looper_start       ( caller ); break;
 
             case STAGE8_PROFILE_UPDATE  : request_PROFILE_UPDATE  ( caller ); break;
             case STAGE9_PROFILE_PARSE   : request_PROFILE_PARSE   ( caller ); break;
@@ -2417,19 +2433,22 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
                 || caller.startsWith("apply_TABS_LAYOUT"     )
           ) {
             sync_GUI_colors(caller);
+
             return;
           }
 
         //}}}
         // FREEZED {{{
         if( Settings.FREEZED ) {
-            if(M||D) MLog.log("..."+Settings.SYMBOL_freezed+" FREEZED: "+ caller);
+if(M||D) MLog.log("..."+Settings.SYMBOL_freezed+" FREEZED: "+ caller);
+
             return;
         }
         //}}}
         // OFFLINE {{{
         if( Settings.OFFLINE ) {
-            if(M||D) MLog.log("..."+Settings.SYMBOL_offline+" OFFLINE: "+ caller);
+if(M||D) MLog.log("..."+Settings.SYMBOL_offline+" OFFLINE: "+ caller);
+
             return;
         }
         //}}}
@@ -2451,7 +2470,7 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
         {
             if(M||D) MLog.log("SOME DATA TO PARSE");
             if( this_RTabsClient.is_signed_in() ) if(D) MLog.log_left("=== PROCESSING: "+ caller);
-            handler_post_hr_data_looper(DATA_LOOPER_DELAY, "have_data_to_process_after("+ caller +")");
+            data_looper_start(DATA_LOOPER_DELAY, "have_data_to_process_after("+ caller +")");
             return;
         }
         // }}}
@@ -2461,7 +2480,7 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
         {
             if(M||D) MLog.log("PROFILE SYNC");
             update_stage( caller );
-            handler_post_hr_data_looper( caller );
+            data_looper_start( caller );
             return;
         }
         // }}}
@@ -2476,9 +2495,9 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
 
         switch( current_stage )
         {
-            case STAGE6_CONNECTING : if(M||D) MLog.log("TRY-ON CONNECTING"); update_stage            ( caller ); break;
-            case STAGE5_TABS_LAYOUT: if(M||D) MLog.log("START POLLING"    ); enter_poll_progress_loop( caller ); break;
-            case STAGE7_POLLING    : if(M||D) MLog.log("RESUME POLLING"   ); enter_poll_progress_loop( caller ); break;
+            case STAGE6_CONNECTING : if(M||D) MLog.log("TRY-ON CONNECTING"); update_stage     ( caller ); break;
+            case STAGE5_TABS_LAYOUT: if(M||D) MLog.log(    "START POLLING"); poll_looper_start( caller ); break;
+            case STAGE7_POLLING    : if(M||D) MLog.log(   "RESUME POLLING"); poll_looper_start( caller ); break;
         }
     }
     //}}}
@@ -2521,14 +2540,22 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ POLL @ {{{
 
     //* (on) */
-    // enter_poll_progress_loop {{{
-    private void enter_poll_progress_loop(String caller)
+    //_ poll_looper_start {{{
+    private void poll_looper_start(String caller)
     {
-        caller += "->enter_poll_progress_loop";
-//*POLL*/Settings.MOC(TAG_POLL, caller);
-        if(D) MLog.log_center(caller);
+        caller += "->poll_looper_start";
+if(M||D) MLog.log_center(caller);
 
         handler.re_postDelayed( hr_poll_looper, POLL_CHECK_DELAY);
+    }
+    //}}}
+    //_ poll_looper_stop {{{
+    private void poll_looper_stop(String caller)
+    {
+        caller += "->poll_looper_stop";
+if(M||D) MLog.log_center(caller);
+
+        handler.removeCallbacks( hr_poll_looper );
     }
     //}}}
     //* (loop) */
@@ -2562,15 +2589,6 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
     };
     //}}}
     //* (off) */
-    // interrupt_poll_progress_loop {{{
-    public void interrupt_poll_progress_loop(String caller)
-    {
-        caller += "->interrupt_poll_progress_loop";
-        if(M||D) MLog.log_center(caller);
-
-        handler.removeCallbacks( hr_poll_looper );
-    }
-    //}}}
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ }}}
     /** LISTEN */
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ LISTEN @ {{{
@@ -3345,7 +3363,7 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
         if( this_RTabsClient.has_DashNotePane() )
         {
 /*{{{
-            interrupt_poll_progress_loop(caller);
+            poll_looper_stop(caller);
             this_RTabsClient.stop_POLL(caller);
 }}}*/
             set_APP_freezed_state(true ,caller);
@@ -3838,7 +3856,7 @@ Settings.MOM(TAG_KEYBOARD, caller+": KEYCODE_HEADSETHOOK .. (adb_is_about_to_ins
         // OFFLINE
         if( Settings.OFFLINE )              set_np_label_fg("OFFLINE"     , "OFFLINE"            , Settings.FG_COLOR_ON );
         else                                set_np_label_fg("OFFLINE"     , "ONLINE"             , Settings.FG_COLOR_OFF);
-        set_np_label_bg("OFFLINE"
+        set_np_label_bg(  "OFFLINE"
                 , Settings.OFFLINE ? "OFFLINE"                : "ONLINE"
                 , Settings.OFFLINE ? Settings.COLOR_FIREBRICK : Settings.COLOR_FORESTGREEN
                 );
@@ -4958,11 +4976,13 @@ if(D||M) Settings.MON(TAG_COMM, caller, "cmdLine=["+ cmdLine +"]");
 
         // wait for user to UNFREEZE or go ONLINE
         if(  Settings.FREEZED ) {
-            if(D) MLog.log("..."+Settings.SYMBOL_freezed+" FREEZED");
+if(D) MLog.log("..."+Settings.SYMBOL_freezed+" FREEZED");
+
             return;
         }
         if(  Settings.OFFLINE ) {
-            if(D) MLog.log("..."+Settings.SYMBOL_offline+" OFFLINE");
+if(D) MLog.log("..."+Settings.SYMBOL_offline+" OFFLINE");
+
             return;
         }
 
@@ -5001,7 +5021,7 @@ if(D||M) Settings.MON(TAG_COMM, caller, "cmdLine=["+ cmdLine +"]");
 
         // transition fron request to parse stage
         if( this_RTabsClient.check_PROFILE_UPDATE_reply(caller) )
-            handler_post_hr_data_looper(caller);
+            data_looper_start(caller);
         else
             this_RTabsClient.send(RTabsClient.CMD_PROFILE_UPDATE, caller);
     }
@@ -5024,7 +5044,7 @@ if(D||M) Settings.MON(TAG_COMM, caller, "cmdLine=["+ cmdLine +"]");
 
         // transition fron request to parse stage
         if( this_RTabsClient.check_TABS_GET_reply(caller) )
-            handler_post_hr_data_looper(caller);
+            data_looper_start(caller);
         else
             this_RTabsClient.send(RTabsClient.CMD_TABS_GET, caller);
     }
@@ -10355,7 +10375,7 @@ Settings.MON(TAG_FULLSCREEN, "\n"
         String    shape = noteHolder.get_shape();
         NotePane     np = noteHolder.get_np();
         boolean  has_np = (   np != null);
-        boolean isACtrl = has_np && (this_RTabsClient.get_np_for_button( np.button ) == null); /* not from a user profile */ 
+        boolean isACtrl = has_np && (this_RTabsClient.get_np_for_button( np.button ) == null); /* not from a user profile */
 
         note_dialog.setTitle( title );
         note_text  .setText ( text  );
@@ -20486,7 +20506,7 @@ Settings.MOC(TAG_GUI, caller);
         checkBox_freeze.setChecked( state );
 
         // LOG
-        if(D) MLog.log(Settings.FREEZED ? Settings.SYMBOL_freezed+" FREEZED\n" : Settings.SYMBOL_freezed+" UNFREEZED");
+if(D) MLog.log(Settings.FREEZED ? Settings.SYMBOL_freezed+" FREEZED\n" : Settings.SYMBOL_freezed+" UNFREEZED");
         update_log_container_scrolling();
 
         // DASH
@@ -20500,18 +20520,22 @@ Settings.MOC(TAG_GUI, caller);
 
         // STOP CURRENT STAGE LOOPS
         String oo = this_RTabsClient.progress_POLL();
-//*POLL*/Settings.MOC(TAG_POLL, "set_APP_freezed_state("+state+"): "+oo);
+//*POLL*/Settings.MOC(TAG_POLL, caller+": "+oo);
 
         if( Settings.FREEZED )
         {
-            handler.removeCallbacks( hr_data_looper );
-            handler.removeCallbacks( hr_poll_looper );
+            data_looper_stop(caller);
+
+            poll_looper_stop(caller);
         }
         // RESTART CURRENT STAGE LOOPS
         else {
             this_RTabsClient.clear_max_connection_failed(caller);
+
             if( !Settings.OFFLINE )
                 enter_notification_loop(current_stage,   caller);
+
+            poll_looper_start(caller);
         }
     }
 //}}}
@@ -20529,14 +20553,15 @@ Settings.MOC(TAG_GUI, caller);
             this_RTabsClient.disconnect(caller);
 
         // LOG
-        if(D) MLog.log(Settings.OFFLINE ? Settings.SYMBOL_offline+" OFFLINE\n" : Settings.SYMBOL_offline+" ONLINE");
+if(D) MLog.log(Settings.OFFLINE ? Settings.SYMBOL_offline+" OFFLINE\n" : Settings.SYMBOL_offline+" ONLINE");
+
         update_log_container_scrolling();
 
         // DASH
         this_RTabsClient.update_dash();
 
         // UI
-        set_np_label_bg("OFFLINE"
+        set_np_label_bg(  "OFFLINE"
                 , Settings.OFFLINE ? "OFFLINE"                : "ONLINE"
                 , Settings.OFFLINE ? Settings.COLOR_FIREBRICK : Settings.COLOR_FORESTGREEN
                 );
@@ -20547,14 +20572,15 @@ Settings.MOC(TAG_GUI, caller);
 
         if( Settings.OFFLINE )
         {
-            handler.removeCallbacks( hr_data_looper );
-            handler.removeCallbacks( hr_poll_looper );
+            data_looper_stop(caller);
+
+            // keep poll_looper running (sensing battery status)
         }
         // RESTART CURRENT STAGE LOOPS
-        else {
+        else if( !Settings.FREEZED )
+        {
             this_RTabsClient.clear_max_connection_failed(caller);
-            if( !Settings.FREEZED )
-                enter_notification_loop(current_stage,   caller);
+            enter_notification_loop(STAGE6_CONNECTING,   caller);
         }
     }
 //}}}

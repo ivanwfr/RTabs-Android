@@ -1,15 +1,20 @@
 ###############################################################################
-### https://github.com/ivanwfr/RTabs-Android ##### Makefile_TAG (200722:18h:35)
+### Makefile_TAG (200731:16h:58) ### ANDROID (GITHUB) #########################
 ###############################################################################
-# VARS {{{
- ORIGIN = https://github.com/ivanwfr/RTabs-Android 
-    JAR = jar.exe
-#}}}
 
+### ANDROID:
+### ✔✔✔ $APROJECTS/GITHUB/Makefile
+###     $APROJECTS/Makefile
+
+### DESKTOP:
+###     $WPROJECTS/GITHUB/Makefile
+###     $WPROJECTS/Makefile
+
+ORIGIN = https://github.com/ivanwfr/RTabs-Android 
 include Make_GIT
 
-:cd %:h|make view_project
-view_project: #{{{
+:cd %:h|silent! make view_project_on_GITHUB
+view_project_on_GITHUB: #{{{
 	explorer $(ORIGIN)
 
 #}}}
@@ -17,7 +22,7 @@ view_project: #{{{
 :cd %:h|up|only|set columns=999|vert terminal ++cols=150 make links
 links: #{{{
 	(\
-	    $(JAR) xvf RTabs_*.zip;\
+	    jar xvf RTabs_*.zip;\
 	    )
 	#}}}
 
