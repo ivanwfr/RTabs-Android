@@ -654,9 +654,9 @@ public class Settings
 //  public  static final int    FS_SELECT_TEXTCOLOR     = Color.RED;
     // }}}
     // HIST {{{
-    public  static final String BACK_NB_INFO            = "\n...profile BACK navigation\n...(alphabetic order)";
-    public  static final String FORE_NB_INFO            = "\n...profile FORWARD navigation\n...(alphabetic order)";
-    public  static final String PROF_NB_INFO            = "\n...profile LIST";
+    public  static final String BACK_NB_INFO            = "\n...Profile BACK navigation\n...(alphabetic order)";
+    public  static final String FORE_NB_INFO            = "\n...Profile FORWARD navigation\n...(alphabetic order)";
+    public  static final String PROF_NB_INFO            = "\n...Profile LIST";
 
     // }}}
     // CART {{{

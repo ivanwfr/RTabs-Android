@@ -35,15 +35,7 @@
     <option name="LOGCAT_FORMAT_STRING" value="%4$c: %6$s" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0587b481-35f8-493c-bd71-dc3700a4b3b2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ivanwfr/rtabs/RTabs.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ivanwfr/rtabs/RTabs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ivanwfr/rtabs/RTabsClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ivanwfr/rtabs/RTabsClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ivanwfr/rtabs/WVTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ivanwfr/rtabs/WVTools.java" afterDir="false" />
-    </list>
+    <list default="true" id="0587b481-35f8-493c-bd71-dc3700a4b3b2" name="Default" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +47,6 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.1.18:5555" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -109,8 +100,8 @@
     <option name="KEY_ALIAS" value="rtabs" />
     <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  <component name="KotlinCompilerWorkspaceSettings">
+    <option name="enableDaemon" value="false" />
   </component>
   <component name="ProjectId" id="1aYEtNWsFQPvwtdFoAEhOEgfBcD" />
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -180,7 +171,6 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -210,7 +200,7 @@
     <property name="project.structure.last.edited" value="Suggestions" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Properties" />
@@ -322,31 +312,8 @@
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
       <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
-      <Auto>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Auto>
-      <Hybrid>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Hybrid>
+      <option name="DEBUGGER_TYPE" value="Java" />
       <Java />
-      <Native>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Native>
       <Profilers>
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
@@ -374,31 +341,8 @@
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
       <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
-      <Auto>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Auto>
-      <Hybrid>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Hybrid>
+      <option name="DEBUGGER_TYPE" value="Java" />
       <Java />
-      <Native>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Native>
       <Profilers>
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
@@ -426,31 +370,8 @@
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
       <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
-      <Auto>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Auto>
-      <Hybrid>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Hybrid>
+      <option name="DEBUGGER_TYPE" value="Java" />
       <Java />
-      <Native>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Native>
       <Profilers>
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
@@ -564,29 +485,34 @@
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
     <state x="1380" y="160" width="1080" height="1300" key="DiffContextDialog/0.0.2560.1600@0.0.2560.1600" timestamp="1593867098795" />
-    <state x="733" y="175" key="FileChooserDialogImpl" timestamp="1595352923976">
+    <state x="733" y="175" key="FileChooserDialogImpl" timestamp="1596643393418">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
+    <state x="733" y="175" key="FileChooserDialogImpl/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643393418" />
     <state x="733" y="175" key="FileChooserDialogImpl/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595352923976" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom" timestamp="1596208980602">
+    <state width="571" height="1109" key="GridCell.Tab.0.bottom" timestamp="1596643728019">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596208980602" />
+    <state width="571" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728019" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
     <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.center" timestamp="1596208980602">
+    <state width="571" height="1109" key="GridCell.Tab.0.center" timestamp="1596643728018">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
-    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596208980602" />
+    <state width="571" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
     <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.left" timestamp="1596208980602">
+    <state width="571" height="1109" key="GridCell.Tab.0.left" timestamp="1596643728018">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
-    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596208980602" />
+    <state width="571" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
     <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.right" timestamp="1596208980602">
+    <state width="571" height="1109" key="GridCell.Tab.0.right" timestamp="1596643728018">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
-    <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596208980602" />
+    <state width="571" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
     <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
     <state width="1220" height="779" key="GridCell.Tab.1.bottom" timestamp="1593894066244">
       <screen x="0" y="0" width="2560" height="1600" />
@@ -608,9 +534,10 @@
     </state>
     <state width="1220" height="779" key="GridCell.Tab.1.right/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593894066244" />
     <state width="1220" height="587" key="GridCell.Tab.1.right/0.0.2560.1600@0.0.2560.1600" timestamp="1593870139773" />
-    <state x="194" y="119" key="SettingsEditor" timestamp="1595855604892">
+    <state x="993" y="390" key="SettingsEditor" timestamp="1596642285480">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
+    <state x="993" y="390" key="SettingsEditor/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596642285480" />
     <state x="194" y="119" key="SettingsEditor/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595855604892" />
     <state x="1454" y="545" width="932" height="569" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1593869313628">
       <screen x="0" y="0" width="2560" height="1600" />
