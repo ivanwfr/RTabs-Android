@@ -36,7 +36,7 @@ import java.util.Map;
 public class WVTools implements Settings.ClampListener
 {
     /** VAR */
-    private static       String WVTools_tag    = "(200704:21h:46)";
+    private static       String WVTools_tag    = "(200804:15h:46)";
     //{{{
     // MONITOR TAGS {{{
     private static       String TAG_EV0_WV_DP  = Settings.TAG_EV0_WV_DP;
@@ -2758,7 +2758,7 @@ public class WVTools implements Settings.ClampListener
     private static  boolean is_a_marker_name(String   name     ) { return name.startsWith( WV_TOOL_mark      ); }
 
     // is_a_(tag)
-    private static  boolean is_a_tool_tag   (String   tag      ) {
+    public  static  boolean is_a_tool_tag   (String   tag      ) {
         return (Settings.FREE_TAG          == tag )
             ||  RTabs   .is_ACTIVITY_BUILTIN( tag )
             ||  Settings.is_SETTINGS_BUILTIN( tag )

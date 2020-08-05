@@ -19,8 +19,8 @@ view_project_on_GITHUB: #{{{
 
 #}}}
 
-:cd %:h|up|only|set columns=999|vert terminal ++cols=150 make links
-links: #{{{
+:cd %:h|up|only|set columns=999|vert terminal ++cols=150 make unzip
+unzip: #{{{
 	(\
 	    jar xvf RTabs_*.zip;\
 	    )

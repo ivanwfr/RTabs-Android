@@ -54,7 +54,7 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200731:15h:49)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200805:16h:17)";
     // LOGGING
     public  static boolean  D = Settings.D;
     public  static void Set_D(boolean state) { if(D||M) log("RTabsClient.Set_D("+state+")"); D = state; }
@@ -3051,15 +3051,42 @@ if(D||M) history_get_profile_names();
     //}}}
     //* back * frwd * size * empty {{{ */
 
-    public    void history_back      () { if( !back_stack.isEmpty() ) _load_USER_PROFILE( back_stack.pop(), HISTORY_BAK, "history_back"); }
-    public    void history_frwd      () { if( !frwd_stack.isEmpty() ) _load_USER_PROFILE( frwd_stack.pop(), HISTORY_FWD, "history_frwd"); }
+    public    void history_back      () { if(    !back_stack.isEmpty() ) _load_USER_PROFILE( back_stack.pop(), HISTORY_BAK, "history_back"); }
+    public    void history_frwd      () { if(    !frwd_stack.isEmpty() ) _load_USER_PROFILE( frwd_stack.pop(), HISTORY_FWD, "history_frwd"); }
 
-    public    void history_frwd_clear() { frwd_stack.clear(); }
-    public    void history_back_clear() { back_stack.clear(); }
+    public    void history_frwd_clear() {         frwd_stack.clear(); }
+    public    void history_back_clear() {         back_stack.clear(); }
 
-    public     int history_back_size () { return back_stack.size(); }
-    public     int history_frwd_size () { return frwd_stack.size(); }
+    public     int history_back_size () { return  back_stack.size(); }
+    public     int history_frwd_size () { return  frwd_stack.size(); }
     public boolean history_is_empty  () { return (frwd_stack.size() == 0) && (back_stack.size() == 0); }
+
+    /* history_back_list {{{*/
+    public String history_back_list()
+    {
+        String    back_list = "";
+        Stack             s = (Stack)back_stack.clone();
+        for(int count=0; !s.isEmpty(); ++count)
+            back_list
+                =  (count + 1) + " "  + (String) s.pop()
+                + ((count < 1) ?  ""  : "\n"+ back_list);
+
+        return back_list;
+    }
+    /*}}}*/
+    /* history_frwd_list {{{*/
+    public String history_frwd_list()
+    {
+        String    frwd_list = "";
+        Stack             s = (Stack)frwd_stack.clone();
+        for(int count=0; !s.isEmpty(); ++count)
+            frwd_list
+                = ((count < 1) ?  ""  : frwd_list +"\n")
+                +  (count + 1) + " "  + (String) s.pop();
+
+        return frwd_list;
+    }
+    /*}}}*/
 
     //}}}
 
