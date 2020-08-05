@@ -15,8 +15,8 @@ android {
         applicationId "ivanwfr.rtabs"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 33
-        versionName '0.200720'
+        versionCode 34
+        versionName '0.200805'
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
         //noinspection GroovyAssignabilityCheck
         signingConfig signingConfigs.signing_config
@@ -32,29 +32,29 @@ android {
             applicationId 'ivanwfr.rtabs'
             minSdkVersion 21
             targetSdkVersion 28 // Android 9 update required on November 1, 2019
-            versionCode 33      // https://developer.android.com/distribute/best-practices/develop/target-sdk
-            versionName '0.200720'
+            versionCode 34      // https://developer.android.com/distribute/best-practices/develop/target-sdk
+            versionName '0.200805'
         }
         API28 {
             applicationId 'ivanwfr.rtabs'
             minSdkVersion 21
             targetSdkVersion 28
-            versionCode 33
-            versionName '0.200720'
+            versionCode 34
+            versionName '0.200805'
         }
         API22 {
             applicationId 'ivanwfr.rtabs'
             minSdkVersion 19
             targetSdkVersion 22
-            versionCode 33
-            versionName '0.200720'
+            versionCode 34
+            versionName '0.200805'
         }
         API21 {
             applicationId 'ivanwfr.rtabs'
             minSdkVersion 19
             targetSdkVersion 21
-            versionCode 33
-            versionName '0.200720'
+            versionCode 34
+            versionName '0.200805'
         }
     }
     compileOptions {
