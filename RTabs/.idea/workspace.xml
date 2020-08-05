@@ -49,7 +49,6 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.1.18:5555" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -103,8 +102,8 @@
     <option name="KEY_ALIAS" value="rtabs" />
     <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  <component name="KotlinCompilerWorkspaceSettings">
+    <option name="enableDaemon" value="false" />
   </component>
   <component name="KotlinCompilerWorkspaceSettings">
     <option name="enableDaemon" value="false" />
@@ -177,7 +176,6 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -497,6 +495,7 @@
     </state>
     <state x="733" y="175" key="FileChooserDialogImpl/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643393418" />
     <state x="733" y="175" key="FileChooserDialogImpl/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595352923976" />
+<<<<<<< HEAD
     <state width="1220" height="1109" key="GridCell.Tab.0.bottom" timestamp="1596645227815">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
@@ -519,6 +518,30 @@
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
     <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596645227815" />
+=======
+    <state width="571" height="1109" key="GridCell.Tab.0.bottom" timestamp="1596643728019">
+      <screen x="0" y="0" width="2560" height="1600" />
+    </state>
+    <state width="571" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728019" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
+    <state width="571" height="1109" key="GridCell.Tab.0.center" timestamp="1596643728018">
+      <screen x="0" y="0" width="2560" height="1600" />
+    </state>
+    <state width="571" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
+    <state width="571" height="1109" key="GridCell.Tab.0.left" timestamp="1596643728018">
+      <screen x="0" y="0" width="2560" height="1600" />
+    </state>
+    <state width="571" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
+    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
+    <state width="571" height="1109" key="GridCell.Tab.0.right" timestamp="1596643728018">
+      <screen x="0" y="0" width="2560" height="1600" />
+    </state>
+    <state width="571" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
+>>>>>>> 995d953026a6e48d75bfd549a73159ac45b73346
     <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
     <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
     <state width="1220" height="779" key="GridCell.Tab.1.bottom" timestamp="1593894066244">
