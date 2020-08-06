@@ -110,11 +110,11 @@ import ivanwfr.rtabs.util.SystemUiHider;
 // Comment {{{
 
 // }}}
+// Rtabs_TAG = "RTabs (200806:18h:09)";
 public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
     //{{{
-    public static        String RTABS_JAVA_TAG = "RTabs (200805:16h:30)";
     // MONITOR TAGS {{{
     private static       String TAG_EV0_RT_DP  = Settings.TAG_EV0_RT_DP;
     private static       String TAG_EV1_RT_IN  = Settings.TAG_EV1_RT_IN;
@@ -12696,14 +12696,18 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.get_WebVie
             String url = uri.toString();
 //*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller, "url ["+url+" ]");
 
-            return shouldOverrideUrlLoading(wv, url);
-        }
+// deprecated {{{
+//            return shouldOverrideUrlLoading(wv, url);
+//        }
+//
+//        // deprecated (200806)
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView wv, String url)
+//        {
+//            String caller = "shouldOverrideUrlLoading(wv , url)";
+////*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller,    "wv ["+wv +"]");
+//}}}
 
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView wv, String url)
-        {
-            String caller = "shouldOverrideUrlLoading(wv , url)";
-//*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller,    "wv ["+wv +"]");
 //*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller,   "url ["+url+"]");
 
             if( url.startsWith("mailto:") )

@@ -3,6 +3,8 @@ package ivanwfr.rtabs; // {{{
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
@@ -11,8 +13,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
-import android.text.format.DateUtils;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -46,7 +48,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (200728:17h:35) =========================== [KEY_VAL pairs]
+// Settings_TAG (200806:17h:46) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -835,8 +837,9 @@ public class Settings
     private static File _Get_Downloads_dir()
     {
         String       type = Environment.DIRECTORY_DOWNLOADS;
-        File download_dir = Environment.getExternalStoragePublicDirectory( type ); // (191028)
       //File download_dir = Environment.getExter.buildExternalStoragePublicDirs(type)[0];
+      //File download_dir = Environment.getExternalStoragePublicDirectory( type );                  // (191028) .. deprecated
+        File download_dir = RTabs.activity.getExternalFilesDir( Environment.DIRECTORY_DOWNLOADS );  // (200806)
 
 //*SETTINGS*/Settings.MOC(TAG_SETTINGS, "_Get_Downloads_dir: Environment.getExternalStoragePublicDirectory("+ type +")=["+ download_dir +"].exists=["+ download_dir.exists() +"]");
         return download_dir;
@@ -913,24 +916,28 @@ public class Settings
 //*SETTINGS*/Check_Profiles_dir(true); // for_logging
 
         String dd = Environment.DIRECTORY_DOWNLOADS;
-        String q; // .. (question)
-        String a; // .. (answer)
+        String q;    // .. (question)
+        String a;    // .. (answer)
+        String s;    // .. (string)
+        File   f;    // .. (file)
+        File   d;    // .. (directory)
+        File[] dirs; // .. (directory)
 
-        String    s = Environment.getExternalStorageState()                  ; q = "Environment.getExternalStorageState()"                                ; a = "["+ s +"]"                                                             ; Log_append(String.format("%64s == %s", q, a));
-        File      d = RTabs.activity.getFilesDir()                                 ; q = "RTabs.activity.getFilesDir()"                                               ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
-        /**/      d = Environment.getExternalStorageDirectory(              ); q = "Environment.getExternalStorageDirectory()"                            ; a = "["+ d +"].exists=["+ d_exists(d) +"] path=["+ d.getAbsolutePath() +"]" ; Log_append(String.format("%64s == %s", q, a));
-        /**/      d = Environment.getExternalStoragePublicDirectory( dd     ); q = "Environment.getExternalStoragePublicDirectory("+ dd +")"              ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
+//deprecated      s = Environment.getExternalStorageState()                  ; q = "Environment.getExternalStorageState()"                                ; a = "["+ s +"]"                                                             ; Log_append(String.format("%64s == %s", q, a));
+        /**/      d = RTabs.activity.getFilesDir()                           ; q = "RTabs.activity.getFilesDir()"                                         ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
+//deprecated      d = Environment.getExternalStorageDirectory(              ); q = "Environment.getExternalStorageDirectory()"                            ; a = "["+ d +"].exists=["+ d_exists(d) +"] path=["+ d.getAbsolutePath() +"]" ; Log_append(String.format("%64s == %s", q, a));
+//deprecated      d = Environment.getExternalStoragePublicDirectory( dd     ); q = "Environment.getExternalStoragePublicDirectory("+ dd +")"              ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
         /**/      d = RTabs.activity.getDir             (dd, Context.MODE_PRIVATE ); q = "RTabs.activity.getDir("+                               dd +", MODE_PRIVATE)"; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
         /**/      d = RTabs.activity.getExternalFilesDir(dd                       ); q = "RTabs.activity.getExternalFilesDir("+                  dd +")"              ; a = "["+ d +"].exists=["+ d_exists(d) +"] .. (deleted on app uninstall)"    ; Log_append(String.format("%64s == %s", q, a));
 
-        File[] dirs = RTabs.activity.getExternalFilesDirs(null); for(int i=0; i<dirs.length; ++i) { d = dirs[i]; q = "getExternalFilesDirs(null): ["+i+"]"      ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a)); }
+        /**/   dirs = RTabs.activity.getExternalFilesDirs(null); for(int i=0; i<dirs.length; ++i) { d = dirs[i]; q = "getExternalFilesDirs(null): ["+i+"]"      ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a)); }
         /**/   dirs = RTabs.activity.getObbDirs()              ; for(int i=0; i<dirs.length; ++i) { d = dirs[i]; q =               "getObbDirs(): ["+i+"]"      ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a)); }
         /**/   dirs = RTabs.activity.getExternalCacheDirs()    ; for(int i=0; i<dirs.length; ++i) { d = dirs[i]; q =     "getExternalCacheDirs(): ["+i+"]"      ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a)); }
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         /**/   dirs = RTabs.activity.getExternalMediaDirs()    ; for(int i=0; i<dirs.length; ++i) { d = dirs[i]; q =     "getExternalMediaDirs(): ["+i+"]"      ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a)); }
 
         /**/      d = Get_Profiles_dir()                              ; q = "Profiles and Personal Note are saved in "                                    ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
-        File      f = new File(_Get_Settings_dir(), SETTINGS_FILENAME); q = "Settings are saved in "                                                      ; a = "["+ f +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
+        /**/      f = new File(_Get_Settings_dir(), SETTINGS_FILENAME); q = "Settings are saved in "                                                      ; a = "["+ f +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
 
 
         /**/      s = "/sdcard"         ; d = new File(s)             ; q = s                                                                             ; a = "["+ d +"].exists=["+ d_exists(d) +"]"                                  ; Log_append(String.format("%64s == %s", q, a));
@@ -3797,8 +3804,14 @@ Settings.MON(TAG_SETTINGS, "Track_last_Working_profile():\n"
             drawables[0] = textView.getContext().getResources().getDrawable(mCursorDrawableRes, null);
             drawables[1] = textView.getContext().getResources().getDrawable(mCursorDrawableRes, null);
 
+            // deprecated (200806)
             drawables[0].setColorFilter(color, PorterDuff.Mode.SRC_IN);
             drawables[1].setColorFilter(color, PorterDuff.Mode.SRC_IN);
+
+          // FIXME .. (cursor is not visible with this replacement)
+          //BlendModeColorFilter         colorFilter = new BlendModeColorFilter(color, BlendMode.SRC_IN);
+          //drawables[0].setColorFilter( colorFilter );
+          //drawables[1].setColorFilter( colorFilter );
 
             fCursorDrawable.set(editor, drawables);
         }
