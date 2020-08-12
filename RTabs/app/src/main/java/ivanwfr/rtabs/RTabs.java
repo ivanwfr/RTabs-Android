@@ -110,7 +110,7 @@ import ivanwfr.rtabs.util.SystemUiHider;
 // Comment {{{
 
 // }}}
-// Rtabs_TAG = "RTabs (200806:18h:09)";
+// Rtabs_TAG = "RTabs (200812:17h:46)";
 public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
@@ -9483,7 +9483,7 @@ Settings.MON(TAG_FULLSCREEN, "\n"
         // SHOW ONLY ONE WEBVIEW
         adjust_WEBVIEW_LAYOUT(1, caller);
 
-        // animate to current grab-state .. (adjusting all visible WEBVIEWS geometry in tne process)
+        // animate to current grab-state .. (adjusting all visible WEBVIEWS geometry in the process)
         if( fs_webView_isGrabbed )  anim_grab_fs_webView(caller); // WEBVIEW (anim)
         else                        anim_free_fs_webView(caller); // WEBVIEW (anim)
 
@@ -9509,7 +9509,7 @@ Settings.MON(TAG_FULLSCREEN, "\n"
         // SHOW ONLY ONE WEBVIEW
         adjust_WEBVIEW_LAYOUT(1, caller);
 
-        // animate to current grab-state .. (adjusting all visible WEBVIEWS geometry in tne process)
+        // animate to current grab-state .. (adjusting all visible WEBVIEWS geometry in the process)
         if( fs_webView_isGrabbed )  anim_grab_fs_webView(caller); // WEBVIEW (anim)
         else                        anim_free_fs_webView(caller); // WEBVIEW (anim)
 
@@ -9564,7 +9564,7 @@ Settings.MON(TAG_FULLSCREEN, "\n"
         // SHOW PREVIOUSLY DISPLAYED WEBVIEWS
         adjust_WEBVIEW_LAYOUT(get_fs_webView_count(), caller);
 
-        // animate to current grab-state .. (adjusting all visible WEBVIEWS geometry in tne process)
+        // animate to current grab-state .. (adjusting all visible WEBVIEWS geometry in the process)
         if( fs_webView_isGrabbed )  anim_grab_fs_webView(caller); // WEBVIEW (anim)
         else                        anim_free_fs_webView(caller); // WEBVIEW (anim)
 
@@ -12097,6 +12097,7 @@ Settings.MOC(TAG_JAVASCRIPT, "onReceiveValue", value.replace("\\n","\n"));
         public  void clear_selection()
         {
 //*JAVASCRIPT*/Settings.MOC(TAG_JAVASCRIPT, "clear_selection");
+if(D || Settings.LOG_CAT) MLog.log("MWebView.clear_selection");
 
             /* RTabs    */ selection_value = null;          // [NO SEARCH VALUE]
             /* WVTools  */ wvTools.sb_show_SELECT_clear();  // [NO SEARCH IN PROGRESS]
@@ -14285,14 +14286,20 @@ Settings.set_BOOKMARK_TITLE( title );
         if( is_view_showing(fs_webView2)) /*......................*/ fs_webView2.setVisibility( View.GONE );
         if( is_view_showing(fs_webView3)) /*......................*/ fs_webView3.setVisibility( View.GONE );
 
-        if( wvTools.sb        != null   ) /*......................*/ wvTools.sb .setVisibility( View.GONE );
-        if( wvTools.sb2       != null   ) /*......................*/ wvTools.sb2.setVisibility( View.GONE );
-        if( wvTools.sb3       != null   ) /*......................*/ wvTools.sb3.setVisibility( View.GONE );
+        // RELEASE ANY SELECTION .. (TO KILL COPY-PASTE POPUP)
+        if(fs_webView  != null) fs_webView .clear_selection();
+        if(fs_webView2 != null) fs_webView2.clear_selection();
+        if(fs_webView3 != null) fs_webView3.clear_selection();
 
         wvTools.fs_search_hide_if_not_clamping();
         wvTools.marker_clear_pending_updates(caller);
         wvTools.marker_hide_all_markers     (caller);
         wvTools.marker_wv_sync              (caller);
+
+        // WEBVIEW TOOLS
+        if( wvTools.sb        != null   ) /*......................*/ wvTools.sb .setVisibility( View.GONE );
+        if( wvTools.sb2       != null   ) /*......................*/ wvTools.sb2.setVisibility( View.GONE );
+        if( wvTools.sb3       != null   ) /*......................*/ wvTools.sb3.setVisibility( View.GONE );
 
         // [fs_webViewX] (PAUSE)
         if( fs_webView        != null   ) /*......................*/ fs_webView .onPause();
