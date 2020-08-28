@@ -110,7 +110,7 @@ import ivanwfr.rtabs.util.SystemUiHider;
 // Comment {{{
 
 // }}}
-// Rtabs_TAG = "RTabs (200812:17h:46)";
+// Rtabs_TAG = "RTabs (200828:17h:21)";
 public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
@@ -5630,13 +5630,20 @@ _fg_view.setBackgroundColor(Settings.HIST_COLOR & 0xDD111111); // XXX THEMED DAR
     private final View.OnTouchListener fg_view_OnTouchListener = new View.OnTouchListener() {
         @Override public boolean onTouch(View view, MotionEvent event)
         {
-            int action = event.getActionMasked();
-            if(action == MotionEvent.ACTION_UP  ) {
-//*EV1_RT_IN*/Settings.MON(TAG_EV1_RT_IN, "fg_view_OnTouchListener", "ACTION_UP: calling hide_fg_view");
-                hide_fg_view("fg_view_OnTouchListener.onTouch");
+            String caller   = "fg_view_OnTouchListener.onTouch";
+            int    action   = event.getActionMasked();
+
+            if(    action  == MotionEvent.ACTION_UP  )
+            {
+//*EV1_RT_IN*/Settings.MON(TAG_EV1_RT_IN, caller, "ACTION_UP: hide_fg_view .. sync_tabs_scrolling");
+
+                hide_fg_view       (     caller );
+                sync_tabs_scrolling(     caller );
             }
-            else if(action == MotionEvent.ACTION_CANCEL  ) {
-//*EV1_RT_IN*/Settings.MON(TAG_EV1_RT_IN, "fg_view_OnTouchListener", "ACTION_CANCEL");
+            else if(action == MotionEvent.ACTION_CANCEL  )
+            {
+//*EV1_RT_IN*/Settings.MON(TAG_EV1_RT_IN, caller, "ACTION_CANCEL");
+
             }
 
             return true; // keep-on handling this event chain
@@ -7127,7 +7134,7 @@ if(D||M) Settings.MOC(TAG_HANDLE, caller);
         // SET EXCLUSIVE BAND VISIBILITY
         String caller = "make_band_visible("+get_view_name(selected_band)+")";
 
-        if(     selected_band == dock_band)
+        if(     selected_band == dock_band) //{{{
         {
             dock_band.setVisibility( View.VISIBLE );
             hist_band.setVisibility( View.GONE    );
@@ -7136,8 +7143,8 @@ if(D||M) Settings.MOC(TAG_HANDLE, caller);
 //BAND*/Settings.MOC(TAG_BAND, caller);
             show_DOCKINGS_TABLE(caller);
             show_band.set_selected( show_band.dock_show );
-        }
-        else if(selected_band == hist_band)
+        } //}}}
+        else if(selected_band == hist_band) //{{{
         {
             dock_band.setVisibility( View.GONE    );
             hist_band.setVisibility( View.VISIBLE );
@@ -7145,8 +7152,8 @@ if(D||M) Settings.MOC(TAG_HANDLE, caller);
 
 //*BAND*/Settings.MOC(TAG_BAND, caller);
             show_band.set_selected ( show_band.hist_show );
-        }
-        else if(selected_band == cart_band)
+        } //}}}
+        else if(selected_band == cart_band) //{{{
         {
             dock_band.setVisibility( View.GONE    );
             hist_band.setVisibility( View.GONE    );
@@ -7154,7 +7161,7 @@ if(D||M) Settings.MOC(TAG_HANDLE, caller);
 
 //*BAND*/Settings.MOC(TAG_BAND, caller);
             show_band.set_selected ( show_band.cart_show );
-        }
+        } //}}}
 //dck_handle.requestLayout();
 //handles_container.requestLayout();
     }
@@ -16497,7 +16504,7 @@ private final Runnable hr_fs_webView_GRAB_Z  = new Runnable() {
         public boolean onScale(ScaleGestureDetector scaleGestureDetector)
         {
             //{{{
-//*EV1_RT_IN*/String caller = "MScaleGestureListener.onScale";//TAG_EV1_RT_IN
+             String caller = "MScaleGestureListener.onScale";
 //*EV1_RT_IN*/Settings.MOC(TAG_EV1_RT_IN, caller);
 
             //}}}
@@ -16508,8 +16515,8 @@ private final Runnable hr_fs_webView_GRAB_Z  = new Runnable() {
             if( !rescaling )
             {
                 // INTERRUPT ONGOING STAGED PROCESSES
-                stop_GLOWING("onScale");
-                this_RTabsClient.stop_GROUPING("onScale");
+                stop_GLOWING(caller);
+                this_RTabsClient.stop_GROUPING(caller);
                 start_RESCALING();
             }
             //}}}
@@ -16696,7 +16703,7 @@ private final Runnable hr_fs_webView_GRAB_Z  = new Runnable() {
 
         // CANCEL COMMITED TOAST {{{
 //*EV2_RT_CB*/Settings.MOC(TAG_EV2_RT_CB, "...toast_again_commited=["+toast_again_commited+"]");
-        if(toast_again_commited )
+        if( toast_again_commited )
         {
             toast_again_commited = false;
             toast_cancel();
@@ -16708,17 +16715,19 @@ private final Runnable hr_fs_webView_GRAB_Z  = new Runnable() {
     private   final Runnable hr_long_touch = new Runnable() {
         @Override public void run()
         {
-//*EV2_RT_CB*/Settings.MOC(TAG_EV2_RT_CB,"hr_long_touch: gesture_down_SomeView_atXY=["+ get_view_name( gesture_down_SomeView_atXY ) +"]");
+            String caller = "hr_long_touch.run";
+//*EV2_RT_CB*/Settings.MOC(TAG_EV2_RT_CB,caller+": gesture_down_SomeView_atXY=["+ get_view_name( gesture_down_SomeView_atXY ) +"]");
+
+            if(gesture_down_SomeView_atXY != null) return;
+
             /* toast_again {{{*/
-            if(gesture_down_SomeView_atXY == null)
-            {
-                toast_again_commited = true;
-                toast_again();
-            }
+            toast_again_commited = true;
+            toast_again();
+
             /*}}}*/
             /* [onLongTouchScaleZoomCycle] (180718) {{{*/
-//*SCALE*/Settings.MOC(TAG_SCALE, "hr_long_touch: gesture_down_SomeView_atXY=["+ get_view_name( gesture_down_SomeView_atXY ) +"]");
-            if((gesture_down_SomeView_atXY == null) && check_scaling_allowed("hr_long_touch"))
+//*SCALE*/Settings.MOC(TAG_SCALE, caller+": gesture_down_SomeView_atXY=["+ get_view_name( gesture_down_SomeView_atXY ) +"]");
+            if( check_scaling_allowed(caller) )
             {
                 rescaled_since_ondown = true;
                 scaleZoomCycle();
@@ -16847,7 +16856,7 @@ private final Runnable hr_fs_webView_GRAB_Z  = new Runnable() {
         //}}}
         // TOUCH VIEWS CHECK [    XY] [wvContainer] [fs_webViewX] [cart hist] [top_handle mid_handle bot_handle] {{{
         gesture_down_SomeView_atXY = get_FF_W_C_HH_T_atXY((int)x, (int)y);
-//*EV2_RT_CB*/Settings.MOM(TAG_EV2_RT_CB,"get_FF_W_C_HH_T_atXY returned: gesture_down_SomeView_atXY=["+ get_view_name( gesture_down_SomeView_atXY ) +"]");
+//*EV2_RT_CB*/Settings.MOM(TAG_EV2_RT_CB,"get_FF_W_C_HH_T_atXY returned: ["+ get_view_name( gesture_down_SomeView_atXY ) +"]");
 //*EV2_RT_CB*/Settings.MOM(TAG_EV2_RT_CB,"...is_tabs_scrolling()=["+is_tabs_scrolling()+"]");
         //}}}
         // }}}
@@ -17396,7 +17405,7 @@ private final Runnable hr_fs_webView_GRAB_Z  = new Runnable() {
         else if( onScroll_3_BAND             (    distanceX, distanceY) ) consumed_by = "onScroll_3_BAND";
 
         // [return consumed_by] {{{
-//*EV1_RT_OK*/ Settings.MON(TAG_EV3_RT_SC, caller, "...return (consumed_by="+consumed_by+")");
+//*EV3_RT_SC*/ Settings.MON(TAG_EV3_RT_SC, caller, "...return (consumed_by="+consumed_by+")");
         return (consumed_by != null);
         //}}}
     }
@@ -18043,6 +18052,7 @@ Settings.MON(TAG_EV3_RT_SC, "onScroll", "(dck_handle.getScrollX() == 0): "+ (dck
     private void scaleZoomCycle()
     {
         /* 1 2 3 STEPS BEHAVIOR BORROWED FROM [MScaleGestureListener] handling */
+        String caller = "scaleZoomCycle";
 
         // 1 [onScaleBegin]
         //check_scaling_allowed(caller)
@@ -18050,13 +18060,13 @@ Settings.MON(TAG_EV3_RT_SC, "onScroll", "(dck_handle.getScrollX() == 0): "+ (dck
         // 2 [onScale]
 
         /* STOP CURRENTLY ONGOING PROCESSES */
-        stop_GLOWING("hr_long_touch");
-        this_RTabsClient.stop_GROUPING("hr_long_touch");
+        stop_GLOWING(caller);
+        this_RTabsClient.stop_GROUPING(caller);
 
         /* SET ZOOM PIVOT XY */
         xsv_focusX = last_ACTION_DOWN_X;
         xsv_focusY = last_ACTION_DOWN_Y;
-//System.err.println("scaleZoomCycle: xsv_focusXY=["+xsv_focusX+" "+xsv_focusY+"]");
+//System.err.println(caller+": xsv_focusXY=["+xsv_focusX+" "+xsv_focusY+"]");
         start_RESCALING();
 
         /* TOGGLE ZOOM IN OR OUT AT BOUDARIES */
@@ -19696,24 +19706,24 @@ Settings.MON(TAG_EV3_RT_SC, "onScroll", "(dck_handle.getScrollX() == 0): "+ (dck
     }
     //}}}
     // get_FF_W_C_HH_T_atXY {{{
-    //....[F]s_button..................(fs_button)
-    //.....[F]g_view...................(fg_view)
-    //.......[W]eb.....................(Webview title tools)
-    //.........[C]art..................(del see add end)
-    //...........[H]ist................(back fore prof)
-    //............[H]andle.............(top mid bot)
-    //..............[T]ab..............(profile)
+    //.1..[F]s_button..................(fs_button)
+    //.2...[F]g_view...................(fg_view)
+    //.3.....[W]eb.....................(Webview title tools)
+    //.4.......[C]art..................(del see add end)
+    //.5.........[H]ist................(back fore prof)
+    //.6..........[H]andle.............(top mid bot)
+    //.7............[T]ab..............(profile)
     private View get_FF_W_C_HH_T_atXY(int x, int y)
     {
         // 1 - [F]s_button .. (temporary magnified view) {{{
-//*GUI*/String caller = "get_FF_W_C_HH_T_atXY";//TAG_GUI
+        String caller = "get_FF_W_C_HH_T_atXY";
 
 //*GUI*/Settings.MON(TAG_GUI, caller, "1 - [F]s_button .. (temporary magnified view)");
         if( is_view_showing( fs_button )) return fs_button;
 
         // }}}
-        // 2 - fg_view .. (temporary forground view) {{{
-//*GUI*/Settings.MON(TAG_GUI, caller, "2 - fg_view .. (temporary forground view)");
+        // 2 - fg_view .. (temporary foreground view) {{{
+//*GUI*/Settings.MON(TAG_GUI, caller, "2 - fg_view .. (temporary foreground view)");
         if( is_fg_view_showing()        ) return get_fg_view();
 
         // }}}
@@ -19748,10 +19758,11 @@ Settings.MON(TAG_EV3_RT_SC, "onScroll", "(dck_handle.getScrollX() == 0): "+ (dck
             if( is_view_showing( wvContainer ))                      return wvContainer ; // WEBVIEW background
         }
         // }}}
-        // 4 - [C]art [H]ist [H]andle {{{
-//*GUI*/Settings.MON(TAG_GUI, caller, "5 - [C]art [H]ist [H]andle");
+        // 4 - [C]art .. 5 - [H]ist .. 6 - [H]andle {{{
+//*GUI*/Settings.MON(TAG_GUI, caller, "4 - [C]art [H]ist [H]andle");
 
         // (cart tools)
+//*GUI*/Settings.MON(TAG_GUI, caller, "4 - [C]art");
         if( is_view_showing( cart_band ) ) {
             x -= cart_band.getX();
             y -= cart_band.getY();
@@ -19760,6 +19771,7 @@ Settings.MON(TAG_EV3_RT_SC, "onScroll", "(dck_handle.getScrollX() == 0): "+ (dck
         }
 
         // (hist tools)
+//*GUI*/Settings.MON(TAG_GUI, caller, "5 - [H]ist");
         if( is_view_showing( hist_band ) ) {
             x -= hist_band.getX();
             y -= hist_band.getY();
@@ -19769,19 +19781,20 @@ Settings.MON(TAG_EV3_RT_SC, "onScroll", "(dck_handle.getScrollX() == 0): "+ (dck
         }
 
         // (handles)
+//*GUI*/Settings.MON(TAG_GUI, caller, "6 - [H]andle");
         if( is_handle_showing( top_handle )) {                                                    return top_handle; }
         if( is_handle_showing( bot_handle )) {                                                    return bot_handle; }
         if( is_handle_showing( mid_handle )) { mid_handle.getHitRect( r );                        return mid_handle; }
       //if( is_handle_showing( mid_handle )) { mid_handle.getHitRect( r ); if(!r.contains(x, y) ) return mid_handle; } // i.e. touched outside of controls area
 
         //}}}
-        // 5 - [T]ab {{{
-//*GUI*/Settings.MON(TAG_GUI, caller, "6 - [T]ab ");
+        // 7 - [T]ab {{{
+//*GUI*/Settings.MON(TAG_GUI, caller, "7 - [T]ab");
         if((this_RTabsClient != null) && is_tabs_scrolling())
         {
             int      np_x = x + hsv.getScrollX() + vsv.getScrollX() + tabs_container.getScrollX();
             int      np_y = y + hsv.getScrollY() + vsv.getScrollY() + tabs_container.getScrollY();
-            NotePane np   = this_RTabsClient.get_TABS_np_at_xy_closest(np_x, np_y, "get_FF_W_C_HH_T_atXY");
+            NotePane np   = this_RTabsClient.get_TABS_np_at_xy_closest(np_x, np_y, caller);
             if(        (np        != null            )
                     && (np.button != null            )
                     && (np.button instanceof NpButton)
@@ -22043,6 +22056,8 @@ if(D) MLog.log(Settings.OFFLINE ? Settings.SYMBOL_offline+" OFFLINE\n" : Setting
 :let @p="DATA"
 :let @p="DIALOG"
 :let @p="EV1_RT_IN"
+:let @p="EV2_RT_CB"
+:let @p="EV1_RT_OK"
 :let @p="FS_SEARCH"
 :let @p="FULLSCREEN"
 :let @p="GLOW"
