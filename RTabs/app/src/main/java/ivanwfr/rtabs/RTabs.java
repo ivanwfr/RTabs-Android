@@ -110,7 +110,7 @@ import ivanwfr.rtabs.util.SystemUiHider;
 // Comment {{{
 
 // }}}
-// Rtabs_TAG = "RTabs (200828:17h:21)";
+// Rtabs_TAG = "RTabs (200901:17h:43)";
 public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
@@ -3463,12 +3463,13 @@ if(M||D) MLog.log_center(caller);
         //}
         //}}}
         //}}}
-///* // LOG {{{
+        // LOG {{{
 //*GUI*/Settings.MOM(TAG_GUI, "......seekers["+ seekers_visible  +"]");
 //*GUI*/Settings.MOM(TAG_GUI, ".....controls["+ controls_visible +"]");
 //*GUI*/Settings.MOM(TAG_GUI, "..........cmd["+  cmd_visible     +"]");
 //*GUI*/Settings.MOM(TAG_GUI, "..........log["+  log_visible     +"]");
-//*/ //}}}
+        //}}}
+        sync_tabs_scrolling(caller); // (200831) CYCLE FREEZE STATE
     }
     //}}}
     // is_sysbars_visible {{{
@@ -11552,7 +11553,7 @@ if(scroll_off)
         {
             super.onDraw( canvas );
             // [page_boundary_paint] {{{
-            if(page_boundary_paint == null)
+            if( page_boundary_paint == null)
             {
                 page_boundary_paint = new Paint();
                 page_boundary_paint.setStyle( Paint.Style.FILL    );
@@ -11560,14 +11561,14 @@ if(scroll_off)
             }
             //}}}
             // [page_boundary_rect] {{{
-            if( !page_boundary_rect.isEmpty() )
+            if(!page_boundary_rect.isEmpty() )
             {
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "page_boundary_rect=["+page_boundary_rect+"]");
-                page_boundary_paint.setColor(Settings.COLORS_ECC[(1+page_boundary_idx) % Settings.COLORS_ECC.length] & 0x80FFFFFF);
+                int color_num   =  page_color_num  % Settings.COLORS_ECC.length;
+                int color_alpha = (color_num == 9) ? 0xD0FFFFFF : 0x80FFFFFF; // higher white opacity
+
+                page_boundary_paint.setColor(Settings.COLORS_ECC[color_num] & color_alpha);
+
                 canvas.drawRect(page_boundary_rect, page_boundary_paint);
-            }
-            else {
-//WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "page_boundary_rect.isEmpty");
             }
             //}}}
         }
@@ -11597,46 +11598,65 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.onResume: 
         //* WEBVIEW (page animation) {{{ */
         //{{{
         private Rect page_boundary_rect = new Rect();
-        private int   page_boundary_idx = 0;
-        private int      last_direction = 0;
+        private int  page_color_num     = 0;
         //}}}
-        // set_page_boundary_idx {{{
-        public void set_page_boundary_idx(int direction)
+        //➔ add_page_boundary_scroll_DY {{{ add_page_boundary_scroll_DY
+        public void add_page_boundary_scroll_DY(float scroll_DY)
         {
-            // RESET .. (first color)
-            if(direction == 0) {            // TODO .. (but when?)
-                page_boundary_idx = 0;
-            }
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "add_page_boundary_scroll_DY...........:");
             // NEXT STEP .. (next color)
-            else if(direction == last_direction) {
-                if     (direction > 0) page_boundary_idx += 1;
-                else if(direction < 0) page_boundary_idx -= 1;
-            }
-            // BACK STEP .. (keep current color)
-            else {
-                last_direction    = direction;
-            }
+            float scroll_offset = computeVerticalScrollOffset();
+            float     wv_height = getHeight();
+            float scroll_target = scroll_offset + scroll_DY * wv_height ;
+            page_color_num      = 1 + (int)(scroll_target   / wv_height);
 
-            // (keep indexes within colors collection)
-            if(page_boundary_idx < 0) page_boundary_idx += Settings.COLORS_ECC.length;
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, ".......................................");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "..page_color_num=["+ page_color_num +"]");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "...scroll_offset=["+ scroll_offset  +"]");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, ".......wv_height=["+ wv_height      +"]");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "...scroll_target=["+ scroll_target  +"]");
+
+           int          page_left   =                      getScrollX();
+           int          page_top    = (page_color_num-1) * getHeight ();
+           int          page_right  =  page_left         + getWidth  ();
+           int          page_bottom =  page_top          + getHeight ();
+
+           set_page_boundary_rect(page_left, page_top, page_right, page_bottom);
+
+            // COLOR RANGE .. (keep index within colors collection)
+            if(page_color_num < 0) page_color_num    += Settings.COLORS_ECC.length;
         }
         //}}}
-        // set_page_boundary_rect {{{
-        public void set_page_boundary_rect(int left, int top, int right, int bottom)
+        //➔ clr_page_boundary_scroll_DY {{{
+        public void clr_page_boundary_scroll_DY()
         {
-            if( !page_boundary_rect.isEmpty() ) handler.removeCallbacks( hr_clear_page_boundary_rect );
+            // RESET .. (first color)
+            page_color_num = 0;
+        }
+        //}}}
+        //_ set_page_boundary_rect {{{
+        private void set_page_boundary_rect(int left, int top, int right, int bottom)
+        {
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "set_page_boundary_rect................:");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "............left=["+ left   +"]");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, ".............top=["+ top    +"]");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "...........right=["+ right  +"]");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "..........bottom=["+ bottom +"]");
+//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, ".......................................");
+
+            if(!page_boundary_rect.isEmpty() ) handler.removeCallbacks( hr_clear_page_boundary_rect );
 
             page_boundary_rect.set(left, top, right, bottom);
 
-            if( !page_boundary_rect.isEmpty() ) invalidate(page_boundary_rect);
-            else                                invalidate();
+            if(!page_boundary_rect.isEmpty() ) invalidate(page_boundary_rect);
+            else                               invalidate();
         }
         //}}}
-        // clear_page_boundary_rect {{{
-        public void clear_page_boundary_rect()
+        //_ clr_page_boundary_rect {{{
+        private void clr_page_boundary_rect()
         {
             if( page_boundary_rect.isEmpty() ) return;
-            else                              set_page_boundary_rect(0,0,0,0);
+            else                               set_page_boundary_rect(0,0,0,0);
         }
         //}}}
         //}}}
@@ -16129,8 +16149,7 @@ private final Runnable hr_fs_webView_GRAB_Z  = new Runnable() {
         @Override public void run()
         {
             if(clear_page_boundary_rect_wv == null) return;
-            clear_page_boundary_rect_wv.clear_page_boundary_rect();
-        //  clear_page_boundary_rect_wv.set_page_boundary_idx(0);
+            clear_page_boundary_rect_wv.clr_page_boundary_rect();
             clear_page_boundary_rect_wv = null;
         }
     };
@@ -19887,19 +19906,19 @@ Settings.MON(TAG_EV3_RT_SC, "onScroll", "(dck_handle.getScrollX() == 0): "+ (dck
         if(tabs_container == null) return;
 
         //}}}
-//        // bg padding [FRAMED] .. f("LOGGING") {{{
-//        if(Settings.LOGGING) {
-//            bg_view.setPadding(50, 50, 50, 50);
-//        }
-//        else {
-//            bg_view.setPadding( 0,  0,  0,  0);
-//        }
-//        // }}}
+      //// bg padding [FRAMED] .. f("LOGGING") {{{
+      //if(Settings.LOGGING) {
+      //    bg_view.setPadding(50, 50, 50, 50);
+      //}
+      //else {
+      //    bg_view.setPadding( 0,  0,  0,  0);
+      //}
+      //// }}}
         // sync_tabs_scrolling {{{
         sync_tabs_scrolling(caller);
 
         //}}}
-        // [tabs] [dock] [hist] [show] [seekers] {{{
+        // STATES - [tabs] [dock] [hist] [show] [seekers] {{{
         boolean tabs_scrolling             = is_tabs_scrolling ();
         boolean seekers_container_showing  = is_view_showing( seekers_container  );
         boolean controls_container_showing = is_view_showing( controls_container );
@@ -19926,8 +19945,7 @@ Settings.MON(TAG_EV3_RT_SC, "onScroll", "(dck_handle.getScrollX() == 0): "+ (dck
         if( !tabs_scrolling    && !seekers_container_showing ) show_tabs_container_freezed  ( caller );
         if( !hist_band_showing && !dock_band_showing         ) show_tabs_container_unfreezed( caller );
         if( !show_band_showing && !show_band_hidden          ) show_band_show               ( caller );
-/*
-*/
+
         if(  dck_handle_showing
                 && (Handle.Get_cur_handle() == dck_handle)
                 && !controls_container_showing
@@ -22055,6 +22073,7 @@ if(D) MLog.log(Settings.OFFLINE ? Settings.SYMBOL_offline+" OFFLINE\n" : Setting
 :let @p="COOKIE"
 :let @p="DATA"
 :let @p="DIALOG"
+:let @p="EV0_RT_DP"
 :let @p="EV1_RT_IN"
 :let @p="EV2_RT_CB"
 :let @p="EV1_RT_OK"

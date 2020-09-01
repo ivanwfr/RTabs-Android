@@ -36,7 +36,7 @@ import java.util.Map;
 public class WVTools implements Settings.ClampListener
 {
     /** VAR */
-    private static       String WVTools_tag    = "(200804:15h:46)";
+    private static       String WVTools_tag    = "(200901:17h:31)";
     //{{{
     // MONITOR TAGS {{{
     private static       String TAG_EV0_WV_DP  = Settings.TAG_EV0_WV_DP;
@@ -2129,7 +2129,7 @@ public class WVTools implements Settings.ClampListener
 
         int             wv_y = (int) wv.getY     ();
         int             wv_h =       wv.getHeight();
-        float          wv_sY =       wv.getScaleY();
+        float          wv_sY = 1;//  wv.getScaleY(); // (200831) scrollbar is not translated on tilted View
 
         int             wv_b = (int)(wv_y + wv_h * wv_sY);
 
@@ -2159,15 +2159,17 @@ public class WVTools implements Settings.ClampListener
     // get_wv_thumb_p_str {{{
     private String get_wv_thumb_p_str(RTabs.MWebView wv)
     {
-        if(wv == null) return Settings.EMPTY_STRING;
+        if(          wv == null) return Settings.EMPTY_STRING;
 
-        float         thumb_p = get_wv_thumb_p( wv );
+        float   thumb_p  =              get_wv_thumb_p( wv );
+        if((int)thumb_p == 0   ) return Settings.EMPTY_STRING;
 
-        return ((int)thumb_p != 0)
-            ?   String.format(" %2.1f%%", thumb_p)
-            :   Settings.SYMBOL_SMALL_PERCENT
-            //  Settings.EMPTY_STRING
-            ;
+
+        float   scroll_offset = wv.computeVerticalScrollOffset();
+        float       wv_height = wv.getHeight();
+        int          page_num = 1 + (int)(scroll_offset / wv_height);
+
+        return String.format(" %2.1f%s%s", thumb_p, Settings.SYMBOL_SMALL_PERCENT, " p"+page_num);
     }
     //}}}
     // get_wv_scrollY_for_f_y {{{
@@ -8903,6 +8905,7 @@ marker_magnetized_START_DONE = true; //XXX
     // ... {{{
     private static final     int SCROLL_PAGE_DURATION                = 30000; // SLOW   ONE  PAGE
     private static final     int SCROLL_VIEW_DURATION                =  1000; // QUICK FULL RANGE
+    private static final     int SCROLL_RECT_DURATION                =   500; // SCROLL RECT COLOR
 
     private static final boolean FOLLOW_FINGER_CLAMPED               = false;
 
@@ -8985,16 +8988,14 @@ marker_magnetized_START_DONE = true; //XXX
             property_name_set_text(WV_JSNP_select_percent, get_wv_thumb_p_str(gesture_down_wv));
         }
         else {
-            int              w = sbX_np.button.getWidth ();
-            int              h = sbX_np.button.getHeight();
+            int                    w = sbX_np.button.getWidth ();
+            int                    h = sbX_np.button.getHeight();
 
-            boolean sb_is_tall = (h > (2 * Settings.TOOL_BADGE_SIZE));
-            boolean sb_is_high = (w > (2 * Settings.TOOL_BADGE_SIZE));
-            boolean sb_is_wide = (w > (4 * h                       ));
+            boolean  sb_is_wide  =                (w > (    Settings.TOOL_BADGE_SIZE)); // wide enough
+            boolean  sb_is_slim  =                (w < (    Settings.TOOL_BADGE_SIZE)); // too narrow
+            boolean  sb_is_high  = !sb_is_slim && (h > (2 * Settings.TOOL_BADGE_SIZE)); // not narrow and high enough
 
-            boolean sb_is_big  = (sb_is_tall && sb_is_high);
-
-            if(sb_is_wide || sb_is_big)
+            if(sb_is_wide || sb_is_high)
                 sbX_np.button.setText( sbX_np.text + get_wv_thumb_p_str(gesture_down_wv));
             else
                 sbX_np.button.setText( sbX_np.text );
@@ -9522,7 +9523,8 @@ if(     fake_sb_check_done ) return true; // (quickfix for statement not reach)
     //* ANIM (PageUp PageDown) */
     // scroll_wv_anim_PageUpDown {{{
     // {{{
-    public static final float PAGE_HEIGHT_FX             = 1f;//0.95f;
+  //public static final float PAGE_HEIGHT_DY             =   1f;//0.95f;
+    public static final float PAGE_HEIGHT_DY             = 0.5f;         // (200831) //FIXME
 
     // }}}
     private boolean scroll_wv_anim_PageUpDown(RTabs.MWebView wv, int x, int y, boolean page_up, int distanceY)
@@ -9548,7 +9550,7 @@ if(     fake_sb_check_done ) return true; // (quickfix for statement not reach)
         //}}}
         // SWITCH WEBVIEW FROM DRAGGING TO PAGING .. (requests a call to wvTools.wants_to_steal_events ... that will answer Yes!) {{{
         int            wv_h = wv.getHeight();
-        int         page_dy = (int)(wv_h * PAGE_HEIGHT_FX);
+        int         page_dy = (int)(wv_h * PAGE_HEIGHT_DY);
         int finger_travel_Y = 0;
 
         if(!sb_has_paged_up_or_down )
@@ -9604,11 +9606,12 @@ if(     fake_sb_check_done ) return true; // (quickfix for statement not reach)
 
         /* RESET COLORS AT TOP */
         if(at_top) {
-            wv.set_page_boundary_idx(0);
+            wv.clr_page_boundary_scroll_DY();
         }
 
         // HIGHLIGHT PAGE BOUNDARY TO REACH
-        highlight_scrolling_viewport(wv, finger_travel_Y, !page_up);
+      //highlight_scrolling_viewport(wv, finger_travel_Y, !page_up);
+        wv.add_page_boundary_scroll_DY(page_up ? -PAGE_HEIGHT_DY : PAGE_HEIGHT_DY);
 
         freeze_wv_start(wv, FREEZE_PAGE_UPDOWN);
 
@@ -9621,41 +9624,41 @@ if(     fake_sb_check_done ) return true; // (quickfix for statement not reach)
         //}}}
     }
     //}}}
-    // highlight_scrolling_viewport {{{
-    private void highlight_scrolling_viewport(RTabs.MWebView wv, int finger_travel_Y, boolean gowing_down)
-    {
-//*SCROLLBAR*/Settings.MOM(TAG_SCROLLBAR, "highlight_scrolling_viewport(wv, finger_travel_Y=["+finger_travel_Y+"], gowing_down=["+gowing_down+"]");
-
-        int wv_x = wv.getScrollX();
-        int wv_y = wv.getScrollY();
-        int wv_w = wv.getWidth ();
-        int wv_h = wv.getHeight();
-
-        if(gowing_down) wv_y -= finger_travel_Y;
-        else            wv_y += finger_travel_Y;
-
-        wv.set_page_boundary_rect(wv_x, wv_y, wv_x + wv_w, wv_y + wv_h);
-
-        wv.set_page_boundary_idx(gowing_down ? 1 : -1);
-
-/*{{{
-        if(gowing_down) wv_y += wv_h           ;
-}}}*/
-/*{{{
-        wv.set_page_boundary_rect(wv_x, wv_y, wv_x+wv_w, wv_y);
-        if(gowing_down) wv.set_page_boundary_rect(wv_x, wv_y     , wv_x+wv_w, wv_y + wv_h);
-        else            wv.set_page_boundary_rect(wv_x, wv_y-wv_h, wv_x+wv_w, wv_y       );
-        if(gowing_down) wv.set_page_boundary_rect(wv_x, wv_y, wv_x     , wv_y + wv_h);
-        else            wv.set_page_boundary_rect(wv_x, wv_y, wv_x+wv_w, wv_y - wv_h);
-}}}*/
-    }
-    //}}}
+//    // highlight_scrolling_viewport {{{
+//    private void highlight_scrolling_viewport(RTabs.MWebView wv, int finger_travel_Y, boolean going_down)
+//    {
+////*SCROLLBAR*/Settings.MOM(TAG_SCROLLBAR, "highlight_scrolling_viewport(wv, finger_travel_Y=["+finger_travel_Y+"], going_down=["+going_down+"]");
+//
+//        int wv_x = wv.getScrollX();
+//        int wv_y = wv.getScrollY();
+//        int wv_w = wv.getWidth ();
+//        int wv_h = wv.getHeight();
+//
+//        if(going_down) wv_y -= finger_travel_Y;
+//        else           wv_y += finger_travel_Y;
+//
+//        wv.set_page_boundary_rect(wv_x, wv_y, wv_x + wv_w, wv_y + wv_h);
+//
+//        wv.add_page_boundary_scroll_DY(going_down ? PAGE_HEIGHT_DY : -PAGE_HEIGHT_DY);
+//
+///*{{{
+//        if(going_down) wv_y += wv_h           ;
+//}}}*/
+///*{{{
+////      wv.set_page_boundary_rect(wv_x, wv_y, wv_x+wv_w, wv_y);
+////      if(going_down) wv.set_page_boundary_rect(wv_x, wv_y     , wv_x+wv_w, wv_y + wv_h);
+////      else           wv.set_page_boundary_rect(wv_x, wv_y-wv_h, wv_x+wv_w, wv_y       );
+////      if(going_down) wv.set_page_boundary_rect(wv_x, wv_y, wv_x     , wv_y + wv_h);
+////      else           wv.set_page_boundary_rect(wv_x, wv_y, wv_x+wv_w, wv_y - wv_h);
+//}}}*/
+//    }
+//    //}}}
     // un_draw_something_at_page_boundary {{{
     private void un_draw_something_at_page_boundary(RTabs.MWebView wv)
     {
         if(wv == null) return;
     //  wv.clear_do_something_rect();
-        mRTabs.schedule_clear_page_boundary_rect(wv, 1000);
+        mRTabs.schedule_clear_page_boundary_rect(wv, SCROLL_RECT_DURATION);
     }
     //}}}
     //* ANIM (scroll) */
@@ -9995,8 +9998,8 @@ if(     fake_sb_check_done ) return true; // (quickfix for statement not reach)
     private static final String FREEZE_TILT_UP_FLING   = "FREEZE_TILT_UP_FLING";
     private static final String FREEZE_TILT_DOWN_FLING = "FREEZE_TILT_DOWN_FLING";
 
-    private static final  float TILT_ANGLE_UP     =  15f;
-    private static final  float TILT_ANGLE_DOWN   = -15f;
+    private static final  float TILT_ANGLE_UP     =  10f;
+    private static final  float TILT_ANGLE_DOWN   = -10f;
 
     //}}}
     // freeze_wv_start {{{
@@ -10017,27 +10020,28 @@ if(     fake_sb_check_done ) return true; // (quickfix for statement not reach)
     {
 //*EV3_WV_SC*/Settings.MOM(TAG_EV3_WV_SC, "_freeze_wv_set("+get_view_name(wv)+", "+freeze_type+")");
         if(wv == null) return;
+
+        float scale = 1;
         float angle = 0;
+
         switch( freeze_type )
         {
-            case FREEZE_STOP            : angle = 0              ; break;
-            case FREEZE_PAGE_UPDOWN     : /*..................*/
-                break;
-            case FREEZE_FIND_INPAGE     : /*..................*/
-                break;
-            case FREEZE_FLING_DOWN      : angle = 0              ; break;
-            case FREEZE_FLING_UP        : angle = 0              ; break;
-            case FREEZE_TILT_DOWN_FLING : angle = TILT_ANGLE_DOWN; break;
-            case FREEZE_TILT_UP_FLING   : angle = TILT_ANGLE_UP  ; break;
+          //case FREEZE_STOP            : break;
+          //case FREEZE_FLING_DOWN      : break;
+          //case FREEZE_FLING_UP        : break;
+          //case FREEZE_PAGE_UPDOWN     : break;
+          //case FREEZE_FIND_INPAGE     : break;
+            case FREEZE_TILT_DOWN_FLING : angle = TILT_ANGLE_DOWN; scale = 1.5f; break;
+            case FREEZE_TILT_UP_FLING   : angle = TILT_ANGLE_UP  ; scale = 1.5f; break;
         }
+
         float     h = wv.getHeight();
         float     w = wv.getWidth ();
         if(angle <= 0) { wv.setPivotY( 0 ); wv.setPivotX(w / 2); }
         else           { wv.setPivotY( h ); wv.setPivotX(w / 2); }
 
+        wv.setScaleY   ( scale );
         wv.setRotationX( angle );
-/*
-*/
     }
     //}}}
     //}}}

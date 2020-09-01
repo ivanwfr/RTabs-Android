@@ -54,7 +54,7 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200805:16h:17)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200831:14h:32)";
     // LOGGING
     public  static boolean  D = Settings.D;
     public  static void Set_D(boolean state) { if(D||M) log("RTabsClient.Set_D("+state+")"); D = state; }
@@ -2886,11 +2886,8 @@ if(D||M) log(caller+": ...return true");
     }
     //}}}
     // }}}
-
-
-
     /** HISTORY STACK  */
-    // {{ {
+    // {{{
     //{{{
     public   static final String       HISTORY_BAK = "HISTORY_BAK";
     public   static final String       HISTORY_FWD = "HISTORY_FWD";
@@ -3132,9 +3129,6 @@ if(D||M) history_get_profile_names();
 //    }
 //    //}}}
     //}}}
-
-
-
     /** CART STACK */
     //{{{
     private static final String   CART_ADD   = "CART_ADD";

@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (200806:17h:46) =========================== [KEY_VAL pairs]
+// Settings_TAG (200831:17h:38) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -84,7 +84,7 @@ public class Settings
 
     public  static final String SYMBOL_ZERO_WIDTH_JOINER   = "\u200D";
 
-    public  static final String SYMBOL_SMALL_PERCENT       = "\uFE6A";
+    public  static final String SYMBOL_SMALL_PERCENT       = "\uFE6A"; /* ﹪% */
 
     public  static final String SYMBOL_FISHEYE             = "\u25C9";
     public  static final String SYMBOL_EMPTY               = "\u23D8";
