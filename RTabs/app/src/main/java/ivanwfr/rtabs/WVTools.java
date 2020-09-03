@@ -36,7 +36,7 @@ import java.util.Map;
 public class WVTools implements Settings.ClampListener
 {
     /** VAR */
-    private static       String WVTools_tag    = "(200901:17h:31)";
+    private static       String WVTools_tag    = "(200903:17h:36)";
     //{{{
     // MONITOR TAGS {{{
     private static       String TAG_EV0_WV_DP  = Settings.TAG_EV0_WV_DP;
@@ -2156,20 +2156,24 @@ public class WVTools implements Settings.ClampListener
         return thumb_p;
     }
     //}}}
-    // get_wv_thumb_p_str {{{
+    //_ get_wv_thumb_p_str .. @see RTabs.get_wv_thumb_p_str {{{
     private String get_wv_thumb_p_str(RTabs.MWebView wv)
     {
         if(          wv == null) return Settings.EMPTY_STRING;
 
-        float   thumb_p  =              get_wv_thumb_p( wv );
-        if((int)thumb_p == 0   ) return Settings.EMPTY_STRING;
+        float     thumb_p   =             get_wv_thumb_p(wv);
+        if(  (int)thumb_p  == 0  ) return Settings.EMPTY_STRING;
 
+        float     wv_height = wv.getHeight ();
+        float     scrollY   = wv.getScrollY();
+        float     wv_scale  = wv.getScale  ();
+        float     wv_zoom   = wv_scale / Settings.Density;
 
-        float   scroll_offset = wv.computeVerticalScrollOffset();
-        float       wv_height = wv.getHeight();
-        int          page_num = 1 + (int)(scroll_offset / wv_height);
+        int       page_idx  = (int)(scrollY  / wv_height  / wv_zoom);
+        int       page_num  =   1 + page_idx;
+        String    page_str  = " p"+page_num;
 
-        return String.format(" %2.1f%s%s", thumb_p, Settings.SYMBOL_SMALL_PERCENT, " p"+page_num);
+        return String.format(" %2.1f%s%s", thumb_p, Settings.SYMBOL_SMALL_PERCENT, page_str);
     }
     //}}}
     // get_wv_scrollY_for_f_y {{{

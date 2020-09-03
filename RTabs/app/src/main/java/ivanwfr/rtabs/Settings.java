@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (200831:17h:38) =========================== [KEY_VAL pairs]
+// Settings_TAG (200903:17h:35) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -1459,11 +1459,12 @@ public class Settings
     public  static       int  SCROLLBAR_SHAPE_W    =      WEBVIEW_GAP + TOOL_BADGE_SIZE; // FRAME >= (BADGE + BODY)
     public static        int  SCROLLBAR_SHRINK_MAX = SCROLLBAR_SHAPE_W - SCROLLBAR_W_MIN -1;
 
+    public  static float Density      = 1f; // dp = [pixels]
     private static float DensityOn160 = 1f; // dp = [pixels] * (160 / screen density)
     public  static float  get_DIP(float dp) { return dp / DensityOn160; }
     private static void  init_DIP()
     {
-      //DensityOn160 = RTabs.activity.getResources().getDisplayMetrics().density;
+        Density      = RTabs.activity.getResources().getDisplayMetrics().density;
         DensityOn160 = RTabs.activity.getResources().getDisplayMetrics().densityDpi / 160f; // i.e. (240f / 160f)
 
         //...........................................................................[ 240     ] [160   ]

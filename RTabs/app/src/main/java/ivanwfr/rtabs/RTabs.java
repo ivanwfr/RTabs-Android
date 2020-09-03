@@ -110,7 +110,7 @@ import ivanwfr.rtabs.util.SystemUiHider;
 // Comment {{{
 
 // }}}
-// Rtabs_TAG = "RTabs (200901:17h:43)";
+// Rtabs_TAG = "RTabs (200903:17h:36)";
 public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
@@ -11397,6 +11397,7 @@ Settings.MON(TAG_FULLSCREEN, "\n"
         public     int             getId() { return id; }
         public     int   get_calls_count() { return calls_count;      }
         public    void raise_calls_count() {        calls_count += 1; }
+
         // }}}
 
         // Constructor {{{
@@ -11563,7 +11564,7 @@ if(scroll_off)
             // [page_boundary_rect] {{{
             if(!page_boundary_rect.isEmpty() )
             {
-                int color_num   =  page_color_num  % Settings.COLORS_ECC.length;
+                int color_num   =  page_num   % Settings.COLORS_ECC.length;
                 int color_alpha = (color_num == 9) ? 0xD0FFFFFF : 0x80FFFFFF; // higher white opacity
 
                 page_boundary_paint.setColor(Settings.COLORS_ECC[color_num] & color_alpha);
@@ -11598,55 +11599,48 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.onResume: 
         //* WEBVIEW (page animation) {{{ */
         //{{{
         private Rect page_boundary_rect = new Rect();
-        private int  page_color_num     = 0;
+        private int  page_num           = 0;
         //}}}
-        //➔ add_page_boundary_scroll_DY {{{ add_page_boundary_scroll_DY
+        //➔ add_page_boundary_scroll_DY @see WVTools.get_wv_thumb_p_str {{{
         public void add_page_boundary_scroll_DY(float scroll_DY)
         {
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "add_page_boundary_scroll_DY...........:");
-            // NEXT STEP .. (next color)
-            float scroll_offset = computeVerticalScrollOffset();
-            float     wv_height = getHeight();
-            float scroll_target = scroll_offset + scroll_DY * wv_height ;
-            page_color_num      = 1 + (int)(scroll_target   / wv_height);
+            float wv_height =    getHeight ();
+            float scrollY   =    getScrollY() + wv_height * scroll_DY;
+            float wv_scale  =    getScale  ();
+            float wv_zoom   = wv_scale / Settings.Density;
 
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, ".......................................");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "..page_color_num=["+ page_color_num +"]");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "...scroll_offset=["+ scroll_offset  +"]");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, ".......wv_height=["+ wv_height      +"]");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "...scroll_target=["+ scroll_target  +"]");
+            int   page_idx  = (int)(scrollY  / wv_height  / wv_zoom);
+            /**/  page_num  =   1 + page_idx;
+            int   page_U    = (int)(page_idx * wv_height  * wv_zoom);
+            int   page_D    = (int)(page_U   + wv_height  * wv_zoom);
+            int   page_L    = (int)(0                     * wv_zoom);
+            int   page_R    = (int)(getWidth()            * wv_zoom);
+            set_page_boundary_URDL(page_U, page_R, page_D, page_L);
 
-           int          page_left   =                      getScrollX();
-           int          page_top    = (page_color_num-1) * getHeight ();
-           int          page_right  =  page_left         + getWidth  ();
-           int          page_bottom =  page_top          + getHeight ();
 
-           set_page_boundary_rect(page_left, page_top, page_right, page_bottom);
-
-            // COLOR RANGE .. (keep index within colors collection)
-            if(page_color_num < 0) page_color_num    += Settings.COLORS_ECC.length;
+/*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "add_page_boundary_scroll_DY("+ scroll_DY +")");
+/*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "...............wv_scale...=["+ wv_scale  +"]");
+/*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "...............wv_zoom....=["+ wv_zoom   +"]");
         }
         //}}}
         //➔ clr_page_boundary_scroll_DY {{{
         public void clr_page_boundary_scroll_DY()
         {
             // RESET .. (first color)
-            page_color_num = 0;
+            page_num = 0;
         }
         //}}}
-        //_ set_page_boundary_rect {{{
-        private void set_page_boundary_rect(int left, int top, int right, int bottom)
+        //_ set_page_boundary_URDL {{{
+        private void set_page_boundary_URDL(int page_U, int page_R, int page_D, int page_L)
         {
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "set_page_boundary_rect................:");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "............left=["+ left   +"]");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, ".............top=["+ top    +"]");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "...........right=["+ right  +"]");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, "..........bottom=["+ bottom +"]");
-//*WEBVIEW*/Settings.MOM(TAG_WEBVIEW, ".......................................");
+//*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "page_U=["+page_U+"]");
+//*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "page_R=["+page_R+"]");
+//*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "page_D=["+page_D+"]");
+//*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "page_L=["+page_L+"]");
 
             if(!page_boundary_rect.isEmpty() ) handler.removeCallbacks( hr_clear_page_boundary_rect );
 
-            page_boundary_rect.set(left, top, right, bottom);
+            page_boundary_rect.set(page_L, page_U, page_R, page_D); // left top right bottom
 
             if(!page_boundary_rect.isEmpty() ) invalidate(page_boundary_rect);
             else                               invalidate();
@@ -11656,7 +11650,7 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.onResume: 
         private void clr_page_boundary_rect()
         {
             if( page_boundary_rect.isEmpty() ) return;
-            else                               set_page_boundary_rect(0,0,0,0);
+            else                               set_page_boundary_URDL(0,0,0,0);
         }
         //}}}
         //}}}
@@ -12706,7 +12700,7 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.get_WebVie
         public void onScaleChanged(WebView wv, float oldScale, float newScale)
         {
             ((MWebView)wv).clientScale = newScale;
-//*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "onScaleChanged", "clientScale=["+newScale+"]");
+/*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "onScaleChanged", "clientScale=["+newScale+"]");
         }
         //}}}
         // {{{
