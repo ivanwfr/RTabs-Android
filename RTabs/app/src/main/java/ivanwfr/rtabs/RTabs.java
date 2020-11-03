@@ -110,7 +110,7 @@ import ivanwfr.rtabs.util.SystemUiHider;
 // Comment {{{
 
 // }}}
-// Rtabs_TAG = "RTabs (200903:17h:36)";
+// Rtabs_TAG = "RTabs (200911:15h:34)";
 public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
@@ -12703,21 +12703,19 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.get_WebVie
 /*WEBVIEW*/Settings.MOC(TAG_WEBVIEW, "onScaleChanged", "clientScale=["+newScale+"]");
         }
         //}}}
-        // {{{
-/*
-:!start explorer "https://stackoverflow.com/questions/18874282/webview-email-link-mailto"
-*/
+        /* shouldOverrideUrlLoading {{{*/
         @Override
         public boolean shouldOverrideUrlLoading(WebView wv, WebResourceRequest request)
         {
+/*{{{*/
             String caller = "shouldOverrideUrlLoading(wv , request)";
 //*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller,      "wv ["+wv     +"]");
 //*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller, "request ["+request+"]");
 
             Uri    uri = request.getUrl();
             String url = uri.toString();
-//*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller, "url ["+url+" ]");
-
+//*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller, "url ["+url+"]");
+/*}}}*/
 // deprecated {{{
 //            return shouldOverrideUrlLoading(wv, url);
 //        }
@@ -12729,9 +12727,7 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.get_WebVie
 //            String caller = "shouldOverrideUrlLoading(wv , url)";
 ////*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller,    "wv ["+wv +"]");
 //}}}
-
-//*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller,   "url ["+url+"]");
-
+            /* mailto: .. return true {{{*/
             if( url.startsWith("mailto:") )
             {
                 if(activity != null)
@@ -12748,7 +12744,7 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.get_WebVie
 //*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller,    "body ["+ body    +"]");
 //*WEBVIEW*/Settings.MON(TAG_WEBVIEW, caller,      "cc ["+ cc      +"]");
 
-                    Intent  intent = getEmailIntent(activity, to, subject, body, cc);
+                    Intent  intent = _getEmailIntent(activity, to, subject, body, cc);
 
                     activity.startActivity( intent );
 
@@ -12764,12 +12760,14 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.get_WebVie
                 wv.loadUrl(url);
             }
 }}}*/
+/*}}}*/
             return false;
         }
-
-        private Intent getEmailIntent(Context context, String address, String subject, String body, String cc)
+        /*}}}*/
+        // _getEmailIntent {{{
+        private Intent _getEmailIntent(Context context, String address, String subject, String body, String cc)
         {
-            String caller = "getEmailIntent";
+            String caller = "_getEmailIntent";
 
             Intent intent
                 = new Intent( Intent.ACTION_SEND  );
@@ -12787,6 +12785,8 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.get_WebVie
         //}}}
     };
 /* // {{{
+:new             $LOCAL/STORE/DEV/PROJECTS/RTabs/Util/RTabs_Profiles/DEV/javascript/dom_ipc.js
+:!start explorer "https://stackoverflow.com/questions/18874282/webview-email-link-mailto"
 :!start explorer "http://stackoverflow.com/questions/29592695/android-webview-wont-load-my-url-but-will-load-others"
 :!start explorer "http://developer.android.com/guide/webapps/webview.html"
 :!start explorer "http://stackoverflow.com/questions/8193239/how-to-get-loaded-web-page-title-in-android-webview"

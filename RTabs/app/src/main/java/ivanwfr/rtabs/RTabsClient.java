@@ -54,7 +54,7 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (200831:14h:32)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (201103:14h:46)";
     // LOGGING
     public  static boolean  D = Settings.D;
     public  static void Set_D(boolean state) { if(D||M) log("RTabsClient.Set_D("+state+")"); D = state; }
@@ -491,10 +491,11 @@ public class RTabsClient
     /*}}}*/
     //}}}
     // last_sent_cmd {{{
-    private String  last_sent_cmd       = "";
-    private int     last_connect_count  = 0; // initial number of retries for the next connection attempt
-    private int     last_read_count     = 0;
-    private int     last_send_count     = 0;
+    private String  last_sent_cmd      =    "";
+    private int     last_connect_count =     0; // initial number of retries for the next connection attempt
+    private boolean prev_port_tried    = false; // try stepping back once before stepping forward
+    private int     last_read_count    =     0;
+    private int     last_send_count    =     0;
 
     public  int     get_last_sent_cmd_count() { return last_send_count; }
 
@@ -1684,8 +1685,16 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
                     //}
                     //// 2/2 SELECT ANOTHER PORT IN THE RANGE
                     //else {
+                    if((last_connect_count == 1) && !prev_port_tried) {
+                        prev_port_tried     = true;
+                        last_connect_count  =    0; // do not count this one
+                        Settings.selectPrevPortInRange();
+                        progress_msg += ".. TRYING PREVIOUS PORT "+Settings.SERVER_PORT;
+                    }
+                    else {
                         Settings.selectNextPortInRange();
                         progress_msg += ".. SWITCHING TO PORT "+Settings.SERVER_PORT;
+                    }
                     //}
 
                     // UI UPDATE
@@ -1935,7 +1944,8 @@ POWER_SUPPLY_VOLTAGE_OCV=-22
     public void clear_max_connection_failed(String caller)
     {
         if(D) log("clear_max_connection_failed"+Settings.SYMBOL_LEFT_ARROW+caller);
-        last_connect_count = 0;
+        last_connect_count  =     0;
+        prev_port_tried     = false;
     }
     //}}}
     //}}}

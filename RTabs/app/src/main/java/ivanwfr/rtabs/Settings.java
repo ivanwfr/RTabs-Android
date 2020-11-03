@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (200903:17h:35) =========================== [KEY_VAL pairs]
+// Settings_TAG (201103:14h:34) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -994,11 +994,31 @@ public class Settings
 
     // }}}
     // selectNextPortInRange {{{
-    public static final int SERVER_PORT_RANGE = 10;
+    public  static final int SERVER_PORT_RANGE = 10;
 
-    public static void selectNextPortInRange()
+    public  static void selectNextPortInRange() { selectNextPortInRange( true); }
+    public  static void selectPrevPortInRange() { selectNextPortInRange(false); }
+    private static void selectNextPortInRange(boolean plus_or_minus_one)
     {
-        SERVER_PORT = ((SERVER_PORT / SERVER_PORT_RANGE) * SERVER_PORT_RANGE) + (SERVER_PORT+1) % SERVER_PORT_RANGE;
+        /* RETURNS NEXT PORT IN THE CURRENT [SERVER_PORT] DECIMAL WINDOW IS CURRENTLY IN .. [4000 <= SERVER_PORT <= 4009] */
+
+        int first_port
+            = SERVER_PORT
+            / SERVER_PORT_RANGE
+            * SERVER_PORT_RANGE;
+
+        int next_or_wrap_1_or_9
+            = (SERVER_PORT_RANGE + (plus_or_minus_one ? 1 : -1))
+            %  SERVER_PORT_RANGE;
+
+        int  offset_0_to_9
+            = (SERVER_PORT + next_or_wrap_1_or_9)
+            % SERVER_PORT_RANGE;
+
+        SERVER_PORT
+            = first_port
+            + offset_0_to_9;
+
         String  msg = SYMBOL_NO_ENTRY +" selectNextPortInRange: switching to SERVER_PORT["+ SERVER_PORT +"] "+ SYMBOL_NO_ENTRY;
         if(D) log( msg );
     }
