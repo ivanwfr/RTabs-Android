@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
@@ -54,7 +56,7 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (201103:14h:46)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (211119:00h:43)";
     // LOGGING
     public  static boolean  D = Settings.D;
     public  static void Set_D(boolean state) { if(D||M) log("RTabsClient.Set_D("+state+")"); D = state; }
@@ -4826,7 +4828,8 @@ if(D||M) Settings.MOM(TAG_PROFILE, "is_a_visited_profile_np(np): ...return "+vis
                     // }}}
                 }
                 BLOCK_SB.setBackgroundColor                  ( bg_color );
-                BLOCK_SB.getProgressDrawable().setColorFilter( fg_color , PorterDuff.Mode.SRC_IN);
+              //BLOCK_SB.getProgressDrawable().setColorFilter( fg_color , PorterDuff.Mode.SRC_IN);
+                BLOCK_SB.getProgressDrawable().setColorFilter(new BlendModeColorFilter(fg_color , BlendMode.SRC_IN));
                 // }}}
                 // OPACITY {{{
             //  BLOCK_SB.setOpacity( opacity_255 );
