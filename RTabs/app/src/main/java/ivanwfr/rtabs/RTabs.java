@@ -17,6 +17,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BlendMode;
+//port android.graphics.BlendModeColorFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -62,6 +64,7 @@ import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebHistoryItem;
 import android.webkit.WebSettings;
+import android.widget.FrameLayout;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebResourceRequest;
@@ -110,7 +113,7 @@ import ivanwfr.rtabs.util.SystemUiHider;
 // Comment {{{
 
 // }}}
-// Rtabs_TAG = "RTabs (200911:15h:34)";
+// Rtabs_TAG = "RTabs (211119:00h:43)";
 public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
@@ -678,6 +681,8 @@ public class RTabs implements Settings.ClampListener
         scale_seekBar.setBackgroundColor                  (  Color.parseColor("#5e010101") );
         scale_seekBar.getProgressDrawable().setColorFilter(  Color.parseColor("#ff00e0"  ), PorterDuff.Mode.SRC_IN);
         scale_seekBar.getThumb           ().setColorFilter(  Color.parseColor("#ffff00c3"), PorterDuff.Mode.SRC_IN);
+      //scale_seekBar.getProgressDrawable().setColorFilter(new BlendModeColorFilter(Color.parseColor("#ff00e0"  ), BlendMode.SRC_IN));
+      //scale_seekBar.getThumb           ().setColorFilter(new BlendModeColorFilter(Color.parseColor("#ffff00c3"), BlendMode.SRC_IN));
 
         scale_seekBar.setProgress( 5 );
 
@@ -729,6 +734,8 @@ public class RTabs implements Settings.ClampListener
         palettes_seekBar.setBackgroundColor                  (  Color.parseColor("#5e010101") );
         palettes_seekBar.getProgressDrawable().setColorFilter(  Color.parseColor("#ff00e0"  ), PorterDuff.Mode.SRC_IN);
         palettes_seekBar.getThumb           ().setColorFilter(  Color.parseColor("#ffff00c3"), PorterDuff.Mode.SRC_IN);
+      //palettes_seekBar.getProgressDrawable().setColorFilter(new BlendModeColorFilter(Color.parseColor("#ff00e0"  ), BlendMode.SRC_IN));
+      //palettes_seekBar.getThumb           ().setColorFilter(new BlendModeColorFilter(Color.parseColor("#ffff00c3"), BlendMode.SRC_IN));
 
         //}}}
 
