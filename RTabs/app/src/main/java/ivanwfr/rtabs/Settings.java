@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (201103:14h:34) =========================== [KEY_VAL pairs]
+// Settings_TAG (211119:00h:44) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -3826,8 +3826,10 @@ Settings.MON(TAG_SETTINGS, "Track_last_Working_profile():\n"
             drawables[1] = textView.getContext().getResources().getDrawable(mCursorDrawableRes, null);
 
             // deprecated (200806)
-            drawables[0].setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            drawables[1].setColorFilter(color, PorterDuff.Mode.SRC_IN);
+          //drawables[0].setColorFilter(color, PorterDuff.Mode.SRC_IN);
+          //drawables[1].setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            drawables[0].setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_IN));
+            drawables[1].setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_IN));
 
           // FIXME .. (cursor is not visible with this replacement)
           //BlendModeColorFilter         colorFilter = new BlendModeColorFilter(color, BlendMode.SRC_IN);
@@ -4344,7 +4346,7 @@ HEAD ? symbol <u>U</u> text1 <b>B</b> text2 <i>I</i> text3 <em>EM</em> TAIL
 
         if(with_info) sb.append(".......SINGLE: ["+keywords+"]");
         //}}}
-        // TRIVIAL KEYROWDS ( www File ){{{
+        // TRIVIAL KEYWORDS ( www File ){{{
 
         //pattern     = "www";
         //replacement =   "";
