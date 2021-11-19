@@ -36,7 +36,7 @@ import java.util.Map;
 public class WVTools implements Settings.ClampListener
 {
     /** VAR */
-    private static       String WVTools_tag    = "(200903:17h:36)";
+    private static       String WVTools_tag    = "(211119:00h:44)";
     //{{{
     // MONITOR TAGS {{{
     private static       String TAG_EV0_WV_DP  = Settings.TAG_EV0_WV_DP;
