@@ -2097,30 +2097,30 @@ System.err.println("*** NpButton.spread_stop: NOT CALLED ON UI THREAD ***");
             textPaint.setTextSize( mid );
 
           // deprecated (200806) {{{
-          //StaticLayout layout
-          //    = new StaticLayout( sample_text // text
-          //            ,           textPaint
-          //            ,           vw
-          //            ,           Layout.Alignment.ALIGN_CENTER // align
-          //            ,           1.0f                          // spacingmult
-          //            ,           0.0f                          // spacingadd (line spacing)
-          //            ,           true                          // includepad
-          //            );
+            StaticLayout layout
+                = new StaticLayout( sample_text // text
+                        ,           textPaint
+                        ,           vw
+                        ,           Layout.Alignment.ALIGN_CENTER // align
+                        ,           1.0f                          // spacingmult
+                        ,           0.0f                          // spacingadd (line spacing)
+                        ,           true                          // includepad
+                        );
           //}}}
 
-            StaticLayout.Builder
-                sb = StaticLayout.Builder
-                .obtain( (CharSequence)sample_text              // source (CharSequence)
-                        ,              0                        // start  (int)
-                        ,              sample_text.length()     // end    (int)
-                        ,              textPaint                // paint  (TextPaint)
-                        ,              vw                       // width  (int)
-                        )
-                .setAlignment   ( Layout.Alignment.ALIGN_CENTER)
-                .setLineSpacing ( 0.0f , 1.0f                  ) // spacingAdd , spacingMult
-                .setIncludePad  ( true                         )
-                ;
-            StaticLayout layout = sb.build();
+          //StaticLayout.Builder
+          //    sb = StaticLayout.Builder
+          //    .obtain( (CharSequence)sample_text              // source (CharSequence)
+          //            ,              0                        // start  (int)
+          //            ,              sample_text.length()     // end    (int)
+          //            ,              textPaint                // paint  (TextPaint)
+          //            ,              vw                       // width  (int)
+          //            )
+          //    .setAlignment   ( Layout.Alignment.ALIGN_CENTER)
+          //    .setLineSpacing ( 0.0f , 1.0f                  ) // spacingAdd , spacingMult
+          //    .setIncludePad  ( true                         )
+          //    ;
+          //StaticLayout layout = sb.build();
 
             tw = layout.getWidth ();// * tw_factor;
             th = layout.getHeight();// * th_factor;
