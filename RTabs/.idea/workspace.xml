@@ -34,10 +34,11 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="ivanwfr.rtabs" />
     <option name="LOGCAT_FORMAT_STRING" value="%4$c: %6$s" />
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="0587b481-35f8-493c-bd71-dc3700a4b3b2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="0587b481-35f8-493c-bd71-dc3700a4b3b2" name="Default" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +50,7 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[192.168.1.18:5555]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -93,17 +95,11 @@
       </state>
     </system>
   </component>
-  <component name="FavoritesManager">
-    <favorites_list name="RTabs" />
-  </component>
   <component name="GenerateSignedApkSettings">
     <option name="EXPORT_PRIVATE_KEY" value="false" />
     <option name="KEY_STORE_PATH" value="C:\LOCAL\DATA\ANDROID\PROJECTS\DISTRIBUTE\rtabs-release-key.keystore" />
     <option name="KEY_ALIAS" value="rtabs" />
     <option name="REMEMBER_PASSWORDS" value="true" />
-  </component>
-  <component name="KotlinCompilerWorkspaceSettings">
-    <option name="enableDaemon" value="false" />
   </component>
   <component name="KotlinCompilerWorkspaceSettings">
     <option name="enableDaemon" value="false" />
@@ -177,42 +173,51 @@
     </entry>
   </component>
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ApkExportedModule" value="app" />
-    <property name="BundleExportedModule" value="app" />
+    <property name="ApkExportedModule" value="RTabs.app" />
+    <property name="BundleExportedModule" value="RTabs.app" />
     <property name="DEBUGGABLE_DEVICE" value="sony-sgp512-192.168.1.18:5555" />
     <property name="DEBUGGABLE_PROCESS" value="ivanwfr.rtabs" />
     <property name="DEBUGGER_ID" value="Auto" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="86589d7907e700000000" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2021-09-01T16:19:34.089Z" />
     <property name="ExportApk.ApkPath" value="C:\LOCAL\DATA\ANDROID\PROJECTS\DISTRIBUTE\android" />
     <property name="ExportApk.BuildType" value="release" />
-    <property name="ExportApk.BuildVariants" value="API29Release" />
+    <property name="ExportApk.BuildVariants" value="API21Debug" />
     <property name="ExportApk.Flavors" value="API24" />
+    <property name="ExportApk.SignV2" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="true" />
     <property name="ScreenshotViewer.SavePath" value="$PROJECT_DIR$/../../../../DEV/GESTION/LOYERS/GARAGE_AOUT_2016" />
     <property name="ToolWindowGradle Console.ShowToolbar" value="false" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
     <property name="UI_DESIGNER_EDITOR_MODE.NlPaletteManager-NlPreviewForm.SHOW" value="false" />
+    <property name="android-custom-viewC:/LOCAL/DATA/DEV/TOOLS/GOOGLE/Android/sdk/sources/android-29/android/widget/AbsoluteLayout.java_SELECTED" value="AbsoluteLayout" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../../DEV/TOOLS/Android/sdk" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="device.picker.selection" value="192.168.1.18:5555" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Suggestions" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DISTRIBUTE" />
+    <property name="multi-representation-previewC:/LOCAL/DATA/DEV/TOOLS/GOOGLE/Android/sdk/sources/android-29/android/widget/AbsoluteLayout.java_selected" value="Custom views" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Properties" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="signing_config" />
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="Android App.MID">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
       <option name="TESTING_TYPE" value="0" />
@@ -303,12 +308,13 @@
       </method>
     </configuration>
     <configuration name="MID" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="app" />
+      <module name="RTabs.app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
@@ -321,23 +327,29 @@
       <Java />
       <Profilers>
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
       <method v="2">
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_make finishMID" />
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="SMART" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="app" />
+      <module name="RTabs.app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
@@ -350,23 +362,29 @@
       <Java />
       <Profilers>
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
       <method v="2">
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_make finishSMART" />
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="app" />
+      <module name="RTabs.app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
@@ -379,11 +397,16 @@
       <Java />
       <Profilers>
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
       <method v="2">
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_make finish" />
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
@@ -461,121 +484,25 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="1512" y="467" key="#Notifications" timestamp="1594898975411">
+    <state width="962" height="1171" key="GridCell.Tab.0.bottom" timestamp="1637279414343">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
-    <state x="1512" y="467" key="#Notifications/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1594898975411" />
-    <state x="1293" y="215" width="966" height="438" key="#PSD" timestamp="1595348042561">
+    <state width="1220" height="1146" key="GridCell.Tab.0.bottom/0.0.2560.1600/-1920.172.1920.1080@0.0.2560.1600" timestamp="1630595382722" />
+    <state width="962" height="1171" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.172.1920.1080@0.0.2560.1600" timestamp="1637279414343" />
+    <state width="962" height="1171" key="GridCell.Tab.0.center" timestamp="1637279414343">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
-    <state x="1293" y="215" width="966" height="438" key="#PSD/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595348042561" />
-    <state x="1374" y="464" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593604771718">
+    <state width="1220" height="1146" key="GridCell.Tab.0.center/0.0.2560.1600/-1920.172.1920.1080@0.0.2560.1600" timestamp="1630595382722" />
+    <state width="962" height="1171" key="GridCell.Tab.0.center/0.0.2560.1600/2560.172.1920.1080@0.0.2560.1600" timestamp="1637279414343" />
+    <state width="962" height="1171" key="GridCell.Tab.0.left" timestamp="1637279414343">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
-    <state x="1374" y="464" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593604771718" />
-    <state x="1600" y="537" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1593604509343">
+    <state width="1220" height="1146" key="GridCell.Tab.0.left/0.0.2560.1600/-1920.172.1920.1080@0.0.2560.1600" timestamp="1630595382721" />
+    <state width="962" height="1171" key="GridCell.Tab.0.left/0.0.2560.1600/2560.172.1920.1080@0.0.2560.1600" timestamp="1637279414343" />
+    <state width="962" height="1171" key="GridCell.Tab.0.right" timestamp="1637279414343">
       <screen x="0" y="0" width="2560" height="1600" />
     </state>
-    <state x="1600" y="537" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593604509343" />
-    <state x="1675" y="512" key="#xdebugger.evaluate" timestamp="1593868903164">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state x="1675" y="512" key="#xdebugger.evaluate/0.0.2560.1600@0.0.2560.1600" timestamp="1593868903164" />
-    <state x="1775" y="574" key="AndroidProcessChooserDialog" timestamp="1593893692634">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state x="1775" y="574" key="AndroidProcessChooserDialog/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593893692634" />
-    <state x="1775" y="574" key="AndroidProcessChooserDialog/0.0.2560.1600@0.0.2560.1600" timestamp="1593869868845" />
-    <state x="1380" y="160" width="1080" height="1300" key="DiffContextDialog" timestamp="1593867098795">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state x="1380" y="160" width="1080" height="1300" key="DiffContextDialog/0.0.2560.1600@0.0.2560.1600" timestamp="1593867098795" />
-    <state x="733" y="175" key="FileChooserDialogImpl" timestamp="1596643393418">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state x="733" y="175" key="FileChooserDialogImpl/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643393418" />
-    <state x="733" y="175" key="FileChooserDialogImpl/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595352923976" />
-<<<<<<< HEAD
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom" timestamp="1596645227815">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596645227815" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.center" timestamp="1596645227815">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596645227815" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.left" timestamp="1596645227815">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596645227815" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.right" timestamp="1596645227815">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596645227815" />
-=======
-    <state width="571" height="1109" key="GridCell.Tab.0.bottom" timestamp="1596643728019">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="571" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728019" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.bottom/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="571" height="1109" key="GridCell.Tab.0.center" timestamp="1596643728018">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="571" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.center/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="571" height="1109" key="GridCell.Tab.0.left" timestamp="1596643728018">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="571" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.left/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="571" height="1109" key="GridCell.Tab.0.right" timestamp="1596643728018">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="571" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596643728018" />
->>>>>>> 995d953026a6e48d75bfd549a73159ac45b73346
-    <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1596591648205" />
-    <state width="1220" height="1109" key="GridCell.Tab.0.right/0.0.2560.1600@0.0.2560.1600" timestamp="1595807195243" />
-    <state width="1220" height="779" key="GridCell.Tab.1.bottom" timestamp="1593894066244">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="1220" height="779" key="GridCell.Tab.1.bottom/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593894066244" />
-    <state width="1220" height="587" key="GridCell.Tab.1.bottom/0.0.2560.1600@0.0.2560.1600" timestamp="1593870139773" />
-    <state width="1220" height="779" key="GridCell.Tab.1.center" timestamp="1593894066244">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="1220" height="779" key="GridCell.Tab.1.center/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593894066244" />
-    <state width="1220" height="587" key="GridCell.Tab.1.center/0.0.2560.1600@0.0.2560.1600" timestamp="1593870139772" />
-    <state width="1220" height="779" key="GridCell.Tab.1.left" timestamp="1593894066244">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="1220" height="779" key="GridCell.Tab.1.left/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593894066244" />
-    <state width="1220" height="587" key="GridCell.Tab.1.left/0.0.2560.1600@0.0.2560.1600" timestamp="1593870139772" />
-    <state width="1220" height="779" key="GridCell.Tab.1.right" timestamp="1593894066244">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state width="1220" height="779" key="GridCell.Tab.1.right/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593894066244" />
-    <state width="1220" height="587" key="GridCell.Tab.1.right/0.0.2560.1600@0.0.2560.1600" timestamp="1593870139773" />
-    <state x="993" y="390" key="SettingsEditor" timestamp="1596642285480">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state x="993" y="390" key="SettingsEditor/0.0.2560.1600/2560.208.1920.1080@0.0.2560.1600" timestamp="1596642285480" />
-    <state x="194" y="119" key="SettingsEditor/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1595855604892" />
-    <state x="1454" y="545" width="932" height="569" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1593869313628">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state x="1454" y="545" width="932" height="569" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.2560.1600@0.0.2560.1600" timestamp="1593869313628" />
-    <state x="1583" y="404" width="672" height="678" key="search.everywhere.popup" timestamp="1593785815718">
-      <screen x="0" y="0" width="2560" height="1600" />
-    </state>
-    <state x="1583" y="404" width="672" height="678" key="search.everywhere.popup/0.0.2560.1600/2560.226.1920.1080@0.0.2560.1600" timestamp="1593785815718" />
+    <state width="1220" height="1146" key="GridCell.Tab.0.right/0.0.2560.1600/-1920.172.1920.1080@0.0.2560.1600" timestamp="1630595382722" />
+    <state width="962" height="1171" key="GridCell.Tab.0.right/0.0.2560.1600/2560.172.1920.1080@0.0.2560.1600" timestamp="1637279414343" />
   </component>
 </project>
