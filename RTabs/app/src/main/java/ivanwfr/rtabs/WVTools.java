@@ -36,7 +36,7 @@ import java.util.Map;
 public class WVTools implements Settings.ClampListener
 {
     /** VAR */
-    private static       String WVTools_tag    = "(211119:00h:44)";
+    private static       String WVTools_tag    = "(211211:16h:50)";
     //{{{
     // MONITOR TAGS {{{
     private static       String TAG_EV0_WV_DP  = Settings.TAG_EV0_WV_DP;
@@ -231,6 +231,8 @@ public class WVTools implements Settings.ClampListener
     public  static final String  WV_TOOL_JS1_SELECT_text    = "JS_SELECT"  + NotePane.INFO_SEP + "WebView JS Selection";
     public  static final String  WV_TOOL_JS2_DOM_LOAD       = "dom_load";
     public  static final String  WV_TOOL_JS2_DOM_LOAD_text  = "DOM_LOAD"   + NotePane.INFO_SEP + "Load DOM Tools";
+    public  static final String  WV_TOOL_JS2_SPLITTER       = "splitter";
+    public  static final String  WV_TOOL_JS2_SPLITTER_text  = "DOM_SPLIT"  + NotePane.INFO_SEP + "Load DOM Splitter";
     public  static final String  WV_TOOL_JS3_black          = "black";
 
     //.........................  (properties)
@@ -335,6 +337,7 @@ public class WVTools implements Settings.ClampListener
             , { WV_TOOL_JS0_LOGGING  , WV_TOOL_JS0_LOGGING_text     }
             , { WV_TOOL_JS1_SELECT   , WV_TOOL_JS1_SELECT_text      }
             , { WV_TOOL_JS2_DOM_LOAD , WV_TOOL_JS2_DOM_LOAD_text    }
+            , { WV_TOOL_JS2_SPLITTER , WV_TOOL_JS2_SPLITTER_text    }
             , { WV_TOOL_JS3_black    , WV_TOOL_JS3_black            }
 
             //.......................  (SCROLLBAR)
@@ -11287,9 +11290,9 @@ if(     fake_sb_check_done ) return true; // (quickfix for statement not reach)
     //}}}
     /** JAVASCRIPT */
     //{{{
-    public static final String  DOM_SRC_FILE_JS = "DEV/javascript/dom_load.js";
-    public static final String  DOM_CSS_JS      = "DEV/javascript/dom_css.js";
-    public static final String  DOM_SELECT_JS   = "DEV/javascript/selection.js";
+    public static final String  DOM_LOAD_SRC_FILE_JS = "DEV/script/dom_load.js";
+    public static final String  SPLITTER_SRC_FILE_JS = "DEV/script/splitter.js";
+//  public static final String  DOM_SELECT_JS        = "DEV/script/selection.js";
     // get_javascript {{{
     private StringBuilder js_sb = new StringBuilder();
 
@@ -11314,7 +11317,17 @@ if(     fake_sb_check_done ) return true; // (quickfix for statement not reach)
         if( TextUtils.equals(np_name, WV_TOOL_JS2_DOM_LOAD) )
         {
             String file_path
-                = Settings.Get_Profiles_dir().getPath()+"/"+DOM_SRC_FILE_JS;
+                = Settings.Get_Profiles_dir().getPath()+"/"+DOM_LOAD_SRC_FILE_JS;
+
+            data_js
+                = Settings.load_script_expression(file_path, logging);
+        }
+        //}}}
+        // (SCRIPT -- FILE) - WV_TOOL_JS2_SPLITTER {{{
+        if( TextUtils.equals(np_name, WV_TOOL_JS2_SPLITTER) )
+        {
+            String file_path
+                = Settings.Get_Profiles_dir().getPath()+"/"+SPLITTER_SRC_FILE_JS;
 
             data_js
                 = Settings.load_script_expression(file_path, logging);
