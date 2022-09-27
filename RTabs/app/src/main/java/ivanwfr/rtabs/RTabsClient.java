@@ -56,7 +56,7 @@ import java.util.regex.Matcher;
 public class RTabsClient
 {
     //{{{
-    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (211119:00h:43)";
+    public static        String RTABSCLIENT_JAVA_TAG = "RTabsClient (220919:19h:12)";
     // LOGGING
     public  static boolean  D = Settings.D;
     public  static void Set_D(boolean state) { if(D||M) log("RTabsClient.Set_D("+state+")"); D = state; }
