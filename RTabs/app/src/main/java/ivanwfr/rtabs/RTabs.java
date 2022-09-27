@@ -113,7 +113,7 @@ import ivanwfr.rtabs.util.SystemUiHider;
 // Comment {{{
 
 // }}}
-// Rtabs_TAG = "RTabs (211119:00h:43)";
+// Rtabs_TAG = "RTabs (220927:14h:56)";
 public class RTabs implements Settings.ClampListener
 {
     /**:VAR */
@@ -11556,6 +11556,7 @@ if(scroll_off)
         // onDraw {{{
         //{{{
         private Paint page_boundary_paint = null;
+        private float STROKE_WIDTH        =   24;
         //}}}
         @Override protected void onDraw(Canvas canvas)
         {
@@ -11564,8 +11565,10 @@ if(scroll_off)
             if( page_boundary_paint == null)
             {
                 page_boundary_paint = new Paint();
-                page_boundary_paint.setStyle( Paint.Style.FILL    );
-              //page_boundary_paint.setColor( PAGE_BOUNDARY_COLOR );
+              //page_boundary_paint.setStyle      ( Paint.Style.FILL    );
+                page_boundary_paint.setStyle      ( Paint.Style.STROKE  );
+                page_boundary_paint.setStrokeWidth( STROKE_WIDTH        );
+              //page_boundary_paint.setColor      ( PAGE_BOUNDARY_COLOR );
             }
             //}}}
             // [page_boundary_rect] {{{
@@ -11647,7 +11650,12 @@ if( Settings.is_LOG_ACTIVITY() ) Settings.MOC(TAG_ACTIVITY, "MWebView.onResume: 
 
             if(!page_boundary_rect.isEmpty() ) handler.removeCallbacks( hr_clear_page_boundary_rect );
 
-            page_boundary_rect.set(page_L, page_U, page_R, page_D); // left top right bottom
+            page_boundary_rect.set(
+                      page_L + (int)(STROKE_WIDTH/2)
+                    , page_U + (int)(STROKE_WIDTH/2)
+                    , page_R - (int)(STROKE_WIDTH/2)
+                    , page_D - (int)(STROKE_WIDTH/2)
+                    );
 
             if(!page_boundary_rect.isEmpty() ) invalidate(page_boundary_rect);
             else                               invalidate();
