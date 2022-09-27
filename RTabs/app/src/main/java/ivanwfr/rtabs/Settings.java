@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 
 // }}}
 // ========================================================================
-// Settings_TAG (211119:00h:44) =========================== [KEY_VAL pairs]
+// Settings_TAG (220919:16h:56) =========================== [KEY_VAL pairs]
 // ========================================================================
 @SuppressWarnings("StringEquality")
 public class Settings
@@ -2616,6 +2616,10 @@ Settings.MON(TAG_SETTINGS, "Track_last_Working_profile():\n"
     public  static boolean is_Build_VERSION_SDK_O_MR1         = false;
     public  static boolean is_Build_VERSION_SDK_P             = false;
     public  static boolean is_Build_VERSION_SDK_Q             = false;
+    public  static boolean is_Build_VERSION_SDK_R             = false;
+    public  static boolean is_Build_VERSION_SDK_S             = false;
+    public  static boolean is_Build_VERSION_SDK_S_V2          = false;
+    public  static boolean is_Build_VERSION_SDK_TIRAMISU      = false;
 
     // }}}
     // Settings_class_init {{{
@@ -2643,6 +2647,10 @@ Settings.MON(TAG_SETTINGS, "Track_last_Working_profile():\n"
         Settings.is_Build_VERSION_SDK_O_MR1         = Settings.is_Build_VERSION_SDK_O_MR1         ();
         Settings.is_Build_VERSION_SDK_P             = Settings.is_Build_VERSION_SDK_P             ();
         Settings.is_Build_VERSION_SDK_Q             = Settings.is_Build_VERSION_SDK_Q             ();
+        Settings.is_Build_VERSION_SDK_R             = Settings.is_Build_VERSION_SDK_R             ();
+        Settings.is_Build_VERSION_SDK_S             = Settings.is_Build_VERSION_SDK_S             ();
+        Settings.is_Build_VERSION_SDK_S_V2          = Settings.is_Build_VERSION_SDK_S_V2          ();
+        Settings.is_Build_VERSION_SDK_TIRAMISU      = Settings.is_Build_VERSION_SDK_TIRAMISU      ();
 
         // INIT: [DEVICE SPECIFICS]
         init_DIP();
@@ -2675,35 +2683,39 @@ Settings.MON(TAG_SETTINGS, "Track_last_Working_profile():\n"
     //}}}
     // [Build.VERSION_CODES] {{{
 
-    public static boolean is_Build_VERSION_SDK_BASE()                   { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.BASE;                   } //  1
-    public static boolean is_Build_VERSION_SDK_BASE_1_1()               { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.BASE_1_1;               } //  2
-    public static boolean is_Build_VERSION_SDK_CUPCAKE()                { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.CUPCAKE;                } //  3
-    public static boolean is_Build_VERSION_SDK_DONUT()                  { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.DONUT;                  } //  4
-    public static boolean is_Build_VERSION_SDK_ECLAIR()                 { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ECLAIR;                 } //  5
-    public static boolean is_Build_VERSION_SDK_ECLAIR_0_1()             { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ECLAIR_0_1;             } //  6
-    public static boolean is_Build_VERSION_SDK_ECLAIR_MR1()             { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ECLAIR_MR1;             } //  7
-    public static boolean is_Build_VERSION_SDK_FROYO()                  { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.FROYO;                  } //  8
-    public static boolean is_Build_VERSION_SDK_GINGERBREAD()            { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.GINGERBREAD;            } //  9
-    public static boolean is_Build_VERSION_SDK_GINGERBREAD_MR1()        { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.GINGERBREAD_MR1;        } // 10
-    public static boolean is_Build_VERSION_SDK_HONEYCOMB()              { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.HONEYCOMB;              } // 11
-    public static boolean is_Build_VERSION_SDK_HONEYCOMB_MR1()          { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.HONEYCOMB_MR1;          } // 12
-    public static boolean is_Build_VERSION_SDK_HONEYCOMB_MR2()          { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.HONEYCOMB_MR2;          } // 13
-    public static boolean is_Build_VERSION_SDK_ICE_CREAM_SANDWICH()     { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ICE_CREAM_SANDWICH;     } // 14
-    public static boolean is_Build_VERSION_SDK_ICE_CREAM_SANDWICH_MR1() { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1; } // 15
-    public static boolean is_Build_VERSION_SDK_JELLY_BEAN()             { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.JELLY_BEAN;             } // 16
-    public static boolean is_Build_VERSION_SDK_JELLY_BEAN_MR1()         { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.JELLY_BEAN_MR1;         } // 17
-    public static boolean is_Build_VERSION_SDK_JELLY_BEAN_MR2()         { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.JELLY_BEAN_MR2;         } // 18
-    public static boolean is_Build_VERSION_SDK_KITKAT()                 { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.KITKAT;                 } // 19
-    public static boolean is_Build_VERSION_SDK_KITKAT_WATCH()           { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.KITKAT_WATCH;           } // 20
-    public static boolean is_Build_VERSION_SDK_LOLLIPOP()               { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.LOLLIPOP;               } // 21
-    public static boolean is_Build_VERSION_SDK_LOLLIPOP_MR1()           { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.LOLLIPOP_MR1;           } // 22
-    public static boolean is_Build_VERSION_SDK_M()                      { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.M;                      } // 23
-    public static boolean is_Build_VERSION_SDK_N()                      { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.N;                      } // 24
-    public static boolean is_Build_VERSION_SDK_N_MR1()                  { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.N_MR1;                  } // 25
-    public static boolean is_Build_VERSION_SDK_O()                      { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O;                      } // 26
-    public static boolean is_Build_VERSION_SDK_O_MR1()                  { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O_MR1;                  } // 27
-    public static boolean is_Build_VERSION_SDK_P()                      { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.P;                      } // 28
-    public static boolean is_Build_VERSION_SDK_Q()                      { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.Q;                      } // 29
+    public static boolean is_Build_VERSION_SDK_BASE                   () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.BASE                   ; } //  1
+    public static boolean is_Build_VERSION_SDK_BASE_1_1               () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.BASE_1_1               ; } //  2
+    public static boolean is_Build_VERSION_SDK_CUPCAKE                () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.CUPCAKE                ; } //  3
+    public static boolean is_Build_VERSION_SDK_DONUT                  () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.DONUT                  ; } //  4
+    public static boolean is_Build_VERSION_SDK_ECLAIR                 () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ECLAIR                 ; } //  5
+    public static boolean is_Build_VERSION_SDK_ECLAIR_0_1             () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ECLAIR_0_1             ; } //  6
+    public static boolean is_Build_VERSION_SDK_ECLAIR_MR1             () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ECLAIR_MR1             ; } //  7
+    public static boolean is_Build_VERSION_SDK_FROYO                  () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.FROYO                  ; } //  8
+    public static boolean is_Build_VERSION_SDK_GINGERBREAD            () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.GINGERBREAD            ; } //  9
+    public static boolean is_Build_VERSION_SDK_GINGERBREAD_MR1        () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.GINGERBREAD_MR1        ; } // 10
+    public static boolean is_Build_VERSION_SDK_HONEYCOMB              () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.HONEYCOMB              ; } // 11
+    public static boolean is_Build_VERSION_SDK_HONEYCOMB_MR1          () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.HONEYCOMB_MR1          ; } // 12
+    public static boolean is_Build_VERSION_SDK_HONEYCOMB_MR2          () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.HONEYCOMB_MR2          ; } // 13
+    public static boolean is_Build_VERSION_SDK_ICE_CREAM_SANDWICH     () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ICE_CREAM_SANDWICH     ; } // 14
+    public static boolean is_Build_VERSION_SDK_ICE_CREAM_SANDWICH_MR1 () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1 ; } // 15
+    public static boolean is_Build_VERSION_SDK_JELLY_BEAN             () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.JELLY_BEAN             ; } // 16
+    public static boolean is_Build_VERSION_SDK_JELLY_BEAN_MR1         () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.JELLY_BEAN_MR1         ; } // 17
+    public static boolean is_Build_VERSION_SDK_JELLY_BEAN_MR2         () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.JELLY_BEAN_MR2         ; } // 18
+    public static boolean is_Build_VERSION_SDK_KITKAT                 () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.KITKAT                 ; } // 19
+    public static boolean is_Build_VERSION_SDK_KITKAT_WATCH           () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.KITKAT_WATCH           ; } // 20
+    public static boolean is_Build_VERSION_SDK_LOLLIPOP               () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.LOLLIPOP               ; } // 21
+    public static boolean is_Build_VERSION_SDK_LOLLIPOP_MR1           () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.LOLLIPOP_MR1           ; } // 22
+    public static boolean is_Build_VERSION_SDK_M                      () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.M                      ; } // 23
+    public static boolean is_Build_VERSION_SDK_N                      () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.N                      ; } // 24
+    public static boolean is_Build_VERSION_SDK_N_MR1                  () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.N_MR1                  ; } // 25
+    public static boolean is_Build_VERSION_SDK_O                      () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O                      ; } // 26
+    public static boolean is_Build_VERSION_SDK_O_MR1                  () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O_MR1                  ; } // 27
+    public static boolean is_Build_VERSION_SDK_P                      () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.P                      ; } // 28
+    public static boolean is_Build_VERSION_SDK_Q                      () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.Q                      ; } // 29
+    public static boolean is_Build_VERSION_SDK_R                      () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.R                      ; } // 30
+    public static boolean is_Build_VERSION_SDK_S                      () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.S                      ; } // 31
+    public static boolean is_Build_VERSION_SDK_S_V2                   () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.S_V2                   ; } // 32
+    public static boolean is_Build_VERSION_SDK_TIRAMISU               () { return Build.VERSION.SDK_INT >=  Build.VERSION_CODES.TIRAMISU               ; } // 33
 
 /*
 :!start explorer "http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
@@ -4835,7 +4847,7 @@ HEAD ? symbol <u>U</u> text1 <b>B</b> text2 <i>I</i> text3 <em>EM</em> TAIL
     // printStackTrace {{{
     public static void printStackTrace(String caller)
     {
-        Settings.MOC(TAG_SETTINGS, "STACK TRACE", "caller=["+caller+"]");
+        Settings.MOC(TAG_SETTINGS, "STACK TRACE", "\ncaller=["+caller+"]");
         new RuntimeException("STACK TRACE").printStackTrace();
     }
     //}}}
